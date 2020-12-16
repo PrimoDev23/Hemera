@@ -10,7 +10,9 @@ namespace Hemera
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            Sharpnado.Shades.Initializer.Initialize(loggerEnable: false);
+
+            MainPage = new NavigationPage(new Views.Menu());
         }
 
         protected override void OnStart()

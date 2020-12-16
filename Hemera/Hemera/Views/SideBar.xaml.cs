@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
-namespace Hemera
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace Hemera.Views
 {
-    public partial class MainPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class SideBar : ContentPage
     {
-        public MainPage()
+        public SideBar()
         {
             InitializeComponent();
         }

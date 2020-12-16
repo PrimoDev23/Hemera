@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Hemera.Views.Overview"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Hemera.Models"
+    xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
+    xmlns:vm="clr-namespace:Hemera.ViewModels"
+    x:DataType="vm:OverviewViewModel">
+    <Grid BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light={StaticResource colorLightTheme}}" RowDefinitions="50, *">
+        <sh:Shadows Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,1', Opacity=0.15, BlurRadius=1, Color=Black}, Light={sh:SingleShade Offset='1,1', Opacity=0.15, BlurRadius=1, Color=#232323}}">
+            <Frame
+                Padding="0"
+                BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                  Light=White}"
+                HasShadow="True">
+                <Grid
+                    Margin="0"
+                    Padding="0"
+                    ColumnDefinitions="*,*,*">
+                    <Path
+                        Grid.Column="0"
+                        Margin="10,-5,0,0"
+                        Data="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+                        Fill="{AppThemeBinding Dark=White,
+                                               Light=Black}"
+                        HorizontalOptions="Start"
+                        Scale="1.4"
+                        VerticalOptions="Center">
+                        <Path.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenMenuCommand}" />
+                        </Path.GestureRecognizers>
+                    </Path>
+                    <Label
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{StaticResource AppNameUpper}"
+                        TextColor="{StaticResource colorPrimary}"
+                        VerticalOptions="Center" />
+                </Grid>
+            </Frame>
+        </sh:Shadows>
+        <AbsoluteLayout Grid.Row="1">
+            <CollectionView
+                Margin="7"
+                BackgroundColor="Transparent"
+                ItemsSource="{Binding DayPlans}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="2" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Day">
+                        <sh:Shadows CornerRadius="20" Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,0.6', BlurRadius=2.1, Opacity=0.7, Color=#111111}, Light={sh:SingleShade Offset='0,0.5', BlurRadius=2, Opacity=0.7, Color=#232323}}">
+                            <Frame
+                                Margin="5"
+                                Padding="0"
+                                BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                                  Light=White}"
+                                CornerRadius="20"
+                                HasShadow="False"
+                                HeightRequest="80">
+                                <Grid
+                                    ColumnDefinitions="40, *"
+                                    RowDefinitions="40,40"
+                                    RowSpacing="0">
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        FontSize="15"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Date.Hour}"
+                                        VerticalOptions="End"
+                                        VerticalTextAlignment="End" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        FontSize="15"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Date.Minute}"
+                                        TextColor="{StaticResource colorPrimary}" />
+                                    <Image
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Source="{Binding Badge}" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        FontSize="15"
+                                        Text="{Binding Title}" />
+                                </Grid>
+                            </Frame>
+                        </sh:Shadows>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <sh:Shadows
+                AbsoluteLayout.LayoutBounds=".93,.95,60,60"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                CornerRadius="50"
+                Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
+                                                              Opacity=0.3,
+                                                              BlurRadius=1,
+                                                              Color=Black},
+                                         Light={sh:SingleShade Offset='2,2',
+                                                               Opacity=0.3,
+                                                               BlurRadius=1,
+                                                               Color=#232323}}">
+                <Button
+                    BackgroundColor="{StaticResource colorPrimary}"
+                    CornerRadius="50"
+                    FontSize="25"
+                    Text="+"
+                    TextColor="White" />
+            </sh:Shadows>
+        </AbsoluteLayout>
+    </Grid>
+</ContentPage>
