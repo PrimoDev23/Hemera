@@ -7,7 +7,11 @@
     xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
     xmlns:vm="clr-namespace:Hemera.ViewModels"
     x:DataType="vm:OverviewViewModel">
-    <Grid BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light={StaticResource colorLightTheme}}" RowDefinitions="50, *">
+    <Grid
+        BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                          Light={StaticResource colorLightTheme}}"
+        RowDefinitions="50, *"
+        RowSpacing="0">
         <sh:Shadows Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,1', Opacity=0.15, BlurRadius=1, Color=Black}, Light={sh:SingleShade Offset='1,1', Opacity=0.15, BlurRadius=1, Color=#232323}}">
             <Frame
                 Padding="0"
@@ -53,7 +57,7 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Day">
-                        <sh:Shadows CornerRadius="20" Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,0.6', BlurRadius=2.1, Opacity=0.7, Color=#111111}, Light={sh:SingleShade Offset='0,0.5', BlurRadius=2, Opacity=0.7, Color=#232323}}">
+                        <sh:Shadows CornerRadius="20" Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,0.6', BlurRadius=2.1, Opacity=0.7, Color=#111111}, Light={sh:SingleShade Offset='0,0.5', BlurRadius=2, Opacity=0.2, Color=#232323}}">
                             <Frame
                                 Margin="5"
                                 Padding="0"
