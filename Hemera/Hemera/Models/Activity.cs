@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace Hemera.Models
 {
-    public class Day : INotifyPropertyChanged
+    public class Activity : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

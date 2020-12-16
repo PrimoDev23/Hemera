@@ -11,15 +11,15 @@ using Xamarin.Forms.Xaml;
 namespace Hemera.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Overview : ContentPage
+    public partial class NewActivityPopup : ContentPage
     {
-        private readonly OverviewViewModel viewModel;
+        private readonly NewActivityViewModel viewModel;
 
-        public Overview()
+        public NewActivityPopup()
         {
             InitializeComponent();
 
-            viewModel = new OverviewViewModel(this);
+            viewModel = new NewActivityViewModel();
             BindingContext = viewModel;
         }
     }

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Hemera.Views.NewActivityPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Grid ColumnDefinitions="20, *, 20" RowDefinitions="20, *, 100">
+        <Frame
+            Grid.Row="1"
+            Grid.Column="1"
+            CornerRadius="20">
+            <ScrollView />
+        </Frame>
+
+        <CollectionView
+            Grid.Row="2"
+            Grid.Column="1"
+            HeightRequest="50"
+            ItemsSource="{Binding Categories}"
+            VerticalOptions="Center">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame
+                        Padding="0"
+                        BackgroundColor="{Binding BackColor}"
+                        CornerRadius="50"
+                        HasShadow="False"
+                        HeightRequest="50"
+                        VerticalOptions="Center"
+                        WidthRequest="50">
+                        <Path
+                            Data="{Binding PathData}"
+                            Fill="{Binding IconColor}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
