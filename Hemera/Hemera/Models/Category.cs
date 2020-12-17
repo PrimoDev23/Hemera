@@ -12,23 +12,42 @@ namespace Hemera.Models
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Category(Geometry pathData, bool selected)
+        public Category(Geometry pathData, bool selected, CategoryType type, ContentView view)
         {
             this.PathData = pathData;
             this.selected = selected;
+            this.type = type;
+            this.view = view;
         }
 
         public Geometry PathData { get; set; }
 
-        public Brush IconColor { get; set; }
-        public Color BackColor { get; set; }
+        private Brush _IconColor;
+        public Brush IconColor
+        {
+            get => _IconColor;
+            set
+            {
+                _IconColor = value;
+                OnPropertyChanged();
+            }
+        }
 
-        private bool _selected = false;
+        private Color _BackColor;
+        public Color BackColor
+        {
+            get => _BackColor;
+            set
+            {
+                _BackColor = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool selected
         {
             set
             {
-                _selected = value;
                 if (value)
                 {
                     IconColor = Brush.White;
@@ -41,5 +60,21 @@ namespace Hemera.Models
                 }
             }
         }
+
+        public CategoryType type;
+
+        public ContentView view;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public enum CategoryType
+    {
+        Shopping,
+        Sports,
+        Meeting
     }
 }

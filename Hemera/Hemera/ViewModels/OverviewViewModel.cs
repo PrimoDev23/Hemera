@@ -75,9 +75,16 @@ namespace Hemera.ViewModels
             await VarContainer.menuPage.OpenMenu().ConfigureAwait(false);
         }
 
-        private void createNewActivity()
+        private async void createNewActivity()
         {
-            page.Navigation.PushModalAsync(new NewActivityPopup());
+            NewActivityPopup popup = new NewActivityPopup();
+            await page.Navigation.PushModalAsync(popup, false);
+            Activity res = await popup.waitForFinish();
+
+            if(res != null)
+            {
+                //User finished popup
+            }
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

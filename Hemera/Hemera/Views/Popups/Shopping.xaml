@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Hemera.Views.Popups.Shopping"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Hemera.Models"
+    xmlns:resx="clr-namespace:Hemera.Resx"
+    x:DataType="models:Activity">
+    <Grid
+        Margin="0,0,7,0"
+        ColumnDefinitions="30, AUTO, *, 30, AUTO"
+        RowDefinitions="AUTO, AUTO, AUTO, *">
+        <Image
+            Grid.Row="0"
+            Grid.Column="0"
+            HeightRequest="28"
+            HorizontalOptions="Center"
+            Source="{AppThemeBinding Dark=calendar_white,
+                                     Light=calendar_black}"
+            VerticalOptions="Center"
+            WidthRequest="28" />
+        <DatePicker
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="0,-12,0,0"
+            Date="{Binding Date}"
+            TextColor="{AppThemeBinding Dark=White,
+                                        Light=Black}"
+            Visual="Material" />
+        <Image
+            Grid.Row="0"
+            Grid.Column="3"
+            HeightRequest="28"
+            HorizontalOptions="Center"
+            Source="{AppThemeBinding Dark=watch_white,
+                                     Light=watch_black}"
+            VerticalOptions="Center"
+            WidthRequest="28" />
+        <TimePicker
+            Grid.Row="0"
+            Grid.Column="4"
+            Margin="0,-12,0,0"
+            HorizontalOptions="End"
+            TextColor="{AppThemeBinding Dark=White,
+                                        Light=Black}"
+            Time="{Binding Time}"
+            Visual="Material" />
+        <Image
+            Grid.Row="1"
+            Grid.Column="0"
+            HeightRequest="28"
+            HorizontalOptions="Center"
+            Source="{AppThemeBinding Dark=title_white,
+                                     Light=title_black}"
+            VerticalOptions="Center"
+            WidthRequest="28" />
+        <Entry
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="4"
+            Placeholder="{x:Static resx:AppResources.Title}"
+            Text="{Binding Title, Mode=TwoWay}"
+            TextColor="{AppThemeBinding Dark=White,
+                                        Light=Black}"
+            Visual="Material" />
+        <Image
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="0,15,0,0"
+            HeightRequest="28"
+            HorizontalOptions="Center"
+            Source="{AppThemeBinding Dark=notes_white,
+                                     Light=notes_black}"
+            VerticalOptions="Start"
+            WidthRequest="28" />
+        <Editor
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="4"
+            HeightRequest="200"
+            Placeholder="{x:Static resx:AppResources.Notes}"
+            Text="{Binding Notes, Mode=TwoWay}"
+            TextColor="{AppThemeBinding Dark=White,
+                                        Light=Black}"
+            Visual="Material" />
+    </Grid>
+</ContentView>
