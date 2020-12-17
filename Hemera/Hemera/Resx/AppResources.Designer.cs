@@ -22,7 +22,7 @@ namespace Hemera.Resx {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AppResources {
+    public class AppResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Hemera.Resx {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Hemera.Resx.AppResources", typeof(AppResources).Assembly);
@@ -51,7 +51,7 @@ namespace Hemera.Resx {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Hemera.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Meeting.
         /// </summary>
-        internal static string Meeting {
+        public static string Meeting {
             get {
                 return ResourceManager.GetString("Meeting", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Hemera.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Notes.
         /// </summary>
-        internal static string Notes {
+        public static string Notes {
             get {
                 return ResourceManager.GetString("Notes", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Hemera.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Shopping.
         /// </summary>
-        internal static string Shopping {
+        public static string Shopping {
             get {
                 return ResourceManager.GetString("Shopping", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Hemera.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Sports.
         /// </summary>
-        internal static string Sports {
+        public static string Sports {
             get {
                 return ResourceManager.GetString("Sports", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Hemera.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
-        internal static string Title {
+        public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
             }

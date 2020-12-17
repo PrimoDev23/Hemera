@@ -11,17 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="Resx\AppResources.de.resx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Resx\AppResources.de.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Sharpnado.Shadows" Version="1.2.0" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1791-pre5" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.0-rc1" />
@@ -38,7 +27,7 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Resx\AppResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Menu.xaml">
