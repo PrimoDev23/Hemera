@@ -2,6 +2,7 @@
 using Hemera.Models;
 using Hemera.Resx;
 using Hemera.Views;
+using Hemera.Views.Popups;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,16 +31,18 @@ namespace Hemera.ViewModels
             }
         }
 
-        private string _CurrentCategory = "Shopping";
-        public string CurrentCategory
+        private string _Header = "Shopping";
+        public string Header
         {
-            get => _CurrentCategory;
+            get => _Header;
             set
             {
-                _CurrentCategory = value;
+                _Header = value;
                 OnPropertyChanged();
             }
         }
+
+        private Category CurrentCategory;
 
         public Command<Category> SelectionChangedCommand { get; set; }
         public Command ClosePopupCommand { get; set; }
@@ -95,6 +98,31 @@ namespace Hemera.ViewModels
                     //Select category and update mask
                     curr.selected = true;
 
+                    switch (curr.type)
+                    {
+                        case CategoryType.Shopping:
+                            Header = AppResources.Shopping;
+
+                            //Show a empty item for the first line the user can input
+                            Activity.Checklist = new ObservableCollection<ShoppingItem>() { new ShoppingItem() };
+
+                            //Set Activity for curr
+                            ((Shopping)curr.view).CurrentActivity = Activity;
+                            break;
+                        case CategoryType.Sports:
+                            Header = AppResources.Sports;
+
+                            //We don't need checklist here
+                            Activity.Checklist = null;
+                            break;
+                        case CategoryType.Meeting:
+                            Header = AppResources.Meeting;
+
+                            //We don't need checklist here
+                            Activity.Checklist = null;
+                            break;
+                    }
+
                     SwitchingContent = curr.view.Content;
 
                     void UI()
@@ -102,14 +130,9 @@ namespace Hemera.ViewModels
                         SwitchingContent.BindingContext = Activity;
                         SwitchingContent.Visual = VisualMarker.Material;
                     }
-                    await Device.InvokeOnMainThreadAsync(new Action(UI));
+                    await Device.InvokeOnMainThreadAsync(new Action(UI)).ConfigureAwait(false);
 
-                    CurrentCategory = curr.type switch
-                    {
-                        CategoryType.Shopping => AppResources.Shopping,
-                        CategoryType.Sports => AppResources.Sports,
-                        CategoryType.Meeting => AppResources.Meeting,
-                    };
+                    CurrentCategory = curr;
                 }
                 else
                 {
@@ -135,7 +158,15 @@ namespace Hemera.ViewModels
                 return;
             }
 
-            //Create notification for date and time
+            //If current type is shopping, check if the checklist is empty
+            //and clear it if needed, to save some storage later when we use XML to save stuff
+            if (CurrentCategory.type == CategoryType.Shopping && Activity.Checklist.Count == 1 && Activity.Checklist[0].ItemName?.Length > 0)
+            {
+                Activity.Checklist = null;
+            }
+
+            //TODO: Create notification for date and time
+            //TODO: Save into XML
 
             page.addingSuccessful.TrySetResult(Activity);
             page.Navigation.PopModalAsync();

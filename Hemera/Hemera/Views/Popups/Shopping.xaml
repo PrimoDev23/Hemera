@@ -5,11 +5,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:Hemera.Models"
     xmlns:resx="clr-namespace:Hemera.Resx"
+    x:Name="self"
     x:DataType="models:Activity">
     <Grid
+        x:Name="topGrid"
         Margin="0,0,7,0"
         ColumnDefinitions="30, AUTO, *, 30, AUTO"
-        RowDefinitions="AUTO, AUTO, AUTO, *">
+        RowDefinitions="43, 70, 200">
         <Image
             Grid.Row="0"
             Grid.Column="0"
@@ -63,25 +65,47 @@
             TextColor="{AppThemeBinding Dark=White,
                                         Light=Black}"
             Visual="Material" />
-        <Image
+        <CollectionView
             Grid.Row="2"
             Grid.Column="0"
-            Margin="0,15,0,0"
-            HeightRequest="28"
-            HorizontalOptions="Center"
-            Source="{AppThemeBinding Dark=notes_white,
-                                     Light=notes_black}"
-            VerticalOptions="Start"
-            WidthRequest="28" />
-        <Editor
-            Grid.Row="2"
-            Grid.Column="1"
-            Grid.ColumnSpan="4"
-            HeightRequest="200"
-            Placeholder="{x:Static resx:AppResources.Notes}"
-            Text="{Binding Notes, Mode=TwoWay}"
-            TextColor="{AppThemeBinding Dark=White,
-                                        Light=Black}"
-            Visual="Material" />
+            Grid.ColumnSpan="5"
+            ItemsSource="{Binding Checklist}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="0" Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ShoppingItem">
+                    <Grid ColumnDefinitions="30, 40, *">
+                        <ImageButton
+                            Grid.Column="0"
+                            Padding="0"
+                            BackgroundColor="Transparent"
+                            Command="{Binding Path=RemoveCommand, Source={x:Reference self}}"
+                            CommandParameter="{Binding .}"
+                            HeightRequest="30"
+                            HorizontalOptions="Center"
+                            Source="{AppThemeBinding Dark=close_white,
+                                                     Light=close_black}"
+                            VerticalOptions="Center"
+                            Visual="Default"
+                            WidthRequest="30" />
+                        <CheckBox
+                            Grid.Column="1"
+                            IsChecked="{Binding Bought}"
+                            Color="{AppThemeBinding Dark=White,
+                                                    Light=Black}" />
+                        <Entry
+                            Grid.Column="2"
+                            Placeholder="{x:Static resx:AppResources.ItemName}"
+                            ReturnCommand="{Binding Path=ReturnCommand, Source={x:Reference self}}"
+                            ReturnCommandParameter="{Binding ItemName}"
+                            Text="{Binding ItemName}"
+                            TextColor="{AppThemeBinding Dark=White,
+                                                        Light=Black}"
+                            Visual="Material" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </Grid>
 </ContentView>

@@ -38,7 +38,7 @@
                     FontSize="16"
                     HorizontalOptions="Center"
                     HorizontalTextAlignment="Center"
-                    Text="{Binding CurrentCategory}"
+                    Text="{Binding Header}"
                     TextColor="{AppThemeBinding Dark=White,
                                                 Light=Black}"
                     VerticalOptions="Center" />
@@ -88,6 +88,7 @@
                         VerticalOptions="Center"
                         WidthRequest="50">
                         <Path
+                            Margin="-2,-2,0,0"
                             Data="{Binding PathData}"
                             Fill="{Binding IconColor}"
                             HorizontalOptions="Center"

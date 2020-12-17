@@ -56,8 +56,8 @@ namespace Hemera.Models
             }
         }
 
-        private ObservableCollection<string> _Checklist;
-        public ObservableCollection<string> Checklist
+        private ObservableCollection<ShoppingItem> _Checklist;
+        public ObservableCollection<ShoppingItem> Checklist
         {
             get => _Checklist;
             set
