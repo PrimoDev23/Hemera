@@ -16,9 +16,10 @@ namespace Hemera.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Activity Activity { get; set; }
+        public Activity Activity { get; set; } = new Activity();
 
         private ObservableCollection<Category> _Categories = VarContainer.categories;
+
         public ObservableCollection<Category> Categories
         {
             get => _Categories;
@@ -30,6 +31,7 @@ namespace Hemera.ViewModels
         }
 
         private string _Header = "Shopping";
+
         public string Header
         {
             get => _Header;
@@ -47,6 +49,7 @@ namespace Hemera.ViewModels
         public Command FinishCommand { get; set; }
 
         private View _SwitchingContent;
+
         public View SwitchingContent
         {
             get => _SwitchingContent;
@@ -58,13 +61,12 @@ namespace Hemera.ViewModels
         }
 
         private readonly NewActivityPopup page;
+
         public NewActivityViewModel(NewActivityPopup page)
         {
             SelectionChangedCommand = new Command<Category>(new Action<Category>(selectionChanged));
             ClosePopupCommand = new Command(new Action(closePopup));
             FinishCommand = new Command(new Action(finishPopup));
-
-            Activity = new Activity();
 
             void resetSelection()
             {
@@ -107,12 +109,14 @@ namespace Hemera.ViewModels
                             //Set Activity for curr
                             ((Shopping)curr.view).CurrentActivity = Activity;
                             break;
+
                         case CategoryType.Sports:
                             Header = AppResources.Sports;
 
                             //We don't need checklist here
                             Activity.Checklist = null;
                             break;
+
                         case CategoryType.Meeting:
                             Header = AppResources.Meeting;
 

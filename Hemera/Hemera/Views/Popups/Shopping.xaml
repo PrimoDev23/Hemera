@@ -12,7 +12,7 @@
         x:Name="topGrid"
         Margin="0,0,7,0"
         ColumnDefinitions="30, AUTO, *, 30, AUTO"
-        RowDefinitions="43, 70, 200">
+        RowDefinitions="43, 70, *">
         <Image
             Grid.Row="0"
             Grid.Column="0"

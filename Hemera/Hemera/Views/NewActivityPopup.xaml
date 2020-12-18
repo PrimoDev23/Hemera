@@ -9,22 +9,25 @@
     x:Name="self"
     x:DataType="vm:NewActivityViewModel"
     BackgroundColor="#AA111111">
-    <Grid ColumnDefinitions="20, *, 20" RowDefinitions="*, 400, *">
-        <BoxView BackgroundColor="#AA111111" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3">
+    <Grid RowDefinitions="*, 70">
+        <BoxView
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            BackgroundColor="#AA111111">
             <BoxView.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding ClosePopupCommand}" />
             </BoxView.GestureRecognizers>
         </BoxView>
         <Frame
-            Grid.Row="1"
-            Grid.Column="1"
+            Grid.Row="0"
+            Margin="0,-20,0,0"
             Padding="0"
             BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                               Light={StaticResource colorLightTheme}}"
             CornerRadius="20">
-            <Grid ColumnDefinitions="50,*,50" RowDefinitions="50, *">
+            <Grid ColumnDefinitions="50,*,50" RowDefinitions="20, 50, *">
                 <sh:Shadows
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,0.6',
@@ -38,7 +41,7 @@
                     <Frame BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light={StaticResource colorLightTheme}}" HasShadow="False" />
                 </sh:Shadows>
                 <Label
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Grid.Column="1"
                     FontSize="16"
                     HorizontalOptions="Center"
@@ -48,7 +51,7 @@
                                                 Light=Black}"
                     VerticalOptions="Center" />
                 <Path
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Grid.Column="2"
                     Margin="0,0,10,0"
                     Data="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
@@ -60,26 +63,23 @@
                         <TapGestureRecognizer Command="{Binding FinishCommand}" />
                     </Path.GestureRecognizers>
                 </Path>
-                <ScrollView
-                    Grid.Row="1"
+                <ContentView
+                    Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    Margin="5">
-                    <ContentView
-                        Content="{Binding SwitchingContent}"
-                        HorizontalOptions="Fill"
-                        VerticalOptions="Fill" />
-                </ScrollView>
+                    Margin="5,5,5,0"
+                    Content="{Binding SwitchingContent}"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill" />
             </Grid>
         </Frame>
 
         <CollectionView
-            Grid.Row="2"
-            Grid.Column="1"
-            Margin="0,5,0,0"
+            Grid.Row="1"
+            Margin="10,0,10,0"
             HeightRequest="50"
             ItemsSource="{Binding Categories}"
-            VerticalOptions="Start">
+            VerticalOptions="Center">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
             </CollectionView.ItemsLayout>
