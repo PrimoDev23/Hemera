@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace Hemera.Models
@@ -38,8 +35,8 @@ namespace Hemera.Models
         public bool Focused
         {
             get => _Focused;
-            set 
-            { 
+            set
+            {
                 _Focused = value;
                 OnPropertyChanged();
             }
@@ -49,6 +46,6 @@ namespace Hemera.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
+
     }
 }

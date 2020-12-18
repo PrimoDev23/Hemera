@@ -4,11 +4,9 @@ using Hemera.Resx;
 using Hemera.Views;
 using Hemera.Views.Popups;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -59,7 +57,7 @@ namespace Hemera.ViewModels
             }
         }
 
-        NewActivityPopup page;
+        private readonly NewActivityPopup page;
         public NewActivityViewModel(NewActivityPopup page)
         {
             SelectionChangedCommand = new Command<Category>(new Action<Category>(selectionChanged));
@@ -93,7 +91,7 @@ namespace Hemera.ViewModels
                 //Select the tapped item
                 curr = Categories[i];
 
-                if(curr.type == category.type)
+                if (curr.type == category.type)
                 {
                     //Select category and update mask
                     curr.selected = true;
@@ -151,7 +149,7 @@ namespace Hemera.ViewModels
         private void finishPopup()
         {
             //Needed information isn't filled
-            if(!(Activity.Title?.Length > 0))
+            if (!(Activity.Title?.Length > 0))
             {
                 return;
             }
@@ -166,14 +164,14 @@ namespace Hemera.ViewModels
                 {
                     Activity.Checklist = null;
                 }
-                else if(!(last_item.ItemName?.Length > 0)) //If collection is not empty but the last item has an empty title just remove it
+                else if (!(last_item.ItemName?.Length > 0)) //If collection is not empty but the last item has an empty title just remove it
                 {
                     Activity.Checklist.Remove(last_item);
                 }
             }
 
             //Only show notification if selected date is in future
-            if(DateTime.Compare(Activity.Date, DateTime.Now) > 0)
+            if (DateTime.Compare(Activity.Date, DateTime.Now) > 0)
             {
                 //TODO: Create notification for date and time
             }

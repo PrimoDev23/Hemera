@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Xml.Serialization;
 using Xamarin.Forms;
 
@@ -35,7 +33,7 @@ namespace Hemera.Models
             }
         }
 
-        private TimeSpan _Time = DateTime.Now.TimeOfDay;
+        private readonly TimeSpan _Time = DateTime.Now.TimeOfDay;
         public TimeSpan Time
         {
             get => _Time;

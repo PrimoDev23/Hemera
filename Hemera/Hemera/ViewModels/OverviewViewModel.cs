@@ -2,11 +2,9 @@
 using Hemera.Models;
 using Hemera.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using Xamarin.Forms;
 
 namespace Hemera.ViewModels
@@ -82,7 +80,7 @@ namespace Hemera.ViewModels
             Activity res = await popup.waitForFinish();
 
             //User finished popup
-            if(res != null)
+            if (res != null)
             {
                 DayPlans.Add(res);
             }

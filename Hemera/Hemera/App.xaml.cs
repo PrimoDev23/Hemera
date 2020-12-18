@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Shapes;
-using Xamarin.Forms.Xaml;
 
 namespace Hemera
 {

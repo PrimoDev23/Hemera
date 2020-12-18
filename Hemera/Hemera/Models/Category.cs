@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Shapes;
 
@@ -14,7 +11,7 @@ namespace Hemera.Models
 
         public Category(Geometry pathData, bool selected, CategoryType type, ContentView view)
         {
-            this.PathData = pathData;
+            PathData = pathData;
             this.selected = selected;
             this.type = type;
             this.view = view;

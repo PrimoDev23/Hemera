@@ -1,9 +1,6 @@
 ﻿using Hemera.Models;
 using Hemera.Views;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 
 namespace Hemera.Helpers
 {
