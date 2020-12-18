@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Hemera.Models
 {
@@ -28,6 +29,18 @@ namespace Hemera.Models
             set
             {
                 _ItemName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [XmlIgnore]
+        private bool _Focused;
+        public bool Focused
+        {
+            get => _Focused;
+            set 
+            { 
+                _Focused = value;
                 OnPropertyChanged();
             }
         }

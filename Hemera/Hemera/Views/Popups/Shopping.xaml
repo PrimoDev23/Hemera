@@ -3,6 +3,7 @@
     x:Class="Hemera.Views.Popups.Shopping"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Hemera.Controls"
     xmlns:models="clr-namespace:Hemera.Models"
     xmlns:resx="clr-namespace:Hemera.Resx"
     x:Name="self"
@@ -66,6 +67,7 @@
                                         Light=Black}"
             Visual="Material" />
         <CollectionView
+            x:Name="collView"
             Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="5"
@@ -76,26 +78,28 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ShoppingItem">
                     <Grid ColumnDefinitions="30, 40, *">
-                        <ImageButton
+                        <Image
                             Grid.Column="0"
-                            Padding="0"
                             BackgroundColor="Transparent"
-                            Command="{Binding Path=RemoveCommand, Source={x:Reference self}}"
-                            CommandParameter="{Binding .}"
                             HeightRequest="30"
                             HorizontalOptions="Center"
                             Source="{AppThemeBinding Dark=close_white,
                                                      Light=close_black}"
                             VerticalOptions="Center"
                             Visual="Default"
-                            WidthRequest="30" />
+                            WidthRequest="30">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=RemoveCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
+                            </Image.GestureRecognizers>
+                        </Image>
                         <CheckBox
                             Grid.Column="1"
                             IsChecked="{Binding Bought}"
                             Color="{AppThemeBinding Dark=White,
                                                     Light=Black}" />
-                        <Entry
+                        <controls:FocusEntry
                             Grid.Column="2"
+                            IsFocused="{Binding Focused}"
                             Placeholder="{x:Static resx:AppResources.ItemName}"
                             ReturnCommand="{Binding Path=ReturnCommand, Source={x:Reference self}}"
                             ReturnCommandParameter="{Binding ItemName}"

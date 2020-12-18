@@ -150,22 +150,34 @@ namespace Hemera.ViewModels
 
         private void finishPopup()
         {
-            //TODO: Check if need information is filled
-
             //Needed information isn't filled
-            if(!(Activity.Title?.Length > 0) || DateTime.Compare(Activity.Date, DateTime.Now) < 0)
+            if(!(Activity.Title?.Length > 0))
             {
                 return;
             }
 
             //If current type is shopping, check if the checklist is empty
-            //and clear it if needed, to save some storage later when we use XML to save stuff
-            if (CurrentCategory.type == CategoryType.Shopping && Activity.Checklist.Count == 1 && Activity.Checklist[0].ItemName?.Length > 0)
+            if (CurrentCategory.type == CategoryType.Shopping)
             {
-                Activity.Checklist = null;
+                ShoppingItem last_item = Activity.Checklist[Activity.Checklist.Count - 1];
+
+                //Reset the collection if it's empty to save some space
+                if (Activity.Checklist.Count == 1 && Activity.Checklist[0].ItemName?.Length > 0)
+                {
+                    Activity.Checklist = null;
+                }
+                else if(!(last_item.ItemName?.Length > 0)) //If collection is not empty but the last item has an empty title just remove it
+                {
+                    Activity.Checklist.Remove(last_item);
+                }
             }
 
-            //TODO: Create notification for date and time
+            //Only show notification if selected date is in future
+            if(DateTime.Compare(Activity.Date, DateTime.Now) > 0)
+            {
+                //TODO: Create notification for date and time
+            }
+
             //TODO: Save into XML
 
             page.addingSuccessful.TrySetResult(Activity);

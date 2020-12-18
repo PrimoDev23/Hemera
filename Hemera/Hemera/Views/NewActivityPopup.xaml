@@ -9,7 +9,12 @@
     x:Name="self"
     x:DataType="vm:NewActivityViewModel"
     BackgroundColor="#AA111111">
-    <Grid ColumnDefinitions="20, *, 20" RowDefinitions="20, *, 100">
+    <Grid ColumnDefinitions="20, *, 20" RowDefinitions="*, 400, *">
+        <BoxView BackgroundColor="#AA111111" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ClosePopupCommand}" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
         <Frame
             Grid.Row="1"
             Grid.Column="1"
@@ -30,7 +35,7 @@
                                                                    BlurRadius=2,
                                                                    Opacity=0.2,
                                                                    Color=#232323}}">
-                    <BoxView Color="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light={StaticResource colorLightTheme}}" />
+                    <Frame BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light={StaticResource colorLightTheme}}" HasShadow="False" />
                 </sh:Shadows>
                 <Label
                     Grid.Row="0"
@@ -71,9 +76,10 @@
         <CollectionView
             Grid.Row="2"
             Grid.Column="1"
+            Margin="0,5,0,0"
             HeightRequest="50"
             ItemsSource="{Binding Categories}"
-            VerticalOptions="Center">
+            VerticalOptions="Start">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
             </CollectionView.ItemsLayout>
@@ -100,8 +106,5 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Grid.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding ClosePopupCommand}" />
-        </Grid.GestureRecognizers>
     </Grid>
 </ContentPage>

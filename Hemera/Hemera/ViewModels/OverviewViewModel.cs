@@ -81,9 +81,10 @@ namespace Hemera.ViewModels
             await page.Navigation.PushModalAsync(popup, false);
             Activity res = await popup.waitForFinish();
 
+            //User finished popup
             if(res != null)
             {
-                //User finished popup
+                DayPlans.Add(res);
             }
         }
 

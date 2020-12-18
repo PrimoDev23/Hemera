@@ -26,24 +26,30 @@ namespace Hemera.Views.Popups
             RemoveCommand = new Command<ShoppingItem>(new Action<ShoppingItem>(removeItem));
         }
 
-        private void returnPressed(string Text)
+        private async void returnPressed(string Text)
         {
             if (Text?.Length > 0)
             {
-                CurrentActivity?.Checklist.Add(new ShoppingItem());
+                ShoppingItem item = new ShoppingItem();
+                CurrentActivity?.Checklist.Add(item);
+                collView.ScrollTo(CurrentActivity.Checklist.Count - 1);
+
+                item.Focused = true;
             }
         }
 
-        private void removeItem(ShoppingItem item)
+        private async void removeItem(ShoppingItem item)
         {
             if (CurrentActivity?.Checklist.Count > 1)
             {
+                item.Focused = false;
+
                 CurrentActivity.Checklist.Remove(item);
             }
             else
             {
                 CurrentActivity.Checklist.Clear();
-                CurrentActivity.Checklist.Add(new ShoppingItem());
+                CurrentActivity.Checklist.Add(new ShoppingItem() { Focused = true });
             }
         }
     }
