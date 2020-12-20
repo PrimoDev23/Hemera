@@ -26,7 +26,9 @@
             Grid.Row="0"
             Grid.Column="1"
             Margin="0,-12,0,0"
+            BackgroundColor="Transparent"
             Date="{Binding Date}"
+            HeightRequest="10"
             TextColor="{AppThemeBinding Dark=White,
                                         Light=Black}"
             Visual="Material" />
@@ -43,6 +45,7 @@
             Grid.Row="0"
             Grid.Column="4"
             Margin="0,-12,0,0"
+            BackgroundColor="Transparent"
             HorizontalOptions="End"
             TextColor="{AppThemeBinding Dark=White,
                                         Light=Black}"
@@ -77,7 +80,7 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ShoppingItem">
-                    <Grid ColumnDefinitions="30, 40, *">
+                    <Grid ColumnDefinitions="30, *">
                         <Image
                             Grid.Column="0"
                             BackgroundColor="Transparent"
@@ -92,13 +95,8 @@
                                 <TapGestureRecognizer Command="{Binding Path=RemoveCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
                             </Image.GestureRecognizers>
                         </Image>
-                        <CheckBox
-                            Grid.Column="1"
-                            IsChecked="{Binding Bought}"
-                            Color="{AppThemeBinding Dark=White,
-                                                    Light=Black}" />
                         <controls:FocusEntry
-                            Grid.Column="2"
+                            Grid.Column="1"
                             IsFocused="{Binding Focused}"
                             Placeholder="{x:Static resx:AppResources.ItemName}"
                             ReturnCommand="{Binding Path=ReturnCommand, Source={x:Reference self}}"

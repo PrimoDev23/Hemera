@@ -20,7 +20,7 @@
         </BoxView>
         <Frame
             Grid.Row="0"
-            Margin="0,-20,0,0"
+            Margin="0,-27,0,0"
             Padding="0"
             BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                               Light={StaticResource colorLightTheme}}"

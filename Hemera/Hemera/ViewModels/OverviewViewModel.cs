@@ -4,7 +4,9 @@ using Hemera.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Hemera.ViewModels
@@ -15,57 +17,74 @@ namespace Hemera.ViewModels
 
         public Command OpenMenuCommand { get; set; }
         public Command CreateNewCommand { get; set; }
+        public Command BackCommand { get; set; }
+        public Command ForwardCommand { get; set; }
 
-        private ObservableCollection<Activity> _DayPlans = new ObservableCollection<Activity>()
-        {
-            new Activity()
-            {
-                Date = DateTime.Now.AddHours(1),
-                Title = "Test",
-                Notes = "IDK"
-            },
-            new Activity()
-            {
-                Date = DateTime.Now.AddHours(1),
-                Title = "Test",
-                Notes = "IDK"
-            },
-            new Activity()
-            {
-                Date = DateTime.Now.AddHours(1),
-                Title = "Test",
-                Notes = "IDK"
-            },
-            new Activity()
-            {
-                Date = DateTime.Now.AddHours(1),
-                Title = "Test",
-                Notes = "IDK"
-            },
-            new Activity()
-            {
-                Date = DateTime.Now.AddHours(1),
-                Title = "Test",
-                Notes = "IDK"
-            },
-        };
+        private DateTime _CurrentDate = DateTime.Now;
 
-        public ObservableCollection<Activity> DayPlans
+        public DateTime CurrentDate
         {
-            get => _DayPlans;
+            get => _CurrentDate;
             set
             {
-                _DayPlans = value;
+                _CurrentDate = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(LiteralDate));
+                Task.Run(new Action(Order));
+            }
+        }
+
+        public string LiteralDate
+        {
+            get => CurrentDate.ToString("D");
+        }
+
+        private ObservableCollection<Activity> allActivities;
+
+        private ObservableCollection<Activity> _ActivitiesPerDay;
+
+        public ObservableCollection<Activity> ActivitiesPerDay
+        {
+            get => _ActivitiesPerDay;
+            set
+            {
+                _ActivitiesPerDay = value;
                 OnPropertyChanged();
             }
         }
 
         private readonly Overview page;
+
         public OverviewViewModel(Overview page)
         {
             OpenMenuCommand = new Command(new Action(openMenu));
             CreateNewCommand = new Command(new Action(createNewActivity));
+            BackCommand = new Command(new Action(dayBack));
+            ForwardCommand = new Command(new Action(dayForward));
+
+            void load()
+            {
+                //Load all Activities
+                allActivities = FileHelper.loadActivities();
+
+                //Sort those by time
+                ActivitiesPerDay = new ObservableCollection<Activity>(from act in allActivities.getActivitiesPerDay(CurrentDate)
+                                                                      orderby act.Date
+                                                                      select act);
+            }
+            Task.Run(new Action(load));
+
             this.page = page;
+        }
+
+        private void dayBack()
+        {
+            CurrentDate = CurrentDate.AddDays(-1);
+        }
+
+        private void dayForward()
+        {
+            CurrentDate = CurrentDate.AddDays(1);
         }
 
         private async void openMenu()
@@ -82,8 +101,22 @@ namespace Hemera.ViewModels
             //User finished popup
             if (res != null)
             {
-                DayPlans.Add(res);
+                allActivities.Add(res);
+
+                //Save the newly added activity
+                await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
+                await Task.Run(new Action(Order)).ConfigureAwait(false);
             }
+        }
+
+        /// <summary>
+        /// Get activities for the selected day and order by time
+        /// </summary>
+        private void Order()
+        {
+            ActivitiesPerDay = new ObservableCollection<Activity>(from act in allActivities.getActivitiesPerDay(CurrentDate)
+                                                                  orderby act.Date
+                                                                  select act);
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
