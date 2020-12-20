@@ -142,6 +142,7 @@ namespace Hemera.ViewModels
                     curr.selected = false;
                 }
             }
+            Activity.CategoryType = CurrentCategory.type;
         }
 
         private void closePopup()

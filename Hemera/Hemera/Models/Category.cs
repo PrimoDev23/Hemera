@@ -9,17 +9,19 @@ namespace Hemera.Models
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Category(Geometry pathData, bool selected, CategoryType type, ContentView view)
+        public Category(Geometry pathData, bool selected, CategoryType type, ContentView view, SolidColorBrush brush)
         {
             PathData = pathData;
             this.selected = selected;
             this.type = type;
             this.view = view;
+            this.BadgeBrush = brush;
         }
 
         public Geometry PathData { get; set; }
 
         private Brush _IconColor;
+
         public Brush IconColor
         {
             get => _IconColor;
@@ -31,6 +33,7 @@ namespace Hemera.Models
         }
 
         private Color _BackColor;
+
         public Color BackColor
         {
             get => _BackColor;
@@ -61,6 +64,8 @@ namespace Hemera.Models
         public CategoryType type;
 
         public ContentView view;
+
+        public Brush BadgeBrush { get; set; }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

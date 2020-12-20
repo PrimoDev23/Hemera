@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hemera.Helpers;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -12,6 +13,7 @@ namespace Hemera.Models
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string _Title;
+
         public string Title
         {
             get => _Title;
@@ -23,6 +25,7 @@ namespace Hemera.Models
         }
 
         private string _Notes;
+
         public string Notes
         {
             get => _Notes;
@@ -34,6 +37,7 @@ namespace Hemera.Models
         }
 
         private readonly TimeSpan _Time = DateTime.Now.TimeOfDay;
+
         public TimeSpan Time
         {
             get => _Time;
@@ -44,6 +48,7 @@ namespace Hemera.Models
         }
 
         private DateTime _Date = DateTime.Now;
+
         public DateTime Date
         {
             get => _Date;
@@ -55,6 +60,7 @@ namespace Hemera.Models
         }
 
         private ObservableCollection<ShoppingItem> _Checklist;
+
         public ObservableCollection<ShoppingItem> Checklist
         {
             get => _Checklist;
@@ -65,24 +71,40 @@ namespace Hemera.Models
             }
         }
 
-        private ImageSource _Badge;
+        private Category _Category;
 
         [XmlIgnore]
-        public ImageSource Badge
+        public Category Category
         {
-            get => _Badge;
+            get => _Category;
             set
             {
-                _Badge = value;
+                _Category = value;
                 OnPropertyChanged();
             }
         }
 
-        public string BadgeName
+        private CategoryType _CategoryType;
+
+        public CategoryType CategoryType
         {
             set
             {
-                Badge = value;
+                switch (value)
+                {
+                    case CategoryType.Shopping:
+                        Category = VarContainer.categories[0];
+                        break;
+
+                    case CategoryType.Sports:
+                        Category = VarContainer.categories[1];
+                        break;
+
+                    case CategoryType.Meeting:
+                        Category = VarContainer.categories[2];
+                        break;
+                }
+                _CategoryType = value;
             }
         }
 
