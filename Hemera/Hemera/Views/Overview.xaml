@@ -10,96 +10,88 @@
     <Grid
         BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                           Light={StaticResource colorLightTheme}}"
-        RowDefinitions="50, *"
+        RowDefinitions="130, *"
         RowSpacing="0">
-        <sh:Shadows Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,1', Opacity=0.15, BlurRadius=1, Color=Black}, Light={sh:SingleShade Offset='1,1', Opacity=0.15, BlurRadius=1, Color=#232323}}">
-            <Frame
-                Padding="0"
-                BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
-                                                  Light=White}"
-                HasShadow="True">
-                <Grid
-                    Margin="0"
-                    Padding="0"
-                    ColumnDefinitions="*,*,*">
-                    <Path
-                        Grid.Column="0"
-                        Margin="10,-5,0,0"
-                        Data="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
-                        Fill="{AppThemeBinding Dark=White,
-                                               Light=Black}"
-                        HorizontalOptions="Start"
-                        Scale="1.4"
-                        VerticalOptions="Center">
-                        <Path.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding OpenMenuCommand}" />
-                        </Path.GestureRecognizers>
-                    </Path>
-                    <Label
-                        Grid.Column="1"
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        HorizontalOptions="Center"
-                        HorizontalTextAlignment="Center"
-                        Text="{StaticResource AppNameUpper}"
-                        TextColor="{StaticResource colorPrimary}"
-                        VerticalOptions="Center" />
-                </Grid>
-            </Frame>
-        </sh:Shadows>
+        <Path
+            Grid.Row="0"
+            Aspect="Fill"
+            Data="M0,0H375V129.651s-9.025,2.382-55.426-5.3-70.141-41.09-130.3-41.176-83.544,33.5-130.893,41.176S0,129.651,0,129.651Z"
+            Fill="#00c853"
+            HorizontalOptions="Fill" />
+        <Path
+            Grid.Row="0"
+            Margin="20,20,0,0"
+            Data="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+            Fill="{AppThemeBinding Dark=White,
+                                   Light=Black}"
+            HorizontalOptions="Start"
+            Scale="1.4"
+            VerticalOptions="Start">
+            <Path.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OpenMenuCommand}" />
+            </Path.GestureRecognizers>
+        </Path>
+        <Grid
+            Grid.Row="0"
+            Margin="0,0,0,10"
+            ColumnDefinitions="50, *, 50"
+            VerticalOptions="End">
+            <Path
+                Grid.Column="0"
+                Margin="7,0,0,0"
+                Data="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                Fill="{AppThemeBinding Dark=White,
+                                       Light=Black}"
+                Scale="1.2"
+                VerticalOptions="Center">
+                <Path.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}" />
+                </Path.GestureRecognizers>
+            </Path>
+            <Label
+                Grid.Column="1"
+                Margin="0,4,0,0"
+                FontAttributes="Bold"
+                FontSize="17"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{Binding LiteralDate}"
+                VerticalOptions="Center" />
+            <Path
+                Grid.Column="2"
+                Margin="0,0,14,0"
+                Data="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                Fill="{AppThemeBinding Dark=White,
+                                       Light=Black}"
+                HorizontalOptions="End"
+                Scale="1.2"
+                VerticalOptions="Center">
+                <Path.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ForwardCommand}" />
+                </Path.GestureRecognizers>
+            </Path>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer Command="{Binding BackCommand}" Direction="Right" />
+                <SwipeGestureRecognizer Command="{Binding ForwardCommand}" Direction="Left" />
+            </Grid.GestureRecognizers>
+        </Grid>
         <AbsoluteLayout Grid.Row="1">
             <Grid
-                Margin="0,10,0,0"
+                Margin="0,0,0,0"
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 AbsoluteLayout.LayoutFlags="All"
                 RowDefinitions="30, *">
-                <Grid Grid.Row="0" ColumnDefinitions="50, *, 50">
-                    <Path
-                        Grid.Column="0"
-                        Margin="7,0,0,0"
-                        Data="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-                        Fill="{AppThemeBinding Dark=White,
-                                               Light=Black}"
-                        Scale="1.2"
-                        VerticalOptions="Center">
-                        <Path.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding BackCommand}" />
-                        </Path.GestureRecognizers>
-                    </Path>
-                    <Label
-                        Grid.Column="1"
-                        Margin="0,4,0,0"
-                        FontAttributes="Bold"
-                        FontSize="17"
-                        HorizontalOptions="Center"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding LiteralDate}"
-                        VerticalOptions="Center" />
-                    <Path
-                        Grid.Column="2"
-                        Margin="0,0,14,0"
-                        Data="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-                        Fill="{AppThemeBinding Dark=White,
-                                               Light=Black}"
-                        HorizontalOptions="End"
-                        Scale="1.2"
-                        VerticalOptions="Center">
-                        <Path.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ForwardCommand}" />
-                        </Path.GestureRecognizers>
-                    </Path>
-                    <Grid.GestureRecognizers>
-                        <SwipeGestureRecognizer Command="{Binding BackCommand}" Direction="Right" />
-                        <SwipeGestureRecognizer Command="{Binding ForwardCommand}" Direction="Left" />
-                    </Grid.GestureRecognizers>
-                </Grid>
                 <CollectionView
                     Grid.Row="1"
                     Margin="7,0"
                     BackgroundColor="Transparent"
                     ItemsSource="{Binding ActivitiesPerDay}">
                     <CollectionView.ItemsLayout>
-                        <LinearItemsLayout ItemSpacing="2" Orientation="Vertical" />
+                        <GridItemsLayout
+                            HorizontalItemSpacing="2"
+                            Orientation="Vertical"
+                            Span="2"
+                            VerticalItemSpacing="2" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Activity">
@@ -111,40 +103,33 @@
                                                                       Light=White}"
                                     CornerRadius="20"
                                     HasShadow="False"
-                                    HeightRequest="80">
-                                    <Grid
-                                        ColumnDefinitions="40, *"
-                                        RowDefinitions="40,40"
-                                        RowSpacing="0">
+                                    HeightRequest="120">
+                                    <Grid RowDefinitions="40, 40, 30" RowSpacing="0">
                                         <Label
                                             Grid.Row="0"
-                                            Grid.Column="0"
                                             FontAttributes="Bold"
-                                            FontSize="15"
+                                            FontSize="19"
                                             HorizontalOptions="Center"
                                             HorizontalTextAlignment="Center"
                                             Text="{Binding Date.Hour}"
-                                            VerticalOptions="End"
-                                            VerticalTextAlignment="End" />
+                                            VerticalOptions="End" />
                                         <Label
                                             Grid.Row="1"
-                                            Grid.Column="0"
                                             FontAttributes="Bold"
-                                            FontSize="15"
+                                            FontSize="19"
                                             HorizontalOptions="Center"
                                             HorizontalTextAlignment="Center"
                                             Text="{Binding Date, StringFormat='{0:mm}'}"
-                                            TextColor="{StaticResource colorPrimary}" />
+                                            TextColor="{StaticResource colorPrimary}"
+                                            VerticalOptions="Start" />
                                         <Label
-                                            Grid.Row="0"
-                                            Grid.RowSpan="2"
-                                            Grid.Column="1"
+                                            Grid.Row="2"
                                             FontSize="15"
+                                            HorizontalOptions="Center"
                                             Text="{Binding Title}"
                                             VerticalOptions="Center" />
                                         <Path
                                             Grid.Row="0"
-                                            Grid.Column="1"
                                             Margin="0,0,25,0"
                                             Data="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"
                                             Fill="{Binding Category.BadgeBrush}"
@@ -154,7 +139,6 @@
                                             VerticalOptions="Start" />
                                         <Path
                                             Grid.Row="0"
-                                            Grid.Column="1"
                                             Margin="0,5,21.2,0"
                                             Data="{Binding Category.PathData}"
                                             Fill="#232323"

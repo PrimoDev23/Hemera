@@ -50,13 +50,11 @@ namespace Hemera.Models
             {
                 if (value)
                 {
-                    IconColor = Brush.White;
-                    BackColor = (Color)Application.Current.Resources["colorPrimary"];
+                    IconColor = (Brush)Application.Current.Resources["brushPrimary"];
                 }
                 else
                 {
-                    IconColor = new SolidColorBrush((Color)Application.Current.Resources["colorPrimary"]);
-                    BackColor = App.Current.RequestedTheme == OSAppTheme.Light ? (Color)Application.Current.Resources["colorLightTheme"] : (Color)Application.Current.Resources["colorDarkTheme"];
+                    IconColor = App.Current.RequestedTheme == OSAppTheme.Light ? (Brush)Application.Current.Resources["brushDarkTheme"] : (Brush)Application.Current.Resources["brushLightTheme"];
                 }
             }
         }

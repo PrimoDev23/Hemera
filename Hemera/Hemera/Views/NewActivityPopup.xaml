@@ -8,103 +8,111 @@
     xmlns:vm="clr-namespace:Hemera.ViewModels"
     x:Name="self"
     x:DataType="vm:NewActivityViewModel"
-    BackgroundColor="#AA111111">
-    <Grid RowDefinitions="*, 70">
-        <BoxView
+    BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                      Light={StaticResource colorLightTheme}}">
+    <Grid RowDefinitions="130, *">
+        <Path
             Grid.Row="0"
-            Grid.RowSpan="2"
-            BackgroundColor="#AA111111">
-            <BoxView.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding ClosePopupCommand}" />
-            </BoxView.GestureRecognizers>
-        </BoxView>
-        <Frame
+            Aspect="Fill"
+            Data="M0,0H375V129.651s-9.025,2.382-55.426-5.3-70.141-41.09-130.3-41.176-83.544,33.5-130.893,41.176S0,129.651,0,129.651Z"
+            Fill="#00c853"
+            HorizontalOptions="Fill" />
+        <Label
             Grid.Row="0"
-            Margin="0,-27,0,0"
-            Padding="0"
-            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
-                                              Light={StaticResource colorLightTheme}}"
-            CornerRadius="20">
-            <Grid ColumnDefinitions="50,*,50" RowDefinitions="20, 50, *">
-                <sh:Shadows
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,0.6',
-                                                                  BlurRadius=2.1,
-                                                                  Opacity=0.7,
-                                                                  Color=#111111},
-                                             Light={sh:SingleShade Offset='0,0.5',
-                                                                   BlurRadius=2,
-                                                                   Opacity=0.2,
-                                                                   Color=#232323}}">
-                    <Frame BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light={StaticResource colorLightTheme}}" HasShadow="False" />
-                </sh:Shadows>
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    FontSize="16"
-                    HorizontalOptions="Center"
-                    HorizontalTextAlignment="Center"
-                    Text="{Binding Header}"
-                    TextColor="{AppThemeBinding Dark=White,
-                                                Light=Black}"
-                    VerticalOptions="Center" />
-                <Path
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    Margin="0,0,10,0"
-                    Data="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
-                    Fill="{AppThemeBinding Dark=White,
-                                           Light=Black}"
-                    HorizontalOptions="End"
-                    VerticalOptions="Center">
-                    <Path.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding FinishCommand}" />
-                    </Path.GestureRecognizers>
-                </Path>
-                <ContentView
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    Margin="5,5,5,0"
-                    Content="{Binding SwitchingContent}"
-                    HorizontalOptions="Fill"
-                    VerticalOptions="Fill" />
-            </Grid>
-        </Frame>
-
+            Margin="0,0,0,10"
+            FontAttributes="Bold"
+            FontSize="16"
+            HorizontalOptions="Center"
+            Text="{Binding Header}"
+            TextColor="{AppThemeBinding Dark=White,
+                                        Light=Black}"
+            VerticalOptions="End" />
+        <!--<Path
+            Grid.Row="0"
+            Margin="-2,-2,0,0"
+            Data="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+            Fill="{AppThemeBinding Dark=White,
+                                   Light=Black}"
+            HorizontalOptions="Center"
+            VerticalOptions="End">
+        -->
+        <!--<Path.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding FinishCommand}" />
+            </Path.GestureRecognizers>-->
+        <!--
+        </Path>-->
         <CollectionView
-            Grid.Row="1"
-            Margin="10,0,10,0"
+            Grid.Row="0"
+            Margin="10,-30,10,0"
             HeightRequest="50"
             ItemsSource="{Binding Categories}"
             VerticalOptions="Center">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                <LinearItemsLayout ItemSpacing="5" Orientation="Horizontal" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Category">
                     <Frame
                         Padding="0"
-                        BackgroundColor="{Binding BackColor}"
+                        BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                          Light={StaticResource colorLightTheme}}"
                         CornerRadius="50"
                         HasShadow="False"
-                        HeightRequest="50"
-                        VerticalOptions="Center"
                         WidthRequest="50">
                         <Path
                             Margin="-2,-2,0,0"
                             Data="{Binding PathData}"
                             Fill="{Binding IconColor}"
                             HorizontalOptions="Center"
-                            VerticalOptions="Center" />
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectionChangedCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
-                        </Frame.GestureRecognizers>
+                            VerticalOptions="Center">
+                            <Path.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemSelectedCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
+                            </Path.GestureRecognizers>
+                        </Path>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <AbsoluteLayout Grid.Row="1">
+            <ContentView
+                x:Name="innerContent"
+                x:FieldModifier="public"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All" />
+
+            <sh:Shadows
+                AbsoluteLayout.LayoutBounds=".93,.95,60,60"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                CornerRadius="50"
+                Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
+                                                              Opacity=0.3,
+                                                              BlurRadius=4,
+                                                              Color=Black},
+                                         Light={sh:SingleShade Offset='2,2',
+                                                               Opacity=0.3,
+                                                               BlurRadius=1,
+                                                               Color=#232323}}">
+                <Frame
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                      Light={StaticResource colorLightTheme}}"
+                    CornerRadius="50"
+                    HasShadow="False">
+                    <Path
+                        Grid.Row="0"
+                        Margin="-2,-2,0,0"
+                        Data="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+                        Fill="{AppThemeBinding Dark=White,
+                                               Light=Black}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="End">
+
+                        <Path.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding FinishCommand}" />
+                        </Path.GestureRecognizers>
+
+                    </Path>
+                </Frame>
+            </sh:Shadows>
+        </AbsoluteLayout>
     </Grid>
 </ContentPage>

@@ -22,7 +22,7 @@ namespace Hemera.Views.Popups
             RemoveCommand = new Command<ShoppingItem>(new Action<ShoppingItem>(removeItem));
         }
 
-        private async void returnPressed(string Text)
+        private void returnPressed(string Text)
         {
             if (Text?.Length > 0)
             {
@@ -34,7 +34,7 @@ namespace Hemera.Views.Popups
             }
         }
 
-        private async void removeItem(ShoppingItem item)
+        private void removeItem(ShoppingItem item)
         {
             if (CurrentActivity?.Checklist.Count > 1)
             {

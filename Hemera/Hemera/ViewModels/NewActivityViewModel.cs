@@ -16,22 +16,9 @@ namespace Hemera.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Activity Activity { get; set; } = new Activity();
+        public TaskCompletionSource<Activity> newActivityCompleted;
 
-        private ObservableCollection<Category> _Categories = VarContainer.categories;
-
-        public ObservableCollection<Category> Categories
-        {
-            get => _Categories;
-            set
-            {
-                _Categories = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private string _Header = "Shopping";
-
+        private string _Header = AppResources.Shopping;
         public string Header
         {
             get => _Header;
@@ -42,60 +29,60 @@ namespace Hemera.ViewModels
             }
         }
 
-        private Category CurrentCategory;
+        public Activity Activity { get; set; }
 
-        public Command<Category> SelectionChangedCommand { get; set; }
-        public Command ClosePopupCommand { get; set; }
-        public Command FinishCommand { get; set; }
+        public ObservableCollection<Category> Categories { get; set; } = VarContainer.categories;
 
-        private View _SwitchingContent;
+        private Category _CurrentCategory = VarContainer.categories[0];
 
-        public View SwitchingContent
+        public Category CurrentCategory
         {
-            get => _SwitchingContent;
+            get => _CurrentCategory;
             set
             {
-                _SwitchingContent = value;
+                _CurrentCategory = value;
                 OnPropertyChanged();
             }
         }
 
-        private readonly NewActivityPopup page;
+        public Command<Category> ItemSelectedCommand { get; set; }
+        public Command FinishCommand { get; set; }
+
+        public NewActivityPopup page;
 
         public NewActivityViewModel(NewActivityPopup page)
         {
-            SelectionChangedCommand = new Command<Category>(new Action<Category>(selectionChanged));
-            ClosePopupCommand = new Command(new Action(closePopup));
-            FinishCommand = new Command(new Action(finishPopup));
+            ItemSelectedCommand = new Command<Category>(new Action<Category>(CategoryChanged));
+            FinishCommand = new Command(new Action(finished));
 
-            void resetSelection()
+            Activity = new Activity();
+
+            void init()
             {
-                selectionChanged(Categories[0]);
+                CategoryChanged(Categories[0]);
             }
-            Task.Run(new Action(resetSelection));
 
-            Application.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
+            Task.Run(new Action(init));
+
+            newActivityCompleted = new TaskCompletionSource<Activity>();
 
             this.page = page;
         }
 
-        private void Current_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
+        private async void CategoryChanged(Category category)
         {
-            //Update Categories/Reload them
-            Categories = VarContainer.categories;
-        }
+            CurrentCategory = category;
 
-        private async void selectionChanged(Category category)
-        {
             Category curr;
+
+            //Set selected true for category user tapped
+            //Else set it to false
             for (int i = 0; i < Categories.Count; i++)
             {
-                //Select the tapped item
                 curr = Categories[i];
 
                 if (curr.type == category.type)
                 {
-                    //Select category and update mask
                     curr.selected = true;
 
                     switch (curr.type)
@@ -103,88 +90,52 @@ namespace Hemera.ViewModels
                         case CategoryType.Shopping:
                             Header = AppResources.Shopping;
 
-                            //Show a empty item for the first line the user can input
-                            Activity.Checklist = new ObservableCollection<ShoppingItem>() { new ShoppingItem() };
+                            Activity.Checklist = new ObservableCollection<ShoppingItem>()
+                            {
+                                new ShoppingItem()
+                            };
 
-                            //Set Activity for curr
                             ((Shopping)curr.view).CurrentActivity = Activity;
                             break;
-
                         case CategoryType.Sports:
                             Header = AppResources.Sports;
 
-                            //We don't need checklist here
                             Activity.Checklist = null;
                             break;
-
                         case CategoryType.Meeting:
                             Header = AppResources.Meeting;
 
-                            //We don't need checklist here
                             Activity.Checklist = null;
                             break;
                     }
 
-                    SwitchingContent = curr.view.Content;
-
-                    void UI()
-                    {
-                        SwitchingContent.BindingContext = Activity;
-                        SwitchingContent.Visual = VisualMarker.Material;
-                    }
-                    await Device.InvokeOnMainThreadAsync(new Action(UI)).ConfigureAwait(false);
-
-                    CurrentCategory = curr;
+                    //Set the current activities type
+                    Activity.CategoryType = curr.type;
                 }
                 else
                 {
-                    //Deselect category
                     curr.selected = false;
                 }
             }
-            Activity.CategoryType = CurrentCategory.type;
+
+            void UI()
+            {
+                //Set the currents page content to the view of the category
+                page.innerContent.Content = category.view;
+                page.innerContent.Content.BindingContext = Activity;
+            }
+            await Device.InvokeOnMainThreadAsync(new Action(UI)).ConfigureAwait(false);
         }
 
-        private void closePopup()
+        private void finished()
         {
-            page.addingSuccessful.TrySetResult(null);
-            page.Navigation.PopModalAsync();
-        }
-
-        private void finishPopup()
-        {
-            //Needed information isn't filled
-            if (!(Activity.Title?.Length > 0))
+            //If the title is empty we can't proceed
+            if(!(Activity.Title?.Length > 0))
             {
                 return;
             }
 
-            //If current type is shopping, check if the checklist is empty
-            if (CurrentCategory.type == CategoryType.Shopping)
-            {
-                ShoppingItem last_item = Activity.Checklist[Activity.Checklist.Count - 1];
-
-                //Reset the collection if it's empty to save some space
-                if (Activity.Checklist.Count == 1 && Activity.Checklist[0].ItemName?.Length > 0)
-                {
-                    Activity.Checklist = null;
-                }
-                else if (!(last_item.ItemName?.Length > 0)) //If collection is not empty but the last item has an empty title just remove it
-                {
-                    Activity.Checklist.Remove(last_item);
-                }
-            }
-
-            //Only show notification if selected date is in future
-            if (DateTime.Compare(Activity.Date, DateTime.Now) > 0)
-            {
-                //TODO: Create notification for date and time
-            }
-
-            //TODO: Save into XML
-
-            page.addingSuccessful.TrySetResult(Activity);
-            page.Navigation.PopModalAsync();
+            newActivityCompleted.TrySetResult(Activity);
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

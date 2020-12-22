@@ -12,13 +12,9 @@ namespace Hemera.Views
     {
         private readonly NewActivityViewModel viewModel;
 
-        public TaskCompletionSource<Activity> addingSuccessful;
-
         public NewActivityPopup()
         {
             InitializeComponent();
-
-            addingSuccessful = new TaskCompletionSource<Activity>();
 
             viewModel = new NewActivityViewModel(this);
             BindingContext = viewModel;
@@ -26,7 +22,17 @@ namespace Hemera.Views
 
         public Task<Activity> waitForFinish()
         {
-            return addingSuccessful.Task;
+            //Return the TaskCompletitionSource so we can await it
+            return viewModel.newActivityCompleted.Task;
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            //We aborted creating a new Activity, so set the result
+            viewModel.newActivityCompleted.TrySetResult(null);
+
+            //And use the normal back action
+            return base.OnBackButtonPressed();
         }
     }
 }

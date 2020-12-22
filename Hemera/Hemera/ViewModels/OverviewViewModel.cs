@@ -36,7 +36,7 @@ namespace Hemera.ViewModels
 
         public string LiteralDate
         {
-            get => CurrentDate.ToString("D");
+            get => CurrentDate.ToString("ddd dd.MM.yyyy");
         }
 
         private ObservableCollection<Activity> allActivities;
@@ -95,12 +95,14 @@ namespace Hemera.ViewModels
         private async void createNewActivity()
         {
             NewActivityPopup popup = new NewActivityPopup();
-            await page.Navigation.PushModalAsync(popup, false);
-            Activity res = await popup.waitForFinish();
+            await page.Navigation.PushModalAsync(popup, false).ConfigureAwait(false);
+            Activity res = await popup.waitForFinish().ConfigureAwait(false);
 
             //User finished popup
             if (res != null)
             {
+                await page.Navigation.PopModalAsync().ConfigureAwait(false);
+
                 allActivities.Add(res);
 
                 //Save the newly added activity

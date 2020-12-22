@@ -12,6 +12,10 @@
         <Color x:Key="colorDarkTheme">#232323</Color>
         <Color x:Key="colorLightTheme">#FFFFFF</Color>
 
+        <SolidColorBrush x:Key="brushPrimary" Color="#00c853" />
+        <SolidColorBrush x:Key="brushDarkTheme" Color="#232323" />
+        <SolidColorBrush x:Key="brushLightTheme" Color="#FFFFFF" />
+
         <Style TargetType="Label">
             <Setter Property="TextColor" Value="{AppThemeBinding Dark=White, Light=Black}" />
         </Style>
