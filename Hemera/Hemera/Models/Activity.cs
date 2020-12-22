@@ -88,6 +88,7 @@ namespace Hemera.Models
 
         public CategoryType CategoryType
         {
+            get => _CategoryType;
             set
             {
                 switch (value)
