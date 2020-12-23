@@ -7,7 +7,7 @@
         <x:String x:Key="AppNameUpper">HEMERA</x:String>
 
         <Color x:Key="colorPrimary">#00c853</Color>
-        <Color x:Key="colorLight">#5efc82</Color>
+        <Color x:Key="colorLight">#11d462</Color>
         <Color x:Key="colorDark">#009423</Color>
         <Color x:Key="colorDarkTheme">#232323</Color>
         <Color x:Key="colorLightTheme">#FFFFFF</Color>

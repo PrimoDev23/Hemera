@@ -95,7 +95,7 @@ namespace Hemera.ViewModels
         private async void createNewActivity()
         {
             NewActivityPopup popup = new NewActivityPopup();
-            await page.Navigation.PushModalAsync(popup, false).ConfigureAwait(false);
+            await page.Navigation.PushModalAsync(popup, true).ConfigureAwait(false);
             Activity res = await popup.waitForFinish().ConfigureAwait(false);
 
             //User finished popup

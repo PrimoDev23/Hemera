@@ -1,52 +1,47 @@
-﻿using Hemera.Models;
+﻿using Hemera.Interfaces;
+using Hemera.Models;
+using Hemera.ViewModels.Popups;
 using System;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Hemera.Views.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Shopping : ContentView
+    public partial class Shopping : ContentView, IValidate
     {
-        public Command<string> ReturnCommand { get; set; }
-        public Command<ShoppingItem> RemoveCommand { get; set; }
-
-        public Activity CurrentActivity;
+        public ShoppingViewModel viewModel;
 
         public Shopping()
         {
             InitializeComponent();
 
-            ReturnCommand = new Command<string>(new Action<string>(returnPressed));
-            RemoveCommand = new Command<ShoppingItem>(new Action<ShoppingItem>(removeItem));
+            viewModel = new ShoppingViewModel(this);
+            BindingContext = viewModel;
         }
 
-        private void returnPressed(string Text)
+        public async Task<bool> ValidateInput()
         {
-            if (Text?.Length > 0)
+            if (!(viewModel.Activity?.Title?.Length > 0))
             {
-                ShoppingItem item = new ShoppingItem();
-                CurrentActivity?.Checklist.Add(item);
-                collView.ScrollTo(CurrentActivity.Checklist.Count - 1);
-
-                item.Focused = true;
-            }
-        }
-
-        private void removeItem(ShoppingItem item)
-        {
-            if (CurrentActivity?.Checklist.Count > 1)
-            {
-                item.Focused = false;
-
-                CurrentActivity.Checklist.Remove(item);
+                void setHeight()
+                {
+                    lbl_titlemissing.HeightRequest = 20;
+                }
+                await Device.InvokeOnMainThreadAsync(new Action(setHeight)).ConfigureAwait(false);
+                return false;
             }
             else
             {
-                CurrentActivity.Checklist.Clear();
-                CurrentActivity.Checklist.Add(new ShoppingItem() { Focused = true });
+                void setHeight()
+                {
+                    lbl_titlemissing.HeightRequest = 0;
+                }
+                await Device.InvokeOnMainThreadAsync(new Action(setHeight)).ConfigureAwait(false);
             }
+
+            return true;
         }
     }
 }

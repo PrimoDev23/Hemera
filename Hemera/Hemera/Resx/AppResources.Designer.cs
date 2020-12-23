@@ -113,5 +113,14 @@ namespace Hemera.Resx {
                 return ResourceManager.GetString("Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have to set a title.
+        /// </summary>
+        public static string TitleMissing {
+            get {
+                return ResourceManager.GetString("TitleMissing", resourceCulture);
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Hemera.Helpers;
+using Hemera.Interfaces;
 using Hemera.Models;
 using Hemera.Resx;
 using Hemera.Views;
@@ -95,7 +96,9 @@ namespace Hemera.ViewModels
                                 new ShoppingItem()
                             };
 
-                            ((Shopping)curr.view).CurrentActivity = Activity;
+                            Shopping view = ((Shopping)curr.view);
+
+                            view.viewModel.Activity = Activity;
                             break;
                         case CategoryType.Sports:
                             Header = AppResources.Sports;
@@ -122,15 +125,15 @@ namespace Hemera.ViewModels
             {
                 //Set the currents page content to the view of the category
                 page.innerContent.Content = category.view;
-                page.innerContent.Content.BindingContext = Activity;
+                //page.innerContent.Content.BindingContext = Activity;
             }
             await Device.InvokeOnMainThreadAsync(new Action(UI)).ConfigureAwait(false);
         }
 
-        private void finished()
+        private async void finished()
         {
-            //If the title is empty we can't proceed
-            if(!(Activity.Title?.Length > 0))
+            //Check if the input is valid
+            if(!await ((IValidate)page.innerContent.Content).ValidateInput().ConfigureAwait(false))
             {
                 return;
             }

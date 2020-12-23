@@ -13,10 +13,20 @@
     <Grid RowDefinitions="130, *">
         <Path
             Grid.Row="0"
+            Margin="-1,-1,-1,0"
             Aspect="Fill"
             Data="M0,0H375V129.651s-9.025,2.382-55.426-5.3-70.141-41.09-130.3-41.176-83.544,33.5-130.893,41.176S0,129.651,0,129.651Z"
-            Fill="#00c853"
-            HorizontalOptions="Fill" />
+            HorizontalOptions="Fill">
+
+            <Path.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStopCollection>
+                        <GradientStop Offset="0.0" Color="{StaticResource colorLight}" />
+                        <GradientStop Offset="1" Color="{StaticResource colorPrimary}" />
+                    </GradientStopCollection>
+                </LinearGradientBrush>
+            </Path.Fill>
+        </Path>
         <Label
             Grid.Row="0"
             Margin="0,0,0,10"
@@ -27,49 +37,56 @@
             TextColor="{AppThemeBinding Dark=White,
                                         Light=Black}"
             VerticalOptions="End" />
-        <!--<Path
-            Grid.Row="0"
-            Margin="-2,-2,0,0"
-            Data="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
-            Fill="{AppThemeBinding Dark=White,
-                                   Light=Black}"
-            HorizontalOptions="Center"
-            VerticalOptions="End">
-        -->
-        <!--<Path.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding FinishCommand}" />
-            </Path.GestureRecognizers>-->
-        <!--
-        </Path>-->
         <CollectionView
             Grid.Row="0"
             Margin="10,-30,10,0"
-            HeightRequest="50"
+            HeightRequest="60"
             ItemsSource="{Binding Categories}"
             VerticalOptions="Center">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="5" Orientation="Horizontal" />
+                <LinearItemsLayout ItemSpacing="2" Orientation="Horizontal" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Category">
-                    <Frame
-                        Padding="0"
-                        BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
-                                                          Light={StaticResource colorLightTheme}}"
-                        CornerRadius="50"
-                        HasShadow="False"
-                        WidthRequest="50">
-                        <Path
-                            Margin="-2,-2,0,0"
-                            Data="{Binding PathData}"
-                            Fill="{Binding IconColor}"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center">
-                            <Path.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemSelectedCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
-                            </Path.GestureRecognizers>
-                        </Path>
-                    </Frame>
+                    <Grid Padding="5">
+                        <sh:Shadows
+                            AbsoluteLayout.LayoutBounds=".93,.95,60,60"
+                            AbsoluteLayout.LayoutFlags="PositionProportional"
+                            CornerRadius="50"
+                            Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,1',
+                                                                          Opacity=0.5,
+                                                                          BlurRadius=2,
+                                                                          Color=Black},
+                                                     Light={sh:SingleShade Offset='2,2',
+                                                                           Opacity=0.3,
+                                                                           BlurRadius=1,
+                                                                           Color=#232323}}">
+                            <Frame
+                                Padding="0"
+                                CornerRadius="50"
+                                HasShadow="False"
+                                WidthRequest="50">
+                                <Path
+                                    Margin="-2,-2,0,0"
+                                    Data="{Binding PathData}"
+                                    Fill="{Binding IconColor}"
+                                    HorizontalOptions="Center"
+                                    InputTransparent="True"
+                                    VerticalOptions="Center" />
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemSelectedCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+                                <Frame.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStopCollection>
+                                            <GradientStop Offset="0.0" Color="{AppThemeBinding Dark=#333333, Light={StaticResource colorLightTheme}}" />
+                                            <GradientStop Offset="1.0" Color="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light=#EAEAEA}" />
+                                        </GradientStopCollection>
+                                    </LinearGradientBrush>
+                                </Frame.Background>
+                            </Frame>
+                        </sh:Shadows>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
@@ -89,9 +106,9 @@
                                                               BlurRadius=4,
                                                               Color=Black},
                                          Light={sh:SingleShade Offset='2,2',
-                                                               Opacity=0.3,
-                                                               BlurRadius=1,
-                                                               Color=#232323}}">
+                                                               Opacity=0.2,
+                                                               BlurRadius=3,
+                                                               Color={StaticResource colorDarkTheme}}}">
                 <Frame
                     BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                                       Light={StaticResource colorLightTheme}}"
@@ -104,13 +121,21 @@
                         Fill="{AppThemeBinding Dark=White,
                                                Light=Black}"
                         HorizontalOptions="Center"
-                        VerticalOptions="End">
+                        InputTransparent="True"
+                        VerticalOptions="End" />
 
-                        <Path.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding FinishCommand}" />
-                        </Path.GestureRecognizers>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding FinishCommand}" />
+                    </Frame.GestureRecognizers>
 
-                    </Path>
+                    <Frame.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStopCollection>
+                                <GradientStop Offset="0.0" Color="{AppThemeBinding Dark=#252525, Light={StaticResource colorLightTheme}}" />
+                                <GradientStop Offset="1.0" Color="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light=#FAFAFA}" />
+                            </GradientStopCollection>
+                        </LinearGradientBrush>
+                    </Frame.Background>
                 </Frame>
             </sh:Shadows>
         </AbsoluteLayout>
