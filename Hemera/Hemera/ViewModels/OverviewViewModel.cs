@@ -1,5 +1,7 @@
 ﻿using Hemera.Helpers;
+using Hemera.Interfaces;
 using Hemera.Models;
+using Hemera.Resx;
 using Hemera.Views;
 using System;
 using System.Collections.ObjectModel;
@@ -108,6 +110,11 @@ namespace Hemera.ViewModels
                 //Save the newly added activity
                 await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
                 await Task.Run(new Action(Order)).ConfigureAwait(false);
+
+                if (res.TimeType != TimeType.Disabled)
+                {
+                    DependencyService.Get<INotificationManager>().SendNotification($"{AppResources.PlanedActivity} {res.Date.ToString("t")}", res.Title, res.NotificationDateTime);
+                }
             }
         }
 

@@ -138,4 +138,31 @@
   <data name="TitleMissing" xml:space="preserve">
     <value>You have to set a title</value>
   </data>
+  <data name="NotificationTitle" xml:space="preserve">
+    <value>Setup notification</value>
+  </data>
+  <data name="PlanedActivity" xml:space="preserve">
+    <value>Planed activity at</value>
+  </data>
+  <data name="DayBefore" xml:space="preserve">
+    <value>days before</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="HourBefore" xml:space="preserve">
+    <value>hours before</value>
+  </data>
+  <data name="MinuteBefore" xml:space="preserve">
+    <value>minutes before</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="TimeNeeded" xml:space="preserve">
+    <value>Please insert a time</value>
+  </data>
 </root>

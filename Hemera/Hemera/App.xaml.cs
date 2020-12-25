@@ -1,4 +1,5 @@
 ﻿using Hemera.Helpers;
+using Hemera.Interfaces;
 using Hemera.Models;
 using Hemera.Views.Popups;
 using System;
@@ -20,6 +21,8 @@ namespace Hemera
 
             //We need to reload Categories if Theme changes
             Application.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
+
+            DependencyService.Get<INotificationManager>().Initialize();
 
             MainPage = new NavigationPage(new Views.Menu());
         }

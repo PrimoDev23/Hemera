@@ -61,6 +61,42 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to days before.
+        /// </summary>
+        public static string DayBefore {
+            get {
+                return ResourceManager.GetString("DayBefore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disable.
+        /// </summary>
+        public static string Disable {
+            get {
+                return ResourceManager.GetString("Disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string Done {
+            get {
+                return ResourceManager.GetString("Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to hours before.
+        /// </summary>
+        public static string HourBefore {
+            get {
+                return ResourceManager.GetString("HourBefore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Item.
         /// </summary>
         public static string ItemName {
@@ -79,11 +115,38 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to minutes before.
+        /// </summary>
+        public static string MinuteBefore {
+            get {
+                return ResourceManager.GetString("MinuteBefore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notes.
         /// </summary>
         public static string Notes {
             get {
                 return ResourceManager.GetString("Notes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setup notification.
+        /// </summary>
+        public static string NotificationTitle {
+            get {
+                return ResourceManager.GetString("NotificationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Planed activity at.
+        /// </summary>
+        public static string PlanedActivity {
+            get {
+                return ResourceManager.GetString("PlanedActivity", resourceCulture);
             }
         }
         
@@ -102,6 +165,24 @@ namespace Hemera.Resx {
         public static string Sports {
             get {
                 return ResourceManager.GetString("Sports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        public static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please insert a time.
+        /// </summary>
+        public static string TimeNeeded {
+            get {
+                return ResourceManager.GetString("TimeNeeded", resourceCulture);
             }
         }
         

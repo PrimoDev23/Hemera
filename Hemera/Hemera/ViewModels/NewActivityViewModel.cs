@@ -48,6 +48,7 @@ namespace Hemera.ViewModels
 
         public Command<Category> ItemSelectedCommand { get; set; }
         public Command FinishCommand { get; set; }
+        public Command NotificationCommand { get; set; }
 
         public NewActivityPopup page;
 
@@ -55,6 +56,7 @@ namespace Hemera.ViewModels
         {
             ItemSelectedCommand = new Command<Category>(new Action<Category>(CategoryChanged));
             FinishCommand = new Command(new Action(finished));
+            NotificationCommand = new Command(new Action(setNotification));
 
             Activity = new Activity();
 
@@ -139,6 +141,16 @@ namespace Hemera.ViewModels
             }
 
             newActivityCompleted.TrySetResult(Activity);
+        }
+
+        private async void setNotification()
+        {
+            NotificationPopup popup = new NotificationPopup(Activity);
+
+            await page.Navigation.PushModalAsync(popup).ConfigureAwait(false);
+            await popup.WaitForFinish();
+
+            await page.Navigation.PopModalAsync();
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

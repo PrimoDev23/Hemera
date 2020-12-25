@@ -98,7 +98,7 @@
                 AbsoluteLayout.LayoutFlags="All" />
 
             <sh:Shadows
-                AbsoluteLayout.LayoutBounds=".93,.95,60,60"
+                AbsoluteLayout.LayoutBounds=".93,.95,56,56"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 CornerRadius="50"
                 Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
@@ -126,6 +126,48 @@
 
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding FinishCommand}" />
+                    </Frame.GestureRecognizers>
+
+                    <Frame.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStopCollection>
+                                <GradientStop Offset="0.0" Color="{AppThemeBinding Dark=#252525, Light={StaticResource colorLightTheme}}" />
+                                <GradientStop Offset="1.0" Color="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light=#FAFAFA}" />
+                            </GradientStopCollection>
+                        </LinearGradientBrush>
+                    </Frame.Background>
+                </Frame>
+            </sh:Shadows>
+            <sh:Shadows
+                AbsoluteLayout.LayoutBounds=".93,.85,56,56"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                CornerRadius="50"
+                Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
+                                                              Opacity=0.3,
+                                                              BlurRadius=4,
+                                                              Color=Black},
+                                         Light={sh:SingleShade Offset='2,2',
+                                                               Opacity=0.2,
+                                                               BlurRadius=3,
+                                                               Color={StaticResource colorDarkTheme}}}">
+                <Frame
+                    Padding="0"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                      Light={StaticResource colorLightTheme}}"
+                    CornerRadius="50"
+                    HasShadow="False">
+                    <Path
+                        Grid.Row="0"
+                        Margin="-2,-2,0,0"
+                        Data="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"
+                        Fill="{AppThemeBinding Dark=White,
+                                               Light=Black}"
+                        HorizontalOptions="Center"
+                        InputTransparent="True"
+                        VerticalOptions="Center" />
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NotificationCommand}" />
                     </Frame.GestureRecognizers>
 
                     <Frame.Background>

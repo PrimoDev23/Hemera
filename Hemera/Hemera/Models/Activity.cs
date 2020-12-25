@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Xml.Serialization;
 using Xamarin.Forms;
 
@@ -55,6 +56,10 @@ namespace Hemera.Models
             set
             {
                 _Date = value;
+
+                //Update NotificationTime for new Date
+                NotificationTime = _NotificationTime;
+
                 OnPropertyChanged();
             }
         }
@@ -109,9 +114,43 @@ namespace Hemera.Models
             }
         }
 
+        public DateTime NotificationDateTime { get; set; }
+
+        public TimeType TimeType { get; set; } = TimeType.Minute;
+
+        private uint _NotificationTime = 10;
+        public uint NotificationTime
+        {
+            get => _NotificationTime;
+            set
+            {
+                switch (TimeType)
+                {
+                    case TimeType.Minute:
+                        NotificationDateTime = Date.AddMinutes(-value);
+                        break;
+                    case TimeType.Hour:
+                        NotificationDateTime = Date.AddHours(-value);
+                        break;
+                    case TimeType.Day:
+                        NotificationDateTime = Date.AddDays(-value);
+                        break;
+                }
+                _NotificationTime = value;
+            }
+        }
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+    public enum TimeType : byte
+    {
+        Minute = 0,
+        Hour = 1,
+        Day = 2,
+        Disabled = 3
     }
 }
