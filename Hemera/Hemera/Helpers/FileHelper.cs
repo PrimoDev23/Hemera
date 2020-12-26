@@ -31,23 +31,15 @@ namespace Hemera.Helpers
 
         public static ObservableCollection<Activity> loadActivities()
         {
-            //We get some shitty error here
-            //Probably just some stream fucked up while debugging, but to prevent annoying exceptions just do a try catch
-            try
-            {
-                if (!File.Exists(VarContainer.activityPath))
-                {
-                    return new ObservableCollection<Activity>();
-                }
-
-                using (FileStream fs = new FileStream(VarContainer.activityPath, FileMode.Open))
-                {
-                    XmlSerializer xml = new XmlSerializer(typeof(ObservableCollection<Activity>));
-                    return (ObservableCollection<Activity>)xml.Deserialize(fs);
-                }
-            }catch(Exception ex)
+            if (!File.Exists(VarContainer.activityPath))
             {
                 return new ObservableCollection<Activity>();
+            }
+
+            using (FileStream fs = new FileStream(VarContainer.activityPath, FileMode.Open))
+            {
+                XmlSerializer xml = new XmlSerializer(typeof(ObservableCollection<Activity>));
+                return (ObservableCollection<Activity>)xml.Deserialize(fs);
             }
         }
     }

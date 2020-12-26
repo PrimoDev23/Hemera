@@ -4,8 +4,10 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:Hemera.Models"
+    xmlns:resx="clr-namespace:Hemera.Resx"
     xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
     xmlns:vm="clr-namespace:Hemera.ViewModels"
+    x:Name="self"
     x:DataType="vm:OverviewViewModel">
     <Grid
         BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
@@ -64,8 +66,20 @@
                 FontSize="17"
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
+                InputTransparent="True"
                 Text="{Binding LiteralDate}"
-                VerticalOptions="Center" />
+                VerticalOptions="End" />
+            <DatePicker
+                Grid.Column="1"
+                Margin="0,0,0,0"
+                BackgroundColor="Transparent"
+                Date="{Binding CurrentDate}"
+                FontAttributes="Bold"
+                FontSize="17"
+                HorizontalOptions="Center"
+                Opacity="0"
+                VerticalOptions="End"
+                Visual="Material" />
             <Path
                 Grid.Column="2"
                 Margin="0,0,14,0"
@@ -86,7 +100,7 @@
         </Grid>
         <AbsoluteLayout Grid.Row="1">
             <Grid
-                Margin="0,0,0,0"
+                Margin="0"
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 AbsoluteLayout.LayoutFlags="All"
                 RowDefinitions="30, *">
@@ -104,64 +118,74 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Activity">
-                            <sh:Shadows CornerRadius="20" Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,0.6', BlurRadius=2.1, Opacity=0.7, Color=#111111}, Light={sh:SingleShade Offset='0,0.5', BlurRadius=2, Opacity=0.2, Color=#232323}}">
-                                <Frame
-                                    Margin="5"
-                                    Padding="0"
-                                    BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
-                                                                      Light=White}"
-                                    CornerRadius="20"
-                                    HasShadow="False"
-                                    HeightRequest="120">
-                                    <Grid RowDefinitions="40, 40, 30" RowSpacing="0">
-                                        <Label
-                                            Grid.Row="0"
-                                            FontAttributes="Bold"
-                                            FontSize="19"
-                                            HorizontalOptions="Center"
-                                            HorizontalTextAlignment="Center"
-                                            Text="{Binding Date.Hour}"
-                                            VerticalOptions="End" />
-                                        <Label
-                                            Grid.Row="1"
-                                            FontAttributes="Bold"
-                                            FontSize="19"
-                                            HorizontalOptions="Center"
-                                            HorizontalTextAlignment="Center"
-                                            Text="{Binding Date, StringFormat='{0:mm}'}"
-                                            TextColor="{StaticResource colorPrimary}"
-                                            VerticalOptions="Start" />
-                                        <Label
-                                            Grid.Row="2"
-                                            FontSize="15"
-                                            HorizontalOptions="Center"
-                                            Text="{Binding Title}"
-                                            VerticalOptions="Center" />
-                                        <Path
-                                            Grid.Row="0"
-                                            Margin="0,0,25,0"
-                                            Data="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"
-                                            Fill="{Binding Category.BadgeBrush}"
-                                            HorizontalOptions="End"
-                                            ScaleX="1.7"
-                                            ScaleY="3"
-                                            VerticalOptions="Start" />
-                                        <Path
-                                            Grid.Row="0"
-                                            Margin="0,5,21.2,0"
-                                            Data="{Binding Category.PathData}"
-                                            Fill="#232323"
-                                            HorizontalOptions="End"
-                                            VerticalOptions="Start" />
-                                    </Grid>
-                                </Frame>
-                            </sh:Shadows>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems Mode="Execute">
+                                        <SwipeItem
+                                            Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference self}}"
+                                            CommandParameter="{Binding .}"
+                                            Text="{x:Static resx:AppResources.Delete}" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <sh:Shadows CornerRadius="20" Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,0.6', BlurRadius=2.1, Opacity=0.7, Color=#111111}, Light={sh:SingleShade Offset='0,0.5', BlurRadius=2, Opacity=0.2, Color=#232323}}">
+                                    <Frame
+                                        Margin="5"
+                                        Padding="0"
+                                        BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                                          Light=White}"
+                                        CornerRadius="20"
+                                        HasShadow="False"
+                                        HeightRequest="120">
+                                        <Grid RowDefinitions="40, 40, 30" RowSpacing="0">
+                                            <Label
+                                                Grid.Row="0"
+                                                FontAttributes="Bold"
+                                                FontSize="19"
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="{Binding Date.Hour}"
+                                                VerticalOptions="End" />
+                                            <Label
+                                                Grid.Row="1"
+                                                FontAttributes="Bold"
+                                                FontSize="19"
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="{Binding Date, StringFormat='{0:mm}'}"
+                                                TextColor="{StaticResource colorPrimary}"
+                                                VerticalOptions="Start" />
+                                            <Label
+                                                Grid.Row="2"
+                                                FontSize="15"
+                                                HorizontalOptions="Center"
+                                                Text="{Binding Title}"
+                                                VerticalOptions="Center" />
+                                            <Path
+                                                Grid.Row="0"
+                                                Margin="0,0,25,0"
+                                                Data="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"
+                                                Fill="{Binding Category.BadgeBrush}"
+                                                HorizontalOptions="End"
+                                                ScaleX="1.7"
+                                                ScaleY="3"
+                                                VerticalOptions="Start" />
+                                            <Path
+                                                Grid.Row="0"
+                                                Margin="0,5,21.2,0"
+                                                Data="{Binding Category.PathData}"
+                                                Fill="#232323"
+                                                HorizontalOptions="End"
+                                                VerticalOptions="Start" />
+                                        </Grid>
+                                    </Frame>
+                                </sh:Shadows>
+                            </SwipeView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Grid>
             <sh:Shadows
-                AbsoluteLayout.LayoutBounds=".93,.95,60,60"
+                AbsoluteLayout.LayoutBounds=".93,.95,56,56"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 CornerRadius="50"
                 Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',

@@ -17,5 +17,10 @@ namespace Hemera.Views
             viewModel = new OverviewViewModel(this);
             BindingContext = viewModel;
         }
+
+        private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
+        {
+
+        }
     }
 }

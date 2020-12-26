@@ -29,6 +29,8 @@ namespace Hemera.Views.Popups
             completed = new TaskCompletionSource<bool>();
             this.activity = activity;
 
+            txt_time.Text = activity.NotificationTime.ToString();
+
             //Setup the initial state of radiobuttons
             switch (activity.TimeType)
             {

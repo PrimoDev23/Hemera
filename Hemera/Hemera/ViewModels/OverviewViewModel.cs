@@ -21,6 +21,7 @@ namespace Hemera.ViewModels
         public Command CreateNewCommand { get; set; }
         public Command BackCommand { get; set; }
         public Command ForwardCommand { get; set; }
+        public Command<Activity> DeleteCommand { get; set; }
 
         private DateTime _CurrentDate = DateTime.Now;
 
@@ -63,6 +64,7 @@ namespace Hemera.ViewModels
             CreateNewCommand = new Command(new Action(createNewActivity));
             BackCommand = new Command(new Action(dayBack));
             ForwardCommand = new Command(new Action(dayForward));
+            DeleteCommand = new Command<Activity>(new Action<Activity>(deleteActivity));
 
             void load()
             {
@@ -111,9 +113,9 @@ namespace Hemera.ViewModels
                 await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
                 await Task.Run(new Action(Order)).ConfigureAwait(false);
 
-                if (res.TimeType != TimeType.Disabled)
+                if (res.TimeType != TimeType.Disabled && DateTime.Compare(res.NotificationDateTime, DateTime.Now) > 0)
                 {
-                    DependencyService.Get<INotificationManager>().SendNotification($"{AppResources.PlanedActivity} {res.Date.ToString("t")}", res.Title, res.NotificationDateTime);
+                    DependencyService.Get<INotificationManager>().SetupWork($"{AppResources.PlanedActivity} {res.Date.ToString("t")}", res.Title, res.NotificationDateTime, $"{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
                 }
             }
         }
@@ -126,6 +128,19 @@ namespace Hemera.ViewModels
             ActivitiesPerDay = new ObservableCollection<Activity>(from act in allActivities.getActivitiesPerDay(CurrentDate)
                                                                   orderby act.Date
                                                                   select act);
+        }
+
+        private async void deleteActivity(Activity activity)
+        {
+            DependencyService.Get<INotificationManager>().CancelWork($"{activity.Title}|{activity.Date.ToString("yyyyMMddmmhh")}|{activity.CategoryType.ToString()}");
+            allActivities.Remove(activity);
+
+            void orderAndSave()
+            {
+                Order();
+                FileHelper.saveActivities(allActivities);
+            }
+            await Task.Run(new Action(orderAndSave)).ConfigureAwait(false);
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

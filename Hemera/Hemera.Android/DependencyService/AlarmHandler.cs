@@ -21,7 +21,8 @@ namespace Hemera.Droid.DependencyService
                 string title = intent.GetStringExtra(AndroidNotificationManager.TitleKey);
                 string message = intent.GetStringExtra(AndroidNotificationManager.MessageKey);
 
-                AndroidNotificationManager.Instance.Show(title, message);
+                AndroidNotificationManager manager = new AndroidNotificationManager();
+                manager.Show(title, message);
             }
         }
     }

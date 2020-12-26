@@ -2,17 +2,11 @@
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using AndroidX.Core.App;
+using AndroidX.Work;
 using Hemera.Droid.DependencyService;
-using Hemera.Events;
 using Hemera.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xamarin.Forms;
 using AndroidApp = Android.App.Application;
 
@@ -21,65 +15,38 @@ namespace Hemera.Droid.DependencyService
 {
     public class AndroidNotificationManager : INotificationManager
     {
-        const string channelId = "default";
-        const string channelName = "Default";
-        const string channelDescription = "The default channel for notifications.";
+        private const string channelId = "HemeraChannel";
+        private const string channelName = "HemeraChannel";
+        private const string channelDescription = "The default channel for notifications by Hemera.";
 
         public const string TitleKey = "title";
         public const string MessageKey = "message";
+        private bool channelInitialized = false;
+        private int messageId = 0;
+        private int pendingIntentId = 0;
+        private NotificationManager manager;
 
-        bool channelInitialized = false;
-        int messageId = 0;
-        int pendingIntentId = 0;
-
-        NotificationManager manager;
-
-        public event EventHandler NotificationReceived;
-
-        public static AndroidNotificationManager Instance { get; private set; }
-
-        public void Initialize()
+        public void SetupWork(string title, string message, DateTime date, string name)
         {
-            CreateNotificationChannel();
-            Instance = this;
+            var data = new Data.Builder();
+            data.PutString("Title", title);
+            data.PutString("Message", message);
+
+            var work = OneTimeWorkRequest.Builder.From<NotificationWorkManager>()
+                .SetInitialDelay(date.Subtract(DateTime.Now))
+                .SetInputData(data.Build())
+                .Build();
+            
+            WorkManager.Instance.EnqueueUniqueWork(name, ExistingWorkPolicy.Keep, work);
         }
 
-        public void SendNotification(string title, string message, DateTime? notifyTime = null)
+        public void Show(string title, string message)
         {
             if (!channelInitialized)
             {
                 CreateNotificationChannel();
             }
 
-            if (notifyTime != null)
-            {
-                Intent intent = new Intent(AndroidApp.Context, typeof(AlarmHandler));
-                intent.PutExtra(TitleKey, title);
-                intent.PutExtra(MessageKey, message);
-
-                PendingIntent pendingIntent = PendingIntent.GetBroadcast(AndroidApp.Context, pendingIntentId++, intent, PendingIntentFlags.CancelCurrent);
-                long triggerTime = GetNotifyTime(notifyTime.Value);
-                AlarmManager alarmManager = AndroidApp.Context.GetSystemService(Context.AlarmService) as AlarmManager;
-                alarmManager.Set(AlarmType.Rtc, triggerTime, pendingIntent);
-            }
-            else
-            {
-                Show(title, message);
-            }
-        }
-
-        public void ReceiveNotification(string title, string message)
-        {
-            var args = new NotificationEventArgs()
-            {
-                Title = title,
-                Message = message,
-            };
-            NotificationReceived?.Invoke(null, args);
-        }
-
-        public void Show(string title, string message)
-        {
             Intent intent = new Intent(AndroidApp.Context, typeof(MainActivity));
             intent.PutExtra(TitleKey, title);
             intent.PutExtra(MessageKey, message);
@@ -98,7 +65,7 @@ namespace Hemera.Droid.DependencyService
             manager.Notify(messageId++, notification);
         }
 
-        void CreateNotificationChannel()
+        private void CreateNotificationChannel()
         {
             manager = (NotificationManager)AndroidApp.Context.GetSystemService(AndroidApp.NotificationService);
 
@@ -115,12 +82,9 @@ namespace Hemera.Droid.DependencyService
             channelInitialized = true;
         }
 
-        long GetNotifyTime(DateTime notifyTime)
+        public void CancelWork(string name)
         {
-            DateTime utcTime = TimeZoneInfo.ConvertTimeToUtc(notifyTime);
-            double epochDiff = (new DateTime(1970, 1, 1) - DateTime.MinValue).TotalSeconds;
-            long utcAlarmTime = utcTime.AddSeconds(-epochDiff).Ticks / 10000;
-            return utcAlarmTime; // milliseconds
+            WorkManager.Instance.CancelUniqueWork(name);
         }
     }
 }

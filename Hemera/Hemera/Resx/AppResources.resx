@@ -165,4 +165,7 @@
   <data name="TimeNeeded" xml:space="preserve">
     <value>Please insert a time</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 </root>
