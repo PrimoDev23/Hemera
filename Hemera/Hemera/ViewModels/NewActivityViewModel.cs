@@ -98,11 +98,11 @@ namespace Hemera.ViewModels
                                 new ShoppingItem()
                             };
 
-                            Shopping view = ((Shopping)curr.view);
+                            Shopping view = (Shopping)curr.view;
 
                             view.viewModel.Activity = Activity;
                             break;
-                        case CategoryType.Sports:
+                        case CategoryType.EnduranceSports:
                             Header = AppResources.Sports;
 
                             Activity.Checklist = null;
@@ -111,6 +111,11 @@ namespace Hemera.ViewModels
                             Header = AppResources.Meeting;
 
                             Activity.Checklist = null;
+
+                            Meeting meeting = (Meeting)curr.view;
+                            await meeting.CenterUsersLocation();
+
+                            meeting.viewModel.Activity = Activity;
                             break;
                     }
 

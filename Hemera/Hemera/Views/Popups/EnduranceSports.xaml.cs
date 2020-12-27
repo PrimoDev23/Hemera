@@ -5,9 +5,9 @@ using Xamarin.Forms.Xaml;
 namespace Hemera.Views.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Sports : ContentView
+    public partial class EnduranceSports : ContentView
     {
-        public Sports()
+        public EnduranceSports()
         {
             InitializeComponent();
         }

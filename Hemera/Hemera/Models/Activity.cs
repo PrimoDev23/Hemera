@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Serialization;
 using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 
 namespace Hemera.Models
 {
@@ -102,7 +103,7 @@ namespace Hemera.Models
                         Category = VarContainer.categories[0];
                         break;
 
-                    case CategoryType.Sports:
+                    case CategoryType.EnduranceSports:
                         Category = VarContainer.categories[1];
                         break;
 
@@ -139,6 +140,8 @@ namespace Hemera.Models
                 _NotificationTime = value;
             }
         }
+
+        public Position Position;
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

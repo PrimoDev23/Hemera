@@ -115,6 +115,15 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search location.
+        /// </summary>
+        public static string Location {
+            get {
+                return ResourceManager.GetString("Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meeting.
         /// </summary>
         public static string Meeting {
@@ -156,6 +165,15 @@ namespace Hemera.Resx {
         public static string PlanedActivity {
             get {
                 return ResourceManager.GetString("PlanedActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected position.
+        /// </summary>
+        public static string SelectedPosition {
+            get {
+                return ResourceManager.GetString("SelectedPosition", resourceCulture);
             }
         }
         

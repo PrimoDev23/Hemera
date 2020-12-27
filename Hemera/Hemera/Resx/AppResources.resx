@@ -168,4 +168,10 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="Location" xml:space="preserve">
+    <value>Search location</value>
+  </data>
+  <data name="SelectedPosition" xml:space="preserve">
+    <value>Selected position</value>
+  </data>
 </root>

@@ -74,7 +74,7 @@ namespace Hemera.Models
     public enum CategoryType
     {
         Shopping,
-        Sports,
+        EnduranceSports,
         Meeting
     }
 }

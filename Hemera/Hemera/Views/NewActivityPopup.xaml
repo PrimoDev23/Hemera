@@ -110,19 +110,19 @@
                                                                BlurRadius=3,
                                                                Color={StaticResource colorDarkTheme}}}">
                 <Frame
+                    Padding="0"
                     BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                                       Light={StaticResource colorLightTheme}}"
                     CornerRadius="50"
                     HasShadow="False">
                     <Path
                         Grid.Row="0"
-                        Margin="-2,-2,0,0"
                         Data="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
                         Fill="{AppThemeBinding Dark=White,
                                                Light=Black}"
                         HorizontalOptions="Center"
                         InputTransparent="True"
-                        VerticalOptions="End" />
+                        VerticalOptions="Center" />
 
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding FinishCommand}" />
