@@ -3,9 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Xml.Serialization;
-using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 namespace Hemera.Models

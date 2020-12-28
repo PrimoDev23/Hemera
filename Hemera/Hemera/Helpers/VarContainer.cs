@@ -1,10 +1,8 @@
 ﻿using Hemera.Models;
 using Hemera.Resx;
 using Hemera.Views;
-using Hemera.Views.Popups;
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Shapes;
 

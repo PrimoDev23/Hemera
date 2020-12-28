@@ -13,9 +13,9 @@ namespace Hemera.Models
         {
             Name = name;
             PathData = pathData;
-            this.Selected = selected;
+            Selected = selected;
             this.type = type;
-            this.BadgeBrush = brush;
+            BadgeBrush = brush;
         }
 
         public string Name { get; set; }

@@ -2,11 +2,9 @@
 using Hemera.Models;
 using Hemera.Views.Popups;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using Xamarin.Forms;
 
 namespace Hemera.ViewModels.Popups
@@ -20,9 +18,8 @@ namespace Hemera.ViewModels.Popups
 
         public ObservableCollection<Category> Categories { get; set; } = VarContainer.categories;
 
-        int selectedCategoryIndex;
-
-        CategoryPopup popup;
+        private readonly int selectedCategoryIndex;
+        private readonly CategoryPopup popup;
         public CategoryPopupViewModel(CategoryPopup popup)
         {
             DoneCommand = new Command(new Action(done));

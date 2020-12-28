@@ -1,5 +1,4 @@
 ﻿using Hemera.Helpers;
-using Hemera.Interfaces;
 using Hemera.Models;
 using Hemera.Resx;
 using Hemera.Views;

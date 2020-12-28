@@ -1,14 +1,7 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
+﻿using Android.Content;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using AndroidX.Work;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Hemera.Droid.DependencyService
 {
