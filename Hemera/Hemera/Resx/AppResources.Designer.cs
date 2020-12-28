@@ -61,6 +61,15 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Checklist.
+        /// </summary>
+        public static string Checklist {
+            get {
+                return ResourceManager.GetString("Checklist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to days before.
         /// </summary>
         public static string DayBefore {
@@ -79,20 +88,20 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disable.
-        /// </summary>
-        public static string Disable {
-            get {
-                return ResourceManager.GetString("Disable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Done.
         /// </summary>
         public static string Done {
             get {
                 return ResourceManager.GetString("Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable notification.
+        /// </summary>
+        public static string EnableNotification {
+            get {
+                return ResourceManager.GetString("EnableNotification", resourceCulture);
             }
         }
         
@@ -120,6 +129,15 @@ namespace Hemera.Resx {
         public static string Location {
             get {
                 return ResourceManager.GetString("Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map.
+        /// </summary>
+        public static string Map {
+            get {
+                return ResourceManager.GetString("Map", resourceCulture);
             }
         }
         

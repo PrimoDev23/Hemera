@@ -67,6 +67,9 @@
     <PackageReference Include="Xamarin.AndroidX.Work.Runtime">
       <Version>2.4.0.1</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.CommunityToolkit">
+      <Version>1.0.0-pre6</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1791-pre5" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.0-rc1" />
     <PackageReference Include="Xamarin.Forms.Maps">

@@ -31,19 +31,19 @@ namespace Hemera.ViewModels.Popups
 
         public Command ReturnCommand { get; set; }
 
-        Meeting page;
-        public MeetingViewModel(Meeting page)
+        //Meeting page;
+        public MeetingViewModel()
         {
             ReturnCommand = new Command(new Action(setLocation));
 
-            this.page = page;
+            //this.page = page;
         }
 
         private async void setLocation()
         {
             Location loc = (await Geocoding.GetLocationsAsync(Location)).First();
 
-            page.map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(loc.Latitude, loc.Longitude), Distance.FromKilometers(1)));
+            //page.map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(loc.Latitude, loc.Longitude), Distance.FromKilometers(1)));
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

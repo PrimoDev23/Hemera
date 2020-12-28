@@ -65,7 +65,7 @@ namespace Hemera.Models
             }
         }
 
-        private ObservableCollection<ShoppingItem> _Checklist;
+        private ObservableCollection<ShoppingItem> _Checklist = new ObservableCollection<ShoppingItem>();
 
         public ObservableCollection<ShoppingItem> Checklist
         {

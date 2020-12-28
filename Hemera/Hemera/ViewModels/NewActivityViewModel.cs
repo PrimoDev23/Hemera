@@ -7,9 +7,12 @@ using Hemera.Views.Popups;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 
 namespace Hemera.ViewModels
 {
@@ -18,17 +21,6 @@ namespace Hemera.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         public TaskCompletionSource<Activity> newActivityCompleted;
-
-        private string _Header = AppResources.Shopping;
-        public string Header
-        {
-            get => _Header;
-            set
-            {
-                _Header = value;
-                OnPropertyChanged();
-            }
-        }
 
         public Activity Activity { get; set; }
 
@@ -46,116 +38,251 @@ namespace Hemera.ViewModels
             }
         }
 
-        public Command<Category> ItemSelectedCommand { get; set; }
+        private bool _NotificationsEnabled = true;
+        public bool NotificationsEnabled
+        {
+            get => _NotificationsEnabled;
+            set
+            {
+                _NotificationsEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _Location;
+        public string Location
+        {
+            get => _Location;
+            set
+            {
+                _Location = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Command FinishCommand { get; set; }
-        public Command NotificationCommand { get; set; }
+        public Command SelectCategoryCommand { get; set; }
+        public Command<ShoppingItem> RemoveCommand { get; set; }
+        public Command<string> ReturnCommand { get; set; }
+        public Command LocationReturnCommand { get; set; }
+
+        #region RadioButtons
+
+        private bool _MinuteChecked = true;
+        public bool MinuteChecked
+        {
+            get => _MinuteChecked;
+            set
+            {
+                _MinuteChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _HourChecked;
+        public bool HourChecked
+        {
+            get => _HourChecked;
+            set
+            {
+                _HourChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _DayChecked;
+        public bool DayChecked
+        {
+            get => _DayChecked;
+            set
+            {
+                _DayChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion RadioButton
+
+        public bool titleValid = false;
+        public bool timeValid = true;
 
         public NewActivityPopup page;
 
         public NewActivityViewModel(NewActivityPopup page)
         {
-            ItemSelectedCommand = new Command<Category>(new Action<Category>(CategoryChanged));
             FinishCommand = new Command(new Action(finished));
-            NotificationCommand = new Command(new Action(setNotification));
+            SelectCategoryCommand = new Command(new Action(selectCategory));
+            ReturnCommand = new Command<string>(new Action<string>(returnPressed));
+            RemoveCommand = new Command<ShoppingItem>(new Action<ShoppingItem>(removeItem));
+            LocationReturnCommand = new Command(new Action(setLocation));
 
-            Activity = new Activity();
-
-            void init()
+            void updateCategories()
             {
-                CategoryChanged(Categories[0]);
+                Categories[0].Selected = true;
+                for (int i = 1; i < Categories.Count; i++)
+                {
+                    Categories[i].Selected = false;
+                }
             }
+            Task.Run(new Action(updateCategories));
 
-            Task.Run(new Action(init));
+            Activity = new Activity() { CategoryType = CategoryType.Shopping };
+
+            Activity.Checklist.Add(new ShoppingItem());
 
             newActivityCompleted = new TaskCompletionSource<Activity>();
+
+            CenterUsersLocation();
 
             this.page = page;
         }
 
-        private async void CategoryChanged(Category category)
+        private async void selectCategory()
         {
-            CurrentCategory = category;
+            CategoryPopup popup = new CategoryPopup();
+            await page.Navigation.PushModalAsync(popup).ConfigureAwait(false);
+            Category selected = await popup.CategorySelected().ConfigureAwait(false);
 
-            Category curr;
-
-            //Set selected true for category user tapped
-            //Else set it to false
-            for (int i = 0; i < Categories.Count; i++)
+            if (selected != null)
             {
-                curr = Categories[i];
-
-                if (curr.type == category.type)
-                {
-                    curr.selected = true;
-
-                    switch (curr.type)
-                    {
-                        case CategoryType.Shopping:
-                            Header = AppResources.Shopping;
-
-                            Activity.Checklist = new ObservableCollection<ShoppingItem>()
-                            {
-                                new ShoppingItem()
-                            };
-
-                            Shopping view = (Shopping)curr.view;
-
-                            view.viewModel.Activity = Activity;
-                            break;
-                        case CategoryType.EnduranceSports:
-                            Header = AppResources.Sports;
-
-                            Activity.Checklist = null;
-                            break;
-                        case CategoryType.Meeting:
-                            Header = AppResources.Meeting;
-
-                            Activity.Checklist = null;
-
-                            Meeting meeting = (Meeting)curr.view;
-                            await meeting.CenterUsersLocation();
-
-                            meeting.viewModel.Activity = Activity;
-                            break;
-                    }
-
-                    //Set the current activities type
-                    Activity.CategoryType = curr.type;
-                }
-                else
-                {
-                    curr.selected = false;
-                }
+                CurrentCategory = selected;
+                Activity.CategoryType = selected.type;
             }
 
-            void UI()
-            {
-                //Set the currents page content to the view of the category
-                page.innerContent.Content = category.view;
-                //page.innerContent.Content.BindingContext = Activity;
-            }
-            await Device.InvokeOnMainThreadAsync(new Action(UI)).ConfigureAwait(false);
+            await page.Navigation.PopModalAsync().ConfigureAwait(false);
         }
 
-        private async void finished()
+        private void returnPressed(string Text)
         {
-            //Check if the input is valid
-            if(!await ((IValidate)page.innerContent.Content).ValidateInput().ConfigureAwait(false))
+            if (Text?.Length > 0)
             {
-                return;
+                ShoppingItem item = new ShoppingItem();
+                Activity?.Checklist.Add(item);
+                page.collView.ScrollTo(Activity.Checklist.Count - 1);
+
+                item.Focused = true;
+            }
+        }
+
+        private void removeItem(ShoppingItem item)
+        {
+            Activity.Checklist.Remove(item);
+
+            if (Activity.Checklist.Count == 0)
+            {
+                Activity.Checklist.Add(new ShoppingItem() { Focused = true });
+            }
+        }
+
+        private void finished()
+        {
+            //If the last item is empty remove it
+            ShoppingItem last = Activity.Checklist[^1];
+            if (!(last.ItemName?.Length > 0))
+            {
+                Activity.Checklist.Remove(last);
+
+                //If checklist is empty after removing it just set it to null
+                if (Activity.Checklist.Count == 0)
+                {
+                    Activity.Checklist = null;
+                }
+            }
+
+            //Set notification
+            if (NotificationsEnabled)
+            {
+                if (MinuteChecked)
+                {
+                    Activity.TimeType = TimeType.Minute;
+                }
+                else if (HourChecked)
+                {
+                    Activity.TimeType = TimeType.Hour;
+                }
+                else if (DayChecked)
+                {
+                    Activity.TimeType = TimeType.Day;
+                }
+                Activity.NotificationTime = uint.Parse(page.txt_notificationTime.Text);
+            }
+            else
+            {
+                Activity.TimeType = TimeType.Disabled;
             }
 
             newActivityCompleted.TrySetResult(Activity);
         }
 
-        private async void setNotification()
+        public void CheckTimeValid(TextChangedEventArgs e)
         {
-            NotificationPopup popup = new NotificationPopup(Activity);
+            try
+            {
+                //If user cleared the field we show a warning
+                //We can't get in here if type is disabled
+                if (!(e.NewTextValue?.Length > 0))
+                {
+                    page.lbl_timeneeded.IsVisible = true;
+                    timeValid = false;
+                    return;
+                }
 
-            await page.Navigation.PushModalAsync(popup).ConfigureAwait(false);
-            await popup.WaitForFinish();
+                //Instead don't let the user enter invalid values (Text isn't a valid uint)
+                if (!uint.TryParse(e.NewTextValue, out _))
+                {
+                    page.txt_notificationTime.Text = e.OldTextValue;
+                    return;
+                }
 
-            await page.Navigation.PopModalAsync();
+                //Valid input
+                timeValid = true;
+                page.lbl_timeneeded.IsVisible = false;
+            }
+            finally
+            {
+                page.btn_done.IsEnabled = timeValid && titleValid;
+            }
+        }
+
+        public async Task CenterUsersLocation()
+        {
+            try
+            {
+                var position = await Geolocation.GetLocationAsync().ConfigureAwait(false);
+
+                void UI()
+                {
+                    page.map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromKilometers(1)));
+                }
+                await Device.InvokeOnMainThreadAsync(new Action(UI)).ConfigureAwait(false);
+            }
+            catch
+            {
+                //Location is not enabled
+            }
+        }
+
+        private async void setLocation()
+        {
+            Location loc = (await Geocoding.GetLocationsAsync(Location)).First();
+
+            if(loc == null)
+            {
+                return;
+            }
+
+            page.map.Pins.Clear();
+
+            Pin pin = new Pin()
+            {
+                Position = new Position(loc.Latitude, loc.Longitude),
+                Label = AppResources.SelectedPosition
+            };
+            page.map.Pins.Add(pin);
+
+            Activity.Position = pin.Position;
+
+            page.map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(loc.Latitude, loc.Longitude), Distance.FromKilometers(1)));
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

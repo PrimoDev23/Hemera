@@ -3,183 +3,386 @@
     x:Class="Hemera.Views.NewActivityPopup"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Hemera.Controls"
+    xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:models="clr-namespace:Hemera.Models"
+    xmlns:resx="clr-namespace:Hemera.Resx"
     xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
+    xmlns:tk="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
     xmlns:vm="clr-namespace:Hemera.ViewModels"
     x:Name="self"
     x:DataType="vm:NewActivityViewModel"
     BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                       Light={StaticResource colorLightTheme}}">
-    <Grid RowDefinitions="130, *">
-        <Path
-            Grid.Row="0"
-            Margin="-1,-1,-1,0"
-            Aspect="Fill"
-            Data="M0,0H375V129.651s-9.025,2.382-55.426-5.3-70.141-41.09-130.3-41.176-83.544,33.5-130.893,41.176S0,129.651,0,129.651Z"
-            HorizontalOptions="Fill">
 
-            <Path.Fill>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStopCollection>
-                        <GradientStop Offset="0.0" Color="{StaticResource colorLight}" />
-                        <GradientStop Offset="1" Color="{StaticResource colorPrimary}" />
-                    </GradientStopCollection>
-                </LinearGradientBrush>
-            </Path.Fill>
-        </Path>
-        <Label
-            Grid.Row="0"
-            Margin="0,0,0,10"
-            FontAttributes="Bold"
-            FontSize="16"
-            HorizontalOptions="Center"
-            Text="{Binding Header}"
-            TextColor="{AppThemeBinding Dark=White,
-                                        Light=Black}"
-            VerticalOptions="End" />
-        <CollectionView
-            Grid.Row="0"
-            Margin="10,-30,10,0"
-            HeightRequest="60"
-            ItemsSource="{Binding Categories}"
-            VerticalOptions="Center">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="2" Orientation="Horizontal" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Category">
-                    <Grid Padding="5">
-                        <sh:Shadows
-                            AbsoluteLayout.LayoutBounds=".93,.95,60,60"
-                            AbsoluteLayout.LayoutFlags="PositionProportional"
-                            CornerRadius="50"
-                            Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,1',
-                                                                          Opacity=0.5,
-                                                                          BlurRadius=2,
-                                                                          Color=Black},
-                                                     Light={sh:SingleShade Offset='2,2',
-                                                                           Opacity=0.3,
-                                                                           BlurRadius=1,
-                                                                           Color=#232323}}">
-                            <Frame
-                                Padding="0"
-                                CornerRadius="50"
-                                HasShadow="False"
-                                WidthRequest="50">
-                                <Path
-                                    Margin="-2,-2,0,0"
-                                    Data="{Binding PathData}"
-                                    Fill="{Binding IconColor}"
-                                    HorizontalOptions="Center"
-                                    InputTransparent="True"
-                                    VerticalOptions="Center" />
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemSelectedCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
-                                </Frame.GestureRecognizers>
-                                <Frame.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                        <GradientStopCollection>
-                                            <GradientStop Offset="0.0" Color="{AppThemeBinding Dark=#333333, Light={StaticResource colorLightTheme}}" />
-                                            <GradientStop Offset="1.0" Color="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light=#EAEAEA}" />
-                                        </GradientStopCollection>
-                                    </LinearGradientBrush>
-                                </Frame.Background>
-                            </Frame>
-                        </sh:Shadows>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        <AbsoluteLayout Grid.Row="1">
-            <ContentView
-                x:Name="innerContent"
+    <AbsoluteLayout>
+        <Grid
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            RowDefinitions="130, *">
+            <Path
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="5"
+                Margin="-1,-1,-1,0"
+                Aspect="Fill"
+                Data="M0,0H375V129.651s-9.025,2.382-55.426-5.3-70.141-41.09-130.3-41.176-83.544,33.5-130.893,41.176S0,129.651,0,129.651Z"
+                HorizontalOptions="Fill">
+
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStopCollection>
+                            <GradientStop Offset="0.0" Color="{StaticResource colorLight}" />
+                            <GradientStop Offset="1" Color="{StaticResource colorPrimary}" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Path
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="5"
+                Margin="0,0,0,10"
+                Data="{Binding CurrentCategory.PathData}"
+                Fill="{AppThemeBinding Dark=White,
+                                       Light=Black}"
+                HorizontalOptions="Center"
+                VerticalOptions="End">
+                <Path.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCategoryCommand}" />
+                </Path.GestureRecognizers>
+            </Path>
+            <Entry
+                x:Name="txt_title"
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="5"
+                Margin="7"
+                Placeholder="{x:Static resx:AppResources.Title}"
+                Text="{Binding Activity.Title}"
+                TextChanged="txt_title_TextChanged"
+                Visual="Material" />
+            <ScrollView
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="5">
+                <Grid ColumnDefinitions="30, AUTO, *, 30, AUTO" RowDefinitions="70, AUTO, AUTO, AUTO, AUTO, *">
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="7,0,0,0"
+                        HeightRequest="28"
+                        HorizontalOptions="Center"
+                        Source="{AppThemeBinding Dark=calendar_white,
+                                                 Light=calendar_black}"
+                        VerticalOptions="Center"
+                        WidthRequest="28" />
+                    <DatePicker
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="0,2,0,0"
+                        BackgroundColor="Transparent"
+                        Date="{Binding Activity.Date}"
+                        HeightRequest="10"
+                        TextColor="{AppThemeBinding Dark=White,
+                                                    Light=Black}"
+                        Visual="Material" />
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        HeightRequest="28"
+                        HorizontalOptions="Center"
+                        Source="{AppThemeBinding Dark=watch_white,
+                                                 Light=watch_black}"
+                        VerticalOptions="Center"
+                        WidthRequest="28" />
+                    <TimePicker
+                        Grid.Row="0"
+                        Grid.Column="4"
+                        Margin="0,2,7,0"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="End"
+                        TextColor="{AppThemeBinding Dark=White,
+                                                    Light=Black}"
+                        Time="{Binding Activity.Time}"
+                        Visual="Material" />
+                    <sh:Shadows
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="5"
+                        Margin="7"
+                        CornerRadius="18"
+                        Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                                      Opacity=0.3,
+                                                                      BlurRadius=4,
+                                                                      Color=Black},
+                                                 Light={sh:SingleShade Offset='2,2',
+                                                                       Opacity=0.2,
+                                                                       BlurRadius=3,
+                                                                       Color={StaticResource colorDarkTheme}}}">
+                        <Frame
+                            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}}"
+                            CornerRadius="18"
+                            HasShadow="False">
+                            <tk:Expander>
+                                <tk:Expander.Header>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{x:Static resx:AppResources.Notes}" />
+                                </tk:Expander.Header>
+                                <Editor
+                                    AutoSize="TextChanges"
+                                    HeightRequest="200"
+                                    Text="{Binding Activity.Notes}" />
+                            </tk:Expander>
+                        </Frame>
+                    </sh:Shadows>
+                    <sh:Shadows
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="5"
+                        Margin="7"
+                        CornerRadius="18"
+                        Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                                      Opacity=0.3,
+                                                                      BlurRadius=4,
+                                                                      Color=Black},
+                                                 Light={sh:SingleShade Offset='2,2',
+                                                                       Opacity=0.2,
+                                                                       BlurRadius=3,
+                                                                       Color={StaticResource colorDarkTheme}}}">
+                        <Frame
+                            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}}"
+                            CornerRadius="18"
+                            HasShadow="False">
+                            <tk:Expander>
+                                <tk:Expander.Header>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{x:Static resx:AppResources.Checklist}" />
+                                </tk:Expander.Header>
+                                <CollectionView
+                                    x:Name="collView"
+                                    Margin="7"
+                                    x:FieldModifier="public"
+                                    HeightRequest="400"
+                                    ItemsSource="{Binding Activity.Checklist}">
+                                    <CollectionView.ItemsLayout>
+                                        <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:ShoppingItem">
+                                            <Grid ColumnDefinitions="50, *">
+                                                <Image
+                                                    Grid.Column="0"
+                                                    BackgroundColor="Transparent"
+                                                    HeightRequest="30"
+                                                    HorizontalOptions="Center"
+                                                    Source="{AppThemeBinding Dark=close_white,
+                                                                             Light=close_black}"
+                                                    VerticalOptions="Center"
+                                                    Visual="Default"
+                                                    WidthRequest="30">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.RemoveCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                                <controls:FocusEntry
+                                                    Grid.Column="1"
+                                                    IsFocused="{Binding Focused}"
+                                                    Placeholder="{x:Static resx:AppResources.ItemName}"
+                                                    ReturnCommand="{Binding Path=BindingContext.ReturnCommand, Source={x:Reference self}}"
+                                                    ReturnCommandParameter="{Binding ItemName}"
+                                                    Text="{Binding ItemName}"
+                                                    TextColor="{AppThemeBinding Dark=White,
+                                                                                Light=Black}"
+                                                    Visual="Material" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </tk:Expander>
+                        </Frame>
+                    </sh:Shadows>
+                    <sh:Shadows
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="5"
+                        Margin="7"
+                        CornerRadius="18"
+                        Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                                      Opacity=0.3,
+                                                                      BlurRadius=4,
+                                                                      Color=Black},
+                                                 Light={sh:SingleShade Offset='2,2',
+                                                                       Opacity=0.2,
+                                                                       BlurRadius=3,
+                                                                       Color={StaticResource colorDarkTheme}}}">
+                        <Frame
+                            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}}"
+                            CornerRadius="18"
+                            HasShadow="False">
+                            <tk:Expander>
+                                <tk:Expander.Header>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{x:Static resx:AppResources.NotificationTitle}" />
+                                </tk:Expander.Header>
+                                <Grid
+                                    Margin="7"
+                                    ColumnDefinitions="*, 50"
+                                    RowDefinitions="50, 70, 20, 50, 50, 50">
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Text="{x:Static resx:AppResources.EnableNotification}"
+                                        VerticalOptions="Center" />
+                                    <Switch
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsToggled="{Binding NotificationsEnabled}"
+                                        Toggled="Switch_Toggled" />
+                                    <Entry
+                                        x:Name="txt_notificationTime"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        x:FieldModifier="public"
+                                        IsEnabled="{Binding NotificationsEnabled}"
+                                        Placeholder="{x:Static resx:AppResources.Time}"
+                                        Text="10"
+                                        TextChanged="txt_notificationTime_TextChanged"
+                                        TextColor="{AppThemeBinding Dark=White,
+                                                                    Light=Black}"
+                                        Visual="Material" />
+                                    <Label
+                                        x:Name="lbl_timeneeded"
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        x:FieldModifier="public"
+                                        IsVisible="False"
+                                        Text="{x:Static resx:AppResources.TimeNeeded}"
+                                        TextColor="Red" />
+                                    <RadioButton
+                                        Grid.Row="3"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Content="{x:Static resx:AppResources.MinuteBefore}"
+                                        IsChecked="{Binding MinuteChecked}"
+                                        IsEnabled="{Binding NotificationsEnabled}" />
+                                    <RadioButton
+                                        x:Name="radio_hourbefore"
+                                        Grid.Row="4"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Content="{x:Static resx:AppResources.HourBefore}"
+                                        IsChecked="{Binding HourChecked}"
+                                        IsEnabled="{Binding NotificationsEnabled}" />
+                                    <RadioButton
+                                        x:Name="radio_daybefore"
+                                        Grid.Row="5"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Content="{x:Static resx:AppResources.DayBefore}"
+                                        IsChecked="{Binding DayChecked}"
+                                        IsEnabled="{Binding NotificationsEnabled}" />
+                                </Grid>
+                            </tk:Expander>
+                        </Frame>
+                    </sh:Shadows>
+                    <sh:Shadows
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="5"
+                        Margin="7"
+                        CornerRadius="18"
+                        Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                                      Opacity=0.3,
+                                                                      BlurRadius=4,
+                                                                      Color=Black},
+                                                 Light={sh:SingleShade Offset='2,2',
+                                                                       Opacity=0.2,
+                                                                       BlurRadius=3,
+                                                                       Color={StaticResource colorDarkTheme}}}">
+                        <Frame
+                            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}}"
+                            CornerRadius="18"
+                            HasShadow="False">
+                            <tk:Expander>
+                                <tk:Expander.Header>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{x:Static resx:AppResources.Map}" />
+                                </tk:Expander.Header>
+                                <Grid Margin="7" RowDefinitions="70, 300">
+                                    <Entry
+                                        Grid.Row="0"
+                                        Placeholder="{x:Static resx:AppResources.Location}"
+                                        ReturnCommand="{Binding LocationReturnCommand}"
+                                        Text="{Binding Location}"
+                                        TextColor="{AppThemeBinding Dark=White,
+                                                                    Light=Black}" />
+                                    <map:Map
+                                        x:Name="map"
+                                        Grid.Row="1"
+                                        x:FieldModifier="public"
+                                        IsShowingUser="True"
+                                        MapClicked="map_MapClicked" />
+                                </Grid>
+                            </tk:Expander>
+                        </Frame>
+                    </sh:Shadows>
+                </Grid>
+            </ScrollView>
+        </Grid>
+        <sh:Shadows
+            AbsoluteLayout.LayoutBounds=".93,.95,56,56"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            CornerRadius="50"
+            Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
+                                                          Opacity=0.3,
+                                                          BlurRadius=4,
+                                                          Color=Black},
+                                     Light={sh:SingleShade Offset='2,2',
+                                                           Opacity=0.2,
+                                                           BlurRadius=3,
+                                                           Color={StaticResource colorDarkTheme}}}">
+            <Frame
+                x:Name="btn_done"
+                Padding="0"
                 x:FieldModifier="public"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                AbsoluteLayout.LayoutFlags="All" />
-
-            <sh:Shadows
-                AbsoluteLayout.LayoutBounds=".93,.95,56,56"
-                AbsoluteLayout.LayoutFlags="PositionProportional"
+                BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                  Light={StaticResource colorLightTheme}}"
                 CornerRadius="50"
-                Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
-                                                              Opacity=0.3,
-                                                              BlurRadius=4,
-                                                              Color=Black},
-                                         Light={sh:SingleShade Offset='2,2',
-                                                               Opacity=0.2,
-                                                               BlurRadius=3,
-                                                               Color={StaticResource colorDarkTheme}}}">
-                <Frame
-                    Padding="0"
-                    BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
-                                                      Light={StaticResource colorLightTheme}}"
-                    CornerRadius="50"
-                    HasShadow="False">
-                    <Path
-                        Grid.Row="0"
-                        Data="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
-                        Fill="{AppThemeBinding Dark=White,
-                                               Light=Black}"
-                        HorizontalOptions="Center"
-                        InputTransparent="True"
-                        VerticalOptions="Center" />
+                HasShadow="False"
+                IsEnabled="False">
+                <Path
+                    Grid.Row="0"
+                    Data="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+                    Fill="{AppThemeBinding Dark=White,
+                                           Light=Black}"
+                    HorizontalOptions="Center"
+                    InputTransparent="True"
+                    VerticalOptions="Center" />
 
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding FinishCommand}" />
-                    </Frame.GestureRecognizers>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding FinishCommand}" />
+                </Frame.GestureRecognizers>
 
-                    <Frame.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStopCollection>
-                                <GradientStop Offset="0.0" Color="{AppThemeBinding Dark=#252525, Light={StaticResource colorLightTheme}}" />
-                                <GradientStop Offset="1.0" Color="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light=#FAFAFA}" />
-                            </GradientStopCollection>
-                        </LinearGradientBrush>
-                    </Frame.Background>
-                </Frame>
-            </sh:Shadows>
-            <sh:Shadows
-                AbsoluteLayout.LayoutBounds=".93,.85,56,56"
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                CornerRadius="50"
-                Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
-                                                              Opacity=0.3,
-                                                              BlurRadius=4,
-                                                              Color=Black},
-                                         Light={sh:SingleShade Offset='2,2',
-                                                               Opacity=0.2,
-                                                               BlurRadius=3,
-                                                               Color={StaticResource colorDarkTheme}}}">
-                <Frame
-                    Padding="0"
-                    BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
-                                                      Light={StaticResource colorLightTheme}}"
-                    CornerRadius="50"
-                    HasShadow="False">
-                    <Path
-                        Grid.Row="0"
-                        Margin="-2,-2,0,0"
-                        Data="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"
-                        Fill="{AppThemeBinding Dark=White,
-                                               Light=Black}"
-                        HorizontalOptions="Center"
-                        InputTransparent="True"
-                        VerticalOptions="Center" />
-
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding NotificationCommand}" />
-                    </Frame.GestureRecognizers>
-
-                    <Frame.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStopCollection>
-                                <GradientStop Offset="0.0" Color="{AppThemeBinding Dark=#252525, Light={StaticResource colorLightTheme}}" />
-                                <GradientStop Offset="1.0" Color="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light=#FAFAFA}" />
-                            </GradientStopCollection>
-                        </LinearGradientBrush>
-                    </Frame.Background>
-                </Frame>
-            </sh:Shadows>
-        </AbsoluteLayout>
-    </Grid>
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStopCollection>
+                            <GradientStop Offset="0.0" Color="{AppThemeBinding Dark=#252525, Light={StaticResource colorLightTheme}}" />
+                            <GradientStop Offset="1.0" Color="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light=#FAFAFA}" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush>
+                </Frame.Background>
+            </Frame>
+        </sh:Shadows>
+    </AbsoluteLayout>
 </ContentPage>

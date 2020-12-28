@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Hemera.Views.Popups.CategoryPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:resx="clr-namespace:Hemera.Resx">
+    <Grid ColumnDefinitions="20, *, 20" RowDefinitions="*, 190, *">
+        <BoxView
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            BackgroundColor="#AA232323">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AbortCommand}" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+        <Frame
+            Grid.Row="1"
+            Grid.Column="1"
+            Padding="0"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                              Light={StaticResource colorLightTheme}}"
+            CornerRadius="18">
+            <Grid Margin="10" RowDefinitions="120, 70">
+                <CollectionView Grid.Row="0" ItemsSource="{Binding Categories}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton Content="{Binding Name}" IsChecked="{Binding Selected}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button
+                    Grid.Row="1"
+                    BackgroundColor="Transparent"
+                    Command="{Binding DoneCommand}"
+                    HorizontalOptions="End"
+                    Text="{x:Static resx:AppResources.Done}"
+                    TextColor="{StaticResource colorPrimary}"
+                    VerticalOptions="Center" />
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentPage>

@@ -147,8 +147,8 @@
   <data name="DayBefore" xml:space="preserve">
     <value>days before</value>
   </data>
-  <data name="Disable" xml:space="preserve">
-    <value>Disable</value>
+  <data name="EnableNotification" xml:space="preserve">
+    <value>Enable notification</value>
   </data>
   <data name="Done" xml:space="preserve">
     <value>Done</value>
@@ -173,5 +173,11 @@
   </data>
   <data name="SelectedPosition" xml:space="preserve">
     <value>Selected position</value>
+  </data>
+  <data name="Checklist" xml:space="preserve">
+    <value>Checklist</value>
+  </data>
+  <data name="Map" xml:space="preserve">
+    <value>Map</value>
   </data>
 </root>

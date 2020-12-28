@@ -147,9 +147,6 @@
   <data name="DayBefore" xml:space="preserve">
     <value>Tage vorher</value>
   </data>
-  <data name="Disable" xml:space="preserve">
-    <value>Deaktivieren</value>
-  </data>
   <data name="Done" xml:space="preserve">
     <value>Fertig</value>
   </data>
@@ -173,5 +170,14 @@
   </data>
   <data name="SelectedPosition" xml:space="preserve">
     <value>Gewählte Position</value>
+  </data>
+  <data name="Checklist" xml:space="preserve">
+    <value>Checkliste</value>
+  </data>
+  <data name="EnableNotification" xml:space="preserve">
+    <value>Benachrichtigung aktivieren</value>
+  </data>
+  <data name="Map" xml:space="preserve">
+    <value>Karte</value>
   </data>
 </root>

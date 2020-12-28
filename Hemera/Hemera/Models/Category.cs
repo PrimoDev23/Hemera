@@ -9,59 +9,31 @@ namespace Hemera.Models
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Category(Geometry pathData, bool selected, CategoryType type, ContentView view, SolidColorBrush brush)
+        public Category(string name, Geometry pathData, bool selected, CategoryType type, SolidColorBrush brush)
         {
+            Name = name;
             PathData = pathData;
-            this.selected = selected;
+            this.Selected = selected;
             this.type = type;
-            this.view = view;
             this.BadgeBrush = brush;
         }
 
+        public string Name { get; set; }
+
         public Geometry PathData { get; set; }
 
-        private Brush _IconColor;
-
-        public Brush IconColor
+        private bool _Selected;
+        public bool Selected
         {
-            get => _IconColor;
+            get => _Selected;
             set
             {
-                _IconColor = value;
+                _Selected = value;
                 OnPropertyChanged();
-            }
-        }
-
-        private Color _BackColor;
-
-        public Color BackColor
-        {
-            get => _BackColor;
-            set
-            {
-                _BackColor = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool selected
-        {
-            set
-            {
-                if (value)
-                {
-                    IconColor = (Brush)Application.Current.Resources["brushPrimary"];
-                }
-                else
-                {
-                    IconColor = App.Current.RequestedTheme == OSAppTheme.Light ? (Brush)Application.Current.Resources["brushDarkTheme"] : (Brush)Application.Current.Resources["brushLightTheme"];
-                }
             }
         }
 
         public CategoryType type;
-
-        public ContentView view;
 
         public Brush BadgeBrush { get; set; }
 
