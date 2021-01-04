@@ -1,6 +1,8 @@
-﻿using Hemera.Models;
+﻿using Hemera.Interfaces;
+using Hemera.Models;
 using Hemera.Resx;
 using Hemera.ViewModels;
+using System;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -49,7 +51,20 @@ namespace Hemera.Views
 
         private void txt_notificationTime_TextChanged(object sender, TextChangedEventArgs e)
         {
-            viewModel.CheckTimeValid(e);
+            if(!(e.NewTextValue?.Length > 0))
+            {
+                viewModel.NotifyTimeInvalid = true;
+                return;
+            }
+            
+            if (e.NewTextValue.StartsWith("-"))
+            {
+                //Prevent user from entering minus
+                txt_notificationTime.Text = e.OldTextValue;
+                return;
+            }
+
+            viewModel.NotifyTimeInvalid = false;
         }
 
         private void Switch_Toggled(object sender, ToggledEventArgs e)
@@ -57,25 +72,26 @@ namespace Hemera.Views
             //If switch is set to false the entered time doesn't matter
             if (!e.Value)
             {
-                viewModel.timeValid = true;
+                viewModel.NotifyTimeInvalid = false;
             }
-
-            btn_done.IsEnabled = viewModel.timeValid && viewModel.titleValid;
+            else
+            {
+                //It can only be valid or empty here so it doesn't really matter that old and newtext are different
+                txt_notificationTime_TextChanged(txt_notificationTime, new TextChangedEventArgs(txt_notificationTime.Text, txt_notificationTime.Text));
+            }
         }
 
         private void txt_title_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //If title is empty it's invalid
+            //If title isn't empty it's valid
             if (e.NewTextValue?.Length > 0)
             {
-                viewModel.titleValid = true;
+                viewModel.titleInvalid = false;
             }
-            else
+            else //It isn't
             {
-                viewModel.titleValid = false;
+                viewModel.titleInvalid = true;
             }
-
-            btn_done.IsEnabled = viewModel.timeValid && viewModel.titleValid;
         }
 
         private void map_MapClicked(object sender, Xamarin.Forms.Maps.MapClickedEventArgs e)
@@ -88,6 +104,35 @@ namespace Hemera.Views
             });
 
             viewModel.Activity.Position = e.Position;
+        }
+
+        private void switch_dnd_Toggled(object sender, ToggledEventArgs e)
+        {
+            //Check if permission is given
+            if (e.Value && !DependencyService.Get<IDND>().CheckForPermission())
+            {
+                //If Permission is not given ask for it and reset the switch
+                DependencyService.Get<IDND>().AskPermission();
+                viewModel.Activity.DoNotDisturb = false;
+            }
+        }
+
+        private void txt_duration_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!(e.NewTextValue?.Length > 0))
+            {
+                viewModel.DurationInvalid = true;
+                return;
+            }
+
+            if (e.NewTextValue.StartsWith("-"))
+            {
+                //Prevent user from entering minus
+                txt_duration.Text = e.OldTextValue;
+                return;
+            }
+
+            viewModel.DurationInvalid = false;
         }
     }
 }

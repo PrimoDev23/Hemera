@@ -26,11 +26,25 @@ namespace Hemera.Droid.DependencyService
         private int pendingIntentId = 0;
         private NotificationManager manager;
 
-        public void SetupWork(string title, string message, DateTime date, string name)
+        public void SetupNotifyWork(string title, string message, DateTime date, string name)
         {
             var data = new Data.Builder();
+            data.PutString("Type", "Notify");
             data.PutString("Title", title);
             data.PutString("Message", message);
+
+            var work = OneTimeWorkRequest.Builder.From<NotificationWorkManager>()
+                .SetInitialDelay(date.Subtract(DateTime.Now))
+                .SetInputData(data.Build())
+                .Build();
+            
+            WorkManager.Instance.EnqueueUniqueWork(name, ExistingWorkPolicy.Keep, work);
+        }
+
+        public void SetupDNDWork(DateTime date, string name)
+        {
+            var data = new Data.Builder();
+            data.PutString("Type", "DND");
 
             var work = OneTimeWorkRequest.Builder.From<NotificationWorkManager>()
                 .SetInitialDelay(date.Subtract(DateTime.Now))
@@ -63,6 +77,12 @@ namespace Hemera.Droid.DependencyService
 
             Notification notification = builder.Build();
             manager.Notify(messageId++, notification);
+        }
+
+        public void enableDND()
+        {
+            NotificationManager manager = (NotificationManager)AndroidApp.Context.GetSystemService(AndroidApp.NotificationService);
+            manager.SetInterruptionFilter(InterruptionFilter.Priority);
         }
 
         private void CreateNotificationChannel()

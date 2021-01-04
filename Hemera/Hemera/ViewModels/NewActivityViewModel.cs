@@ -60,6 +60,17 @@ namespace Hemera.ViewModels
             }
         }
 
+        private bool _WrongDuration;
+        public bool WrongDuration
+        {
+            get => _WrongDuration;
+            set
+            {
+                _WrongDuration = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion Properties
 
         #region Commands
@@ -107,12 +118,54 @@ namespace Hemera.ViewModels
             }
         }
 
+        private bool _DurMinuteChecked = true;
+        public bool DurMinuteChecked
+        {
+            get => _DurMinuteChecked;
+            set
+            {
+                _DurMinuteChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _DurHourChecked;
+        public bool DurHourChecked
+        {
+            get => _DurHourChecked;
+            set
+            {
+                _DurHourChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion RadioButton
 
         #region ValidProperty
 
-        public bool titleValid = false;
-        public bool timeValid = true;
+        public bool titleInvalid = true;
+        private bool _NotifyTimeInvalid = false;
+        public bool NotifyTimeInvalid
+        {
+            get => _NotifyTimeInvalid;
+            set
+            {
+                _NotifyTimeInvalid = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _DurationInvalid;
+        public bool DurationInvalid
+        {
+            get => _DurationInvalid;
+            set
+            {
+                _DurationInvalid = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion ValidProperty
 
@@ -206,10 +259,41 @@ namespace Hemera.ViewModels
                 CenterUsersLocation();
             }
 
-            //This has to be true since it's a saved activity
-            titleValid = true;
-
             this.page = page;
+
+            //When editing also set back the old notification setup
+            switch (Activity.TimeType)
+            {
+                case TimeType.Minute:
+                    page.txt_notificationTime.Text = Activity.NotificationTime.ToString();
+                    MinuteChecked = true;
+                    break;
+                case TimeType.Hour:
+                    page.txt_notificationTime.Text = Activity.NotificationTime.ToString();
+                    HourChecked = true;
+                    break;
+                case TimeType.Day:
+                    page.txt_notificationTime.Text = Activity.NotificationTime.ToString();
+                    DayChecked = true;
+                    break;
+                case TimeType.Disabled:
+                    NotificationsEnabled = false;
+                    break;
+            }
+
+            page.txt_duration.Text = Activity.Duration.ToString();
+            switch (Activity.DurationType)
+            {
+                case TimeType.Minute:
+                    DurMinuteChecked = true;
+                    break;
+                case TimeType.Hour:
+                    DurHourChecked = false;
+                    break;
+            }
+
+            //This has to be true since it's a saved activity
+            titleInvalid = false;
         }
 
         #endregion Constructors
@@ -322,6 +406,11 @@ namespace Hemera.ViewModels
         //User tapped done button
         private void finished()
         {
+            if(NotifyTimeInvalid || titleInvalid || DurationInvalid)
+            {
+                return;
+            }
+
             //If the last item is empty remove it
             ShoppingItem last = Activity.Checklist[^1];
             if (!(last.ItemName?.Length > 0))
@@ -350,46 +439,17 @@ namespace Hemera.ViewModels
                 {
                     Activity.TimeType = TimeType.Day;
                 }
-                Activity.NotificationTime = uint.Parse(page.txt_notificationTime.Text);
+                Activity.NotificationTime = double.Parse(page.txt_notificationTime.Text);
             }
             else
             {
                 Activity.TimeType = TimeType.Disabled;
             }
 
+            Activity.DurationType = DurMinuteChecked ? TimeType.Minute : TimeType.Hour;
+            Activity.Duration = double.Parse(page.txt_duration.Text);
+
             newActivityCompleted.TrySetResult(Activity);
-        }
-
-        //Check if the time is valid
-        public void CheckTimeValid(TextChangedEventArgs e)
-        {
-            try
-            {
-                //If user cleared the field we show a warning
-                //We can't get in here if type is disabled
-                if (!(e.NewTextValue?.Length > 0))
-                {
-                    page.lbl_timeneeded.IsVisible = true;
-                    timeValid = false;
-                    return;
-                }
-
-                //Instead don't let the user enter invalid values (Text isn't a valid uint)
-                if (!uint.TryParse(e.NewTextValue, out _))
-                {
-                    page.txt_notificationTime.Text = e.OldTextValue;
-                    return;
-                }
-
-                //Valid input
-                timeValid = true;
-                page.lbl_timeneeded.IsVisible = false;
-            }
-            finally
-            {
-                //We need to set button to enabled if both are valid
-                page.btn_done.IsEnabled = timeValid && titleValid;
-            }
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

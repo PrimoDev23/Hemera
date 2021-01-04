@@ -48,7 +48,6 @@ namespace Hemera.Models
         }
 
         private DateTime _Date = DateTime.Now;
-
         public DateTime Date
         {
             get => _Date;
@@ -117,8 +116,8 @@ namespace Hemera.Models
 
         public TimeType TimeType { get; set; } = TimeType.Minute;
 
-        private uint _NotificationTime = 10;
-        public uint NotificationTime
+        private double _NotificationTime = 10;
+        public double NotificationTime
         {
             get => _NotificationTime;
             set
@@ -140,6 +139,50 @@ namespace Hemera.Models
         }
 
         public Position Position;
+
+        private bool _DoNotDisturb;
+        public bool DoNotDisturb
+        {
+            get => _DoNotDisturb;
+            set
+            {
+                _DoNotDisturb = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double _Duration = 60;
+        public double Duration
+        {
+            get => _Duration;
+            set
+            {
+                _Duration = value;
+
+                switch (DurationType)
+                {
+                    case TimeType.Minute:
+                        EndDate = Date.AddMinutes(value);
+                        break;
+                    case TimeType.Hour:
+                        EndDate.AddHours(value);
+                        break;
+                }
+            }
+        }
+
+        public TimeType DurationType;
+
+        private DateTime _EndDate = DateTime.Now.AddMinutes(60);
+        public DateTime EndDate
+        {
+            get => _EndDate;
+            set
+            {
+                _EndDate = value;
+                OnPropertyChanged();
+            }
+        }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

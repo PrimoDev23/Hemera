@@ -4,7 +4,8 @@ namespace Hemera.Interfaces
 {
     public interface INotificationManager
     {
-        void SetupWork(string title, string message, DateTime date, string name);
+        void SetupNotifyWork(string title, string message, DateTime date, string name);
+        void SetupDNDWork(DateTime date, string name);
         void CancelWork(string name);
     }
 }

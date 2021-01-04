@@ -66,7 +66,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Grid.ColumnSpan="5">
-                <Grid ColumnDefinitions="30, AUTO, *, 30, AUTO" RowDefinitions="70, AUTO, AUTO, AUTO, AUTO, *">
+                <Grid ColumnDefinitions="30, AUTO, *, 30, AUTO" RowDefinitions="70, AUTO, AUTO, AUTO, AUTO, AUTO, *">
                     <Image
                         Grid.Row="0"
                         Grid.Column="0"
@@ -124,6 +124,58 @@
                             BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}}"
                             CornerRadius="18"
                             HasShadow="False">
+                            <Grid RowDefinitions="30, 70, 20, 50, 50">
+                                <Label
+                                    Grid.Row="0"
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    Text="{x:Static resx:AppResources.Duration}" />
+                                <Entry
+                                    x:Name="txt_duration"
+                                    Grid.Row="1"
+                                    x:FieldModifier="public"
+                                    Keyboard="Numeric"
+                                    Placeholder="{x:Static resx:AppResources.Duration}"
+                                    Text="60"
+                                    TextChanged="txt_duration_TextChanged"
+                                    TextColor="{AppThemeBinding Dark=White,
+                                                                Light=Black}" />
+                                <Label
+                                    Grid.Row="2"
+                                    IsVisible="{Binding DurationInvalid}"
+                                    Text="{x:Static resx:AppResources.TimeNeeded}"
+                                    TextColor="Red" />
+                                <RadioButton
+                                    Grid.Row="3"
+                                    Content="{x:Static resx:AppResources.Minutes}"
+                                    GroupName="duration"
+                                    IsChecked="{Binding DurMinuteChecked}" />
+                                <RadioButton
+                                    Grid.Row="4"
+                                    Content="{x:Static resx:AppResources.Hours}"
+                                    GroupName="duration"
+                                    IsChecked="{Binding DurHourChecked}" />
+                            </Grid>
+                        </Frame>
+                    </sh:Shadows>
+                    <sh:Shadows
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="5"
+                        Margin="7"
+                        CornerRadius="18"
+                        Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                                      Opacity=0.3,
+                                                                      BlurRadius=4,
+                                                                      Color=Black},
+                                                 Light={sh:SingleShade Offset='2,2',
+                                                                       Opacity=0.2,
+                                                                       BlurRadius=3,
+                                                                       Color={StaticResource colorDarkTheme}}}">
+                        <Frame
+                            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}}"
+                            CornerRadius="18"
+                            HasShadow="False">
                             <tk:Expander>
                                 <tk:Expander.Header>
                                     <Label
@@ -139,7 +191,7 @@
                         </Frame>
                     </sh:Shadows>
                     <sh:Shadows
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="0"
                         Grid.ColumnSpan="5"
                         Margin="7"
@@ -207,7 +259,7 @@
                         </Frame>
                     </sh:Shadows>
                     <sh:Shadows
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="0"
                         Grid.ColumnSpan="5"
                         Margin="7"
@@ -252,6 +304,7 @@
                                         Grid.ColumnSpan="2"
                                         x:FieldModifier="public"
                                         IsEnabled="{Binding NotificationsEnabled}"
+                                        Keyboard="Numeric"
                                         Placeholder="{x:Static resx:AppResources.Time}"
                                         Text="10"
                                         TextChanged="txt_notificationTime_TextChanged"
@@ -259,12 +312,10 @@
                                                                     Light=Black}"
                                         Visual="Material" />
                                     <Label
-                                        x:Name="lbl_timeneeded"
                                         Grid.Row="2"
                                         Grid.Column="0"
                                         Grid.ColumnSpan="2"
-                                        x:FieldModifier="public"
-                                        IsVisible="False"
+                                        IsVisible="{Binding NotifyTimeInvalid}"
                                         Text="{x:Static resx:AppResources.TimeNeeded}"
                                         TextColor="Red" />
                                     <RadioButton
@@ -272,22 +323,23 @@
                                         Grid.Column="0"
                                         Grid.ColumnSpan="2"
                                         Content="{x:Static resx:AppResources.MinuteBefore}"
+                                        GroupName="Notify"
                                         IsChecked="{Binding MinuteChecked}"
                                         IsEnabled="{Binding NotificationsEnabled}" />
                                     <RadioButton
-                                        x:Name="radio_hourbefore"
                                         Grid.Row="4"
                                         Grid.Column="0"
                                         Grid.ColumnSpan="2"
                                         Content="{x:Static resx:AppResources.HourBefore}"
+                                        GroupName="Notify"
                                         IsChecked="{Binding HourChecked}"
                                         IsEnabled="{Binding NotificationsEnabled}" />
                                     <RadioButton
-                                        x:Name="radio_daybefore"
                                         Grid.Row="5"
                                         Grid.Column="0"
                                         Grid.ColumnSpan="2"
                                         Content="{x:Static resx:AppResources.DayBefore}"
+                                        GroupName="Notify"
                                         IsChecked="{Binding DayChecked}"
                                         IsEnabled="{Binding NotificationsEnabled}" />
                                 </Grid>
@@ -295,7 +347,7 @@
                         </Frame>
                     </sh:Shadows>
                     <sh:Shadows
-                        Grid.Row="4"
+                        Grid.Row="5"
                         Grid.Column="0"
                         Grid.ColumnSpan="5"
                         Margin="7"
@@ -337,6 +389,42 @@
                             </tk:Expander>
                         </Frame>
                     </sh:Shadows>
+                    <sh:Shadows
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="5"
+                        Margin="7"
+                        CornerRadius="18"
+                        Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                                      Opacity=0.3,
+                                                                      BlurRadius=4,
+                                                                      Color=Black},
+                                                 Light={sh:SingleShade Offset='2,2',
+                                                                       Opacity=0.2,
+                                                                       BlurRadius=3,
+                                                                       Color={StaticResource colorDarkTheme}}}">
+                        <Frame
+                            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}}"
+                            CornerRadius="18"
+                            HasShadow="False">
+                            <tk:Expander>
+                                <tk:Expander.Header>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{x:Static resx:AppResources.GeneralSettings}" />
+                                </tk:Expander.Header>
+                                <Grid Margin="7" ColumnDefinitions="50, *">
+                                    <Switch
+                                        x:Name="switch_dnd"
+                                        Grid.Column="0"
+                                        IsToggled="{Binding Activity.DoNotDisturb}"
+                                        Toggled="switch_dnd_Toggled" />
+                                    <Label Grid.Column="1" Text="{x:Static resx:AppResources.EnableDND}" />
+                                </Grid>
+                            </tk:Expander>
+                        </Frame>
+                    </sh:Shadows>
                 </Grid>
             </ScrollView>
         </Grid>
@@ -359,8 +447,7 @@
                 BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                                   Light={StaticResource colorLightTheme}}"
                 CornerRadius="50"
-                HasShadow="False"
-                IsEnabled="False">
+                HasShadow="False">
                 <Path
                     Grid.Row="0"
                     Data="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"

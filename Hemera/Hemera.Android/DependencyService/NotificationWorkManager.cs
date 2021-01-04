@@ -20,8 +20,18 @@ namespace Hemera.Droid.DependencyService
             try
             {
                 AndroidNotificationManager manager = new AndroidNotificationManager();
-                manager.Show(InputData.GetString("Title"), InputData.GetString("Message"));
-                return Result.InvokeSuccess();
+
+                //Notification
+                if (InputData.GetString("Type") == "Notify")
+                {
+                    manager.Show(InputData.GetString("Title"), InputData.GetString("Message"));
+                    return Result.InvokeSuccess();
+                }
+                else //DND
+                {
+                    manager.enableDND();
+                    return Result.InvokeSuccess();
+                }
             }catch
             {
                 return Result.InvokeFailure();

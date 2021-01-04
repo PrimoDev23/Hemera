@@ -119,7 +119,12 @@ namespace Hemera.ViewModels
                 //Set the notification
                 if (res.TimeType != TimeType.Disabled && DateTime.Compare(res.NotificationDateTime, DateTime.Now) > 0)
                 {
-                    DependencyService.Get<INotificationManager>().SetupWork($"{AppResources.PlanedActivity} {res.Date.ToString("t")}", res.Title, res.NotificationDateTime, $"{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
+                    DependencyService.Get<INotificationManager>().SetupNotifyWork($"{AppResources.PlanedActivity} {res.Date.ToString("t")}", res.Title, res.NotificationDateTime, $"Notify|{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
+                }
+
+                if (res.DoNotDisturb)
+                {
+                    DependencyService.Get<INotificationManager>().SetupDNDWork(res.Date, $"DND|{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
                 }
             }
         }
@@ -136,7 +141,8 @@ namespace Hemera.ViewModels
 
         private async void deleteActivity(Activity activity)
         {
-            DependencyService.Get<INotificationManager>().CancelWork($"{activity.Title}|{activity.Date.ToString("yyyyMMddmmhh")}|{activity.CategoryType.ToString()}");
+            DependencyService.Get<INotificationManager>().CancelWork($"Notify|{activity.Title}|{activity.Date.ToString("yyyyMMddmmhh")}|{activity.CategoryType.ToString()}");
+            DependencyService.Get<INotificationManager>().CancelWork($"DND|{activity.Title}|{activity.Date.ToString("yyyyMMddmmhh")}|{activity.CategoryType.ToString()}");
             allActivities.Remove(activity);
 
             void orderAndSave()
@@ -161,7 +167,9 @@ namespace Hemera.ViewModels
                 Time = activity.Time,
                 TimeType = activity.TimeType,
                 NotificationTime = activity.NotificationTime,
-                Position = activity.Position
+                Position = activity.Position,
+                DurationType = activity.DurationType,
+                Duration = activity.Duration
             };
 
             //Open a new popup by using the clone
@@ -187,7 +195,12 @@ namespace Hemera.ViewModels
                 //Set the notification
                 if (res.TimeType != TimeType.Disabled && DateTime.Compare(res.NotificationDateTime, DateTime.Now) > 0)
                 {
-                    DependencyService.Get<INotificationManager>().SetupWork($"{AppResources.PlanedActivity} {res.Date.ToString("t")}", res.Title, res.NotificationDateTime, $"{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
+                    DependencyService.Get<INotificationManager>().SetupNotifyWork($"{AppResources.PlanedActivity} {res.Date.ToString("t")}", res.Title, res.NotificationDateTime, $"Notify|{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
+                }
+
+                if (res.DoNotDisturb)
+                {
+                    DependencyService.Get<INotificationManager>().SetupDNDWork(res.Date, $"DND|{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
                 }
             }
         }
