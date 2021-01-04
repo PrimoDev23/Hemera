@@ -180,4 +180,7 @@
   <data name="Map" xml:space="preserve">
     <value>Karte</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
 </root>

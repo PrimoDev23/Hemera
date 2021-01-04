@@ -24,6 +24,14 @@ namespace Hemera.Views
             BindingContext = viewModel;
         }
 
+        public NewActivityPopup(Activity activity)
+        {
+            InitializeComponent();
+
+            viewModel = new NewActivityViewModel(this, activity);
+            BindingContext = viewModel;
+        }
+
         public Task<Activity> waitForFinish()
         {
             //Return the TaskCompletitionSource so we can await it

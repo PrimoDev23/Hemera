@@ -127,6 +127,14 @@
                                             Text="{x:Static resx:AppResources.Delete}" />
                                     </SwipeItems>
                                 </SwipeView.RightItems>
+                                <SwipeView.LeftItems>
+                                    <SwipeItems Mode="Execute">
+                                        <SwipeItem
+                                            Command="{Binding Path=BindingContext.EditCommand, Source={x:Reference self}}"
+                                            CommandParameter="{Binding .}"
+                                            Text="{x:Static resx:AppResources.Edit}" />
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
                                 <sh:Shadows CornerRadius="20" Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,0.6', BlurRadius=2.1, Opacity=0.7, Color=#111111}, Light={sh:SingleShade Offset='0,0.5', BlurRadius=2, Opacity=0.2, Color=#232323}}">
                                     <Frame
                                         Margin="5"

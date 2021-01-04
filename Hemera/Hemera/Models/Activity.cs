@@ -36,14 +36,14 @@ namespace Hemera.Models
             }
         }
 
-        private readonly TimeSpan _Time = DateTime.Now.TimeOfDay;
-
+        private TimeSpan _Time = DateTime.Now.TimeOfDay;
         public TimeSpan Time
         {
             get => _Time;
             set
             {
                 Date = new DateTime(Date.Year, Date.Month, Date.Day, value.Hours, value.Minutes, 0);
+                _Time = value;
             }
         }
 

@@ -21,6 +21,7 @@ namespace Hemera.ViewModels
         public Command CreateNewCommand { get; set; }
         public Command BackCommand { get; set; }
         public Command ForwardCommand { get; set; }
+        public Command<Activity> EditCommand { get; set; }
         public Command<Activity> DeleteCommand { get; set; }
 
         private DateTime _CurrentDate = DateTime.Now;
@@ -65,6 +66,7 @@ namespace Hemera.ViewModels
             BackCommand = new Command(new Action(dayBack));
             ForwardCommand = new Command(new Action(dayForward));
             DeleteCommand = new Command<Activity>(new Action<Activity>(deleteActivity));
+            EditCommand = new Command<Activity>(new Action<Activity>(editActivity));
 
             void load()
             {
@@ -107,12 +109,14 @@ namespace Hemera.ViewModels
             {
                 await page.Navigation.PopModalAsync().ConfigureAwait(false);
 
+                //Add the new activity to list
                 allActivities.Add(res);
 
                 //Save the newly added activity
                 await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
                 await Task.Run(new Action(Order)).ConfigureAwait(false);
 
+                //Set the notification
                 if (res.TimeType != TimeType.Disabled && DateTime.Compare(res.NotificationDateTime, DateTime.Now) > 0)
                 {
                     DependencyService.Get<INotificationManager>().SetupWork($"{AppResources.PlanedActivity} {res.Date.ToString("t")}", res.Title, res.NotificationDateTime, $"{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
@@ -141,6 +145,51 @@ namespace Hemera.ViewModels
                 FileHelper.saveActivities(allActivities);
             }
             await Task.Run(new Action(orderAndSave)).ConfigureAwait(false);
+        }
+
+        //Edit activity
+        private async void editActivity(Activity activity)
+        {
+            //Clone the selected activity
+            Activity clone = new Activity()
+            {
+                Title = activity.Title,
+                CategoryType = activity.CategoryType,
+                Checklist = activity.Checklist,
+                Date = activity.Date,
+                Notes = activity.Notes,
+                Time = activity.Time,
+                TimeType = activity.TimeType,
+                NotificationTime = activity.NotificationTime,
+                Position = activity.Position
+            };
+
+            //Open a new popup by using the clone
+            NewActivityPopup popup = new NewActivityPopup(clone);
+            await page.Navigation.PushModalAsync(popup, true).ConfigureAwait(false);
+            Activity res = await popup.waitForFinish().ConfigureAwait(false);
+
+            //User finished popup
+            if (res != null)
+            {
+                //Delete the original activity
+                deleteActivity(activity);
+
+                await page.Navigation.PopModalAsync().ConfigureAwait(false);
+
+                //Add the new activity to list
+                allActivities.Add(res);
+
+                //Save the edited activity
+                await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
+                await Task.Run(new Action(Order)).ConfigureAwait(false);
+
+                //Set the notification
+                if (res.TimeType != TimeType.Disabled && DateTime.Compare(res.NotificationDateTime, DateTime.Now) > 0)
+                {
+                    DependencyService.Get<INotificationManager>().SetupWork($"{AppResources.PlanedActivity} {res.Date.ToString("t")}", res.Title, res.NotificationDateTime, $"{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
+                }
+            }
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
