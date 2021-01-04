@@ -28,7 +28,7 @@ namespace Hemera.Controls
             {
                 //This somehow fixes issues that control can't get focused
                 await Task.Delay(200);
-                bool res = ((FocusEntry)bindable).Focus();
+                ((FocusEntry)bindable).Focus();
             }
         }
 

@@ -37,8 +37,10 @@ namespace Hemera.Droid.DependencyService
                 .SetInitialDelay(date.Subtract(DateTime.Now))
                 .SetInputData(data.Build())
                 .Build();
-            
-            WorkManager.Instance.EnqueueUniqueWork(name, ExistingWorkPolicy.Keep, work);
+
+            WorkManager.GetInstance(AndroidApp.Context).EnqueueUniqueWork(name, ExistingWorkPolicy.Keep, work);
+
+            //WorkManager.Instance.EnqueueUniqueWork(name, ExistingWorkPolicy.Keep, work);
         }
 
         public void SetupDNDWork(DateTime date, string name)
@@ -50,8 +52,8 @@ namespace Hemera.Droid.DependencyService
                 .SetInitialDelay(date.Subtract(DateTime.Now))
                 .SetInputData(data.Build())
                 .Build();
-            
-            WorkManager.Instance.EnqueueUniqueWork(name, ExistingWorkPolicy.Keep, work);
+
+            WorkManager.GetInstance(AndroidApp.Context).EnqueueUniqueWork(name, ExistingWorkPolicy.Keep, work);
         }
 
         public void Show(string title, string message)
@@ -79,7 +81,7 @@ namespace Hemera.Droid.DependencyService
             manager.Notify(messageId++, notification);
         }
 
-        public void enableDND()
+        public static void EnableDND()
         {
             NotificationManager manager = (NotificationManager)AndroidApp.Context.GetSystemService(AndroidApp.NotificationService);
             manager.SetInterruptionFilter(InterruptionFilter.Priority);
@@ -104,7 +106,7 @@ namespace Hemera.Droid.DependencyService
 
         public void CancelWork(string name)
         {
-            WorkManager.Instance.CancelUniqueWork(name);
+            WorkManager.GetInstance(AndroidApp.Context).CancelUniqueWork(name);
         }
     }
 }
