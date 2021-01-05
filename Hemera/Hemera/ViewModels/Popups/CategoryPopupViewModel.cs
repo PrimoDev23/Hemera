@@ -58,7 +58,7 @@ namespace Hemera.ViewModels.Popups
             //Prevents changing the selected radiobutton on abort
             for (int i = 0; i < Categories.Count; i++)
             {
-                if(i == selectedCategoryIndex)
+                if (i == selectedCategoryIndex)
                 {
                     Categories[i].Selected = true;
                 }

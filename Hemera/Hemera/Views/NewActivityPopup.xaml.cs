@@ -2,7 +2,6 @@
 using Hemera.Models;
 using Hemera.Resx;
 using Hemera.ViewModels;
-using System;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -51,12 +50,12 @@ namespace Hemera.Views
 
         private void txt_notificationTime_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(!(e.NewTextValue?.Length > 0))
+            if (!(e.NewTextValue?.Length > 0))
             {
                 viewModel.NotifyTimeInvalid = true;
                 return;
             }
-            
+
             if (e.NewTextValue.StartsWith("-"))
             {
                 //Prevent user from entering minus

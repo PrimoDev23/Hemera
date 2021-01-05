@@ -21,8 +21,7 @@ namespace Hemera.ViewModels
         public Command CreateNewCommand { get; set; }
         public Command BackCommand { get; set; }
         public Command ForwardCommand { get; set; }
-        public Command<Activity> EditCommand { get; set; }
-        public Command<Activity> DeleteCommand { get; set; }
+        public Command<Activity> TappedCommand { get; set; }
 
         private DateTime _CurrentDate = DateTime.Now;
 
@@ -65,8 +64,7 @@ namespace Hemera.ViewModels
             CreateNewCommand = new Command(new Action(createNewActivity));
             BackCommand = new Command(new Action(dayBack));
             ForwardCommand = new Command(new Action(dayForward));
-            DeleteCommand = new Command<Activity>(new Action<Activity>(deleteActivity));
-            EditCommand = new Command<Activity>(new Action<Activity>(editActivity));
+            TappedCommand = new Command<Activity>(new Action<Activity>(activityTapped));
 
             void load()
             {
@@ -117,7 +115,7 @@ namespace Hemera.ViewModels
                 await Task.Run(new Action(Order)).ConfigureAwait(false);
 
                 //Set the notification
-                if (res.TimeType != TimeType.Disabled && DateTime.Compare(res.NotificationDateTime, DateTime.Now) > 0)
+                if (res.NotificationTimeType != TimeType.Disabled && DateTime.Compare(res.NotificationDateTime, DateTime.Now) > 0)
                 {
                     DependencyService.Get<INotificationManager>().SetupNotifyWork($"{AppResources.PlanedActivity} {res.Date.ToString("t")}", res.Title, res.NotificationDateTime, $"Notify|{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
                 }
@@ -139,7 +137,24 @@ namespace Hemera.ViewModels
                                                                   select act);
         }
 
-        private async void deleteActivity(Activity activity)
+        private async void activityTapped(Activity activity)
+        {
+            string res = await page.DisplayActionSheet(AppResources.ChooseOperation, null, null, AppResources.Delete, AppResources.Edit).ConfigureAwait(false);
+
+            if (res != null)
+            {
+                if (res == AppResources.Delete)
+                {
+                    await deleteActivity(activity).ConfigureAwait(false);
+                }
+                else if (res == AppResources.Edit)
+                {
+                    await editActivity(activity).ConfigureAwait(false);
+                }
+            }
+        }
+
+        private async Task deleteActivity(Activity activity)
         {
             DependencyService.Get<INotificationManager>().CancelWork($"Notify|{activity.Title}|{activity.Date.ToString("yyyyMMddmmhh")}|{activity.CategoryType.ToString()}");
             DependencyService.Get<INotificationManager>().CancelWork($"DND|{activity.Title}|{activity.Date.ToString("yyyyMMddmmhh")}|{activity.CategoryType.ToString()}");
@@ -154,7 +169,7 @@ namespace Hemera.ViewModels
         }
 
         //Edit activity
-        private async void editActivity(Activity activity)
+        private async Task editActivity(Activity activity)
         {
             //Clone the selected activity
             Activity clone = new Activity()
@@ -165,7 +180,7 @@ namespace Hemera.ViewModels
                 Date = activity.Date,
                 Notes = activity.Notes,
                 Time = activity.Time,
-                TimeType = activity.TimeType,
+                NotificationTimeType = activity.NotificationTimeType,
                 NotificationTime = activity.NotificationTime,
                 Position = activity.Position,
                 DurationType = activity.DurationType,
@@ -193,7 +208,7 @@ namespace Hemera.ViewModels
                 await Task.Run(new Action(Order)).ConfigureAwait(false);
 
                 //Set the notification
-                if (res.TimeType != TimeType.Disabled && DateTime.Compare(res.NotificationDateTime, DateTime.Now) > 0)
+                if (res.NotificationTimeType != TimeType.Disabled && DateTime.Compare(res.NotificationDateTime, DateTime.Now) > 0)
                 {
                     DependencyService.Get<INotificationManager>().SetupNotifyWork($"{AppResources.PlanedActivity} {res.Date.ToString("t")}", res.Title, res.NotificationDateTime, $"Notify|{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
                 }

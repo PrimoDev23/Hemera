@@ -114,7 +114,7 @@ namespace Hemera.Models
 
         public DateTime NotificationDateTime { get; set; }
 
-        public TimeType TimeType { get; set; } = TimeType.Minute;
+        public TimeType NotificationTimeType { get; set; }
 
         private double _NotificationTime = 10;
         public double NotificationTime
@@ -122,7 +122,7 @@ namespace Hemera.Models
             get => _NotificationTime;
             set
             {
-                switch (TimeType)
+                switch (NotificationTimeType)
                 {
                     case TimeType.Minute:
                         NotificationDateTime = Date.AddMinutes(-value);
@@ -151,6 +151,8 @@ namespace Hemera.Models
             }
         }
 
+        public TimeType DurationType;
+
         private double _Duration = 60;
         public double Duration
         {
@@ -159,21 +161,16 @@ namespace Hemera.Models
             {
                 _Duration = value;
 
-                switch (DurationType)
+                EndDate = DurationType switch
                 {
-                    case TimeType.Minute:
-                        EndDate = Date.AddMinutes(value);
-                        break;
-                    case TimeType.Hour:
-                        EndDate.AddHours(value);
-                        break;
-                }
+                    TimeType.Minute => Date.AddMinutes(value),
+                    TimeType.Hour => Date.AddHours(value),
+                };
             }
         }
 
-        public TimeType DurationType;
-
         private DateTime _EndDate = DateTime.Now.AddMinutes(60);
+        [XmlIgnore]
         public DateTime EndDate
         {
             get => _EndDate;

@@ -30,7 +30,8 @@ namespace Hemera.Droid.DependencyService
                     AndroidNotificationManager.EnableDND();
                     return Result.InvokeSuccess();
                 }
-            }catch
+            }
+            catch
             {
                 return Result.InvokeFailure();
             }

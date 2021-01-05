@@ -70,6 +70,15 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose an operation.
+        /// </summary>
+        public static string ChooseOperation {
+            get {
+                return ResourceManager.GetString("ChooseOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to days before.
         /// </summary>
         public static string DayBefore {

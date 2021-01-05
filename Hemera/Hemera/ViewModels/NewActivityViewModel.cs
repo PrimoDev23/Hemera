@@ -262,7 +262,7 @@ namespace Hemera.ViewModels
             this.page = page;
 
             //When editing also set back the old notification setup
-            switch (Activity.TimeType)
+            switch (Activity.NotificationTimeType)
             {
                 case TimeType.Minute:
                     page.txt_notificationTime.Text = Activity.NotificationTime.ToString();
@@ -406,7 +406,7 @@ namespace Hemera.ViewModels
         //User tapped done button
         private void finished()
         {
-            if(NotifyTimeInvalid || titleInvalid || DurationInvalid)
+            if (NotifyTimeInvalid || titleInvalid || DurationInvalid)
             {
                 return;
             }
@@ -429,21 +429,21 @@ namespace Hemera.ViewModels
             {
                 if (MinuteChecked)
                 {
-                    Activity.TimeType = TimeType.Minute;
+                    Activity.NotificationTimeType = TimeType.Minute;
                 }
                 else if (HourChecked)
                 {
-                    Activity.TimeType = TimeType.Hour;
+                    Activity.NotificationTimeType = TimeType.Hour;
                 }
                 else if (DayChecked)
                 {
-                    Activity.TimeType = TimeType.Day;
+                    Activity.NotificationTimeType = TimeType.Day;
                 }
                 Activity.NotificationTime = double.Parse(page.txt_notificationTime.Text);
             }
             else
             {
-                Activity.TimeType = TimeType.Disabled;
+                Activity.NotificationTimeType = TimeType.Disabled;
             }
 
             Activity.DurationType = DurMinuteChecked ? TimeType.Minute : TimeType.Hour;

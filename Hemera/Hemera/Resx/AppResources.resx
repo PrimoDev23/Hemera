@@ -198,4 +198,7 @@
   <data name="Minutes" xml:space="preserve">
     <value>Minutes</value>
   </data>
+  <data name="ChooseOperation" xml:space="preserve">
+    <value>Choose an operation</value>
+  </data>
 </root>
