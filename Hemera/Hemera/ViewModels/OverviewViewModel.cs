@@ -4,6 +4,7 @@ using Hemera.Models;
 using Hemera.Resx;
 using Hemera.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -137,9 +138,26 @@ namespace Hemera.ViewModels
                                                                   select act);
         }
 
+        #region Buttons
+
+        string[] noneButtons = new string[] { AppResources.Delete, AppResources.Edit, AppResources.MarkAsDone, AppResources.MarkAsMissed };
+        string[] doneButtons = new string[] { AppResources.ResetStatus, AppResources.MarkAsMissed };
+        string[] missedButtons = new string[] { AppResources.ResetStatus, AppResources.MarkAsDone };
+
+        #endregion Buttons
+
         private async void activityTapped(Activity activity)
         {
-            string res = await page.DisplayActionSheet(AppResources.ChooseOperation, null, null, AppResources.Delete, AppResources.Edit).ConfigureAwait(false);
+            string[] buttons;
+
+            buttons = activity.Status switch
+            {
+                ActivityStatus.None => noneButtons,
+                ActivityStatus.Done => doneButtons,
+                ActivityStatus.Missed => missedButtons,
+            };
+
+            string res = await page.DisplayActionSheet(AppResources.ChooseOperation, null, null, buttons).ConfigureAwait(false);
 
             if (res != null)
             {
@@ -150,6 +168,21 @@ namespace Hemera.ViewModels
                 else if (res == AppResources.Edit)
                 {
                     await editActivity(activity).ConfigureAwait(false);
+                }
+                else if (res == AppResources.ResetStatus)
+                {
+                    activity.Status = ActivityStatus.None;
+                    await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
+                }
+                else if (res == AppResources.MarkAsDone)
+                {
+                    activity.Status = ActivityStatus.Done;
+                    await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
+                }
+                else if (res == AppResources.MarkAsMissed)
+                {
+                    activity.Status = ActivityStatus.Missed;
+                    await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
                 }
             }
         }
@@ -163,9 +196,9 @@ namespace Hemera.ViewModels
             void orderAndSave()
             {
                 Order();
-                FileHelper.saveActivities(allActivities);
             }
             await Task.Run(new Action(orderAndSave)).ConfigureAwait(false);
+            await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
         }
 
         //Edit activity
@@ -179,7 +212,7 @@ namespace Hemera.ViewModels
                 Checklist = activity.Checklist,
                 Date = activity.Date,
                 Notes = activity.Notes,
-                Time = activity.Time,
+                Time = activity.Date.TimeOfDay,
                 NotificationTimeType = activity.NotificationTimeType,
                 NotificationTime = activity.NotificationTime,
                 Position = activity.Position,
@@ -189,7 +222,12 @@ namespace Hemera.ViewModels
 
             //Open a new popup by using the clone
             NewActivityPopup popup = new NewActivityPopup(clone);
-            await page.Navigation.PushModalAsync(popup, true).ConfigureAwait(false);
+
+            void push()
+            {
+                page.Navigation.PushModalAsync(popup, true);
+            }
+            await Device.InvokeOnMainThreadAsync(new Action(push)).ConfigureAwait(false);
             Activity res = await popup.waitForFinish().ConfigureAwait(false);
 
             //User finished popup

@@ -50,6 +50,11 @@ namespace Hemera.Views
 
         private void txt_notificationTime_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if(viewModel == null)
+            {
+                return;
+            }
+
             if (!(e.NewTextValue?.Length > 0))
             {
                 viewModel.NotifyTimeInvalid = true;
@@ -68,6 +73,11 @@ namespace Hemera.Views
 
         private void Switch_Toggled(object sender, ToggledEventArgs e)
         {
+            if (viewModel == null)
+            {
+                return;
+            }
+
             //If switch is set to false the entered time doesn't matter
             if (!e.Value)
             {
@@ -82,6 +92,11 @@ namespace Hemera.Views
 
         private void txt_title_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (viewModel == null)
+            {
+                return;
+            }
+
             //If title isn't empty it's valid
             if (e.NewTextValue?.Length > 0)
             {
@@ -118,6 +133,11 @@ namespace Hemera.Views
 
         private void txt_duration_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (viewModel == null)
+            {
+                return;
+            }
+
             if (!(e.NewTextValue?.Length > 0))
             {
                 viewModel.DurationInvalid = true;

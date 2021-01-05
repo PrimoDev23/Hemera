@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
+using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 namespace Hemera.Models
@@ -44,6 +45,8 @@ namespace Hemera.Models
             {
                 Date = new DateTime(Date.Year, Date.Month, Date.Day, value.Hours, value.Minutes, 0);
                 _Time = value;
+
+                OnPropertyChanged();
             }
         }
 
@@ -181,10 +184,46 @@ namespace Hemera.Models
             }
         }
 
+        private ActivityStatus _Status;
+        public ActivityStatus Status
+        {
+            get => _Status;
+            set
+            {
+                _Status = value;
+
+                BorderColor = value switch
+                {
+                    ActivityStatus.None => Color.Transparent,
+                    ActivityStatus.Done => (Color)Application.Current.Resources["colorPrimary"],
+                    ActivityStatus.Missed => Color.Red,
+                };
+            }
+        }
+
+        private Color _BorderColor = Color.Transparent;
+        [XmlIgnore]
+        public Color BorderColor
+        {
+            get => _BorderColor;
+            set
+            {
+                _BorderColor = value;
+                OnPropertyChanged();
+            }
+        }
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+    public enum ActivityStatus : byte
+    {
+        None = 0,
+        Done = 1,
+        Missed = 2
     }
 
     public enum TimeType : byte

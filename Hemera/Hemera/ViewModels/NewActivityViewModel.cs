@@ -250,7 +250,7 @@ namespace Hemera.ViewModels
             newActivityCompleted = new TaskCompletionSource<Activity>();
 
             //If Position is selected center on it
-            if (activity.Position == default)
+            if (activity.Position != default)
             {
                 CenterSelectedLocation(activity.Position);
             }
@@ -288,12 +288,14 @@ namespace Hemera.ViewModels
                     DurMinuteChecked = true;
                     break;
                 case TimeType.Hour:
-                    DurHourChecked = false;
+                    DurHourChecked = true;
                     break;
             }
 
             //This has to be true since it's a saved activity
             titleInvalid = false;
+            NotifyTimeInvalid = false;
+            DurationInvalid = false;
         }
 
         #endregion Constructors
@@ -336,6 +338,7 @@ namespace Hemera.ViewModels
         {
             try
             {
+                //Get the users location
                 var position = await Geolocation.GetLocationAsync().ConfigureAwait(false);
 
                 void UI()

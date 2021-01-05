@@ -196,6 +196,24 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mark as done.
+        /// </summary>
+        public static string MarkAsDone {
+            get {
+                return ResourceManager.GetString("MarkAsDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark as missed.
+        /// </summary>
+        public static string MarkAsMissed {
+            get {
+                return ResourceManager.GetString("MarkAsMissed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meeting.
         /// </summary>
         public static string Meeting {
@@ -246,6 +264,15 @@ namespace Hemera.Resx {
         public static string PlanedActivity {
             get {
                 return ResourceManager.GetString("PlanedActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset status.
+        /// </summary>
+        public static string ResetStatus {
+            get {
+                return ResourceManager.GetString("ResetStatus", resourceCulture);
             }
         }
         

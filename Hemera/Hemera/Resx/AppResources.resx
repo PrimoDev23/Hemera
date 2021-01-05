@@ -201,4 +201,13 @@
   <data name="ChooseOperation" xml:space="preserve">
     <value>Choose an operation</value>
   </data>
+  <data name="MarkAsDone" xml:space="preserve">
+    <value>Mark as done</value>
+  </data>
+  <data name="MarkAsMissed" xml:space="preserve">
+    <value>Mark as missed</value>
+  </data>
+  <data name="ResetStatus" xml:space="preserve">
+    <value>Reset status</value>
+  </data>
 </root>
