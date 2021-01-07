@@ -36,18 +36,42 @@
                     </LinearGradientBrush>
                 </Path.Fill>
             </Path>
-            <Path
+            <sh:Shadows
                 Grid.Row="0"
-                Margin="0,0,0,10"
-                Data="{Binding CurrentCategory.PathData}"
-                Fill="{AppThemeBinding Dark=White,
-                                       Light=Black}"
+                Margin="0,0,0,-15"
+                CornerRadius="50"
+                HeightRequest="56"
                 HorizontalOptions="Center"
-                VerticalOptions="End">
-                <Path.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding SelectCategoryCommand}" />
-                </Path.GestureRecognizers>
-            </Path>
+                Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
+                                                              Opacity=0.3,
+                                                              BlurRadius=4,
+                                                              Color=Black},
+                                         Light={sh:SingleShade Offset='2,2',
+                                                               Opacity=0.2,
+                                                               BlurRadius=3,
+                                                               Color={StaticResource colorDarkTheme}}}"
+                VerticalOptions="End"
+                WidthRequest="56">
+                <Frame
+                    Padding="0"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                      Light={StaticResource colorLightTheme}}"
+                    CornerRadius="50"
+                    HeightRequest="56"
+                    WidthRequest="56">
+                    <Path
+                        Margin="-2,-2,0,0"
+                        Data="{Binding CurrentCategory.PathData}"
+                        Fill="{AppThemeBinding Dark=White,
+                                               Light=Black}"
+                        HorizontalOptions="Center"
+                        InputTransparent="True"
+                        VerticalOptions="Center" />
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectCategoryCommand}" />
+                    </Frame.GestureRecognizers>
+                </Frame>
+            </sh:Shadows>
             <Entry
                 x:Name="txt_title"
                 Grid.Row="0"

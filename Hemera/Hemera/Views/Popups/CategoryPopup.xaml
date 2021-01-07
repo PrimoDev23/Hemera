@@ -3,8 +3,12 @@
     x:Class="Hemera.Views.Popups.CategoryPopup"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:resx="clr-namespace:Hemera.Resx">
-    <Grid ColumnDefinitions="20, *, 20" RowDefinitions="*, 190, *">
+    xmlns:resx="clr-namespace:Hemera.Resx"
+    BackgroundColor="Transparent">
+    <Grid
+        BackgroundColor="#AA232323"
+        ColumnDefinitions="20, *, 20"
+        RowDefinitions="*, 190, *">
         <BoxView
             Grid.Row="0"
             Grid.RowSpan="3"
