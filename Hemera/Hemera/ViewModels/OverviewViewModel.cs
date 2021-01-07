@@ -149,9 +149,7 @@ namespace Hemera.ViewModels
 
         private async void activityDoubleTapped(Activity activity)
         {
-            string[] buttons;
-
-            buttons = activity.Status switch
+            string[] buttons = activity.Status switch
             {
                 ActivityStatus.None => noneButtons,
                 ActivityStatus.Done => doneButtons,

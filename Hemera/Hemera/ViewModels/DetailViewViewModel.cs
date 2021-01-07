@@ -55,13 +55,9 @@ namespace Hemera.ViewModels
             }
         }
 
-        private readonly DetailView page;
-        private readonly Overview overview;
         public DetailViewViewModel(DetailView page, Activity activity)
         {
             Activity = activity;
-
-            this.page = page;
 
             NotesEnabled = activity.Notes?.Length > 0;
             ChecklistEnabled = activity.Checklist?.Count > 0;
