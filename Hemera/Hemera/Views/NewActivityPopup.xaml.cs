@@ -50,7 +50,7 @@ namespace Hemera.Views
 
         private void txt_notificationTime_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(viewModel == null)
+            if (viewModel == null)
             {
                 return;
             }

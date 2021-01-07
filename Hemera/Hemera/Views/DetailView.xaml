@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Hemera.Views.DetailView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:Hemera.Converter"
+    xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    xmlns:models="clr-namespace:Hemera.Models"
+    xmlns:resx="clr-namespace:Hemera.Resx"
+    xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
+    xmlns:tk="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
+    xmlns:vm="clr-namespace:Hemera.ViewModels"
+    x:DataType="vm:DetailViewViewModel"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <converter:InverterConverter x:Key="InverterConverter" />
+    </ContentPage.Resources>
+    <Grid RowDefinitions="130, *">
+        <Path
+            Grid.Row="0"
+            Margin="-1,-1,-1,0"
+            Aspect="Fill"
+            Data="M0,0H375V129.651s-9.025,2.382-55.426-5.3-70.141-41.09-130.3-41.176-83.544,33.5-130.893,41.176S0,129.651,0,129.651Z"
+            HorizontalOptions="Fill">
+
+            <Path.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStopCollection>
+                        <GradientStop Offset="0.0" Color="{StaticResource colorLight}" />
+                        <GradientStop Offset="1" Color="{StaticResource colorPrimary}" />
+                    </GradientStopCollection>
+                </LinearGradientBrush>
+            </Path.Fill>
+        </Path>
+        <Path
+            Grid.Row="0"
+            Margin="0,0,0,10"
+            Data="{Binding Activity.Category.PathData}"
+            Fill="{AppThemeBinding Dark=White,
+                                   Light=Black}"
+            HorizontalOptions="Center"
+            VerticalOptions="End" />
+        <Label
+            Grid.Row="0"
+            Margin="0,30,0,0"
+            FontAttributes="Bold"
+            FontSize="19"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            LineBreakMode="TailTruncation"
+            Text="{Binding Activity.Title}"
+            VerticalOptions="Start"
+            Visual="Material" />
+        <ScrollView Grid.Row="1" Grid.Column="0">
+            <Grid RowDefinitions="AUTO, AUTO, AUTO, AUTO, AUTO, AUTO, *">
+                <sh:Shadows
+                    Grid.Row="0"
+                    Margin="7"
+                    CornerRadius="18"
+                    Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                                  Opacity=0.3,
+                                                                  BlurRadius=4,
+                                                                  Color=Black},
+                                             Light={sh:SingleShade Offset='2,2',
+                                                                   Opacity=0.2,
+                                                                   BlurRadius=3,
+                                                                   Color={StaticResource colorDarkTheme}}}">
+                    <Frame
+                        BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}}"
+                        CornerRadius="18"
+                        HasShadow="False">
+                        <tk:Expander IsEnabled="{Binding NotesEnabled}">
+                            <tk:Expander.Header>
+                                <Grid>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{x:Static resx:AppResources.Notes}" />
+                                    <Label
+                                        Margin="0,0,7,0"
+                                        HorizontalOptions="End"
+                                        IsVisible="{Binding NotesEnabled, Converter={StaticResource InverterConverter}}"
+                                        Text="{x:Static resx:AppResources.Empty}"
+                                        TextColor="Gray" />
+                                </Grid>
+                            </tk:Expander.Header>
+                            <Label
+                                Margin="7"
+                                FontSize="16"
+                                HeightRequest="200"
+                                Text="{Binding Activity.Notes}" />
+                        </tk:Expander>
+                    </Frame>
+                </sh:Shadows>
+                <sh:Shadows
+                    Grid.Row="1"
+                    Margin="7"
+                    CornerRadius="18"
+                    Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                                  Opacity=0.3,
+                                                                  BlurRadius=4,
+                                                                  Color=Black},
+                                             Light={sh:SingleShade Offset='2,2',
+                                                                   Opacity=0.2,
+                                                                   BlurRadius=3,
+                                                                   Color={StaticResource colorDarkTheme}}}">
+                    <Frame
+                        BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}}"
+                        CornerRadius="18"
+                        HasShadow="False">
+                        <tk:Expander IsEnabled="{Binding ChecklistEnabled}">
+                            <tk:Expander.Header>
+                                <Grid>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{x:Static resx:AppResources.Checklist}" />
+                                    <Label
+                                        Margin="0,0,7,0"
+                                        HorizontalOptions="End"
+                                        IsVisible="{Binding ChecklistEnabled, Converter={StaticResource InverterConverter}}"
+                                        Text="{x:Static resx:AppResources.Empty}"
+                                        TextColor="Gray" />
+                                </Grid>
+                            </tk:Expander.Header>
+                            <CollectionView
+                                x:Name="collView"
+                                Margin="7"
+                                x:FieldModifier="public"
+                                HeightRequest="400"
+                                ItemsSource="{Binding Activity.Checklist}">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:ShoppingItem">
+                                        <Grid ColumnDefinitions="50, *">
+                                            <CheckBox
+                                                Grid.Column="0"
+                                                Color="{AppThemeBinding Dark=White, Light=Black}"
+                                                HeightRequest="30"
+                                                HorizontalOptions="Center"
+                                                IsChecked="{Binding Checked}"
+                                                VerticalOptions="Center"
+                                                Visual="Material"
+                                                WidthRequest="30" />
+                                            <Label
+                                        VerticalOptions="Center"
+                                                Grid.Column="1"
+                                                Text="{Binding ItemName}"
+                                                TextColor="{AppThemeBinding Dark=White,
+                                                                            Light=Black}"
+                                                Visual="Material" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </tk:Expander>
+                    </Frame>
+                </sh:Shadows>
+                <sh:Shadows
+                    Grid.Row="2"
+                    Margin="7"
+                    CornerRadius="18"
+                    Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                                  Opacity=0.3,
+                                                                  BlurRadius=4,
+                                                                  Color=Black},
+                                             Light={sh:SingleShade Offset='2,2',
+                                                                   Opacity=0.2,
+                                                                   BlurRadius=3,
+                                                                   Color={StaticResource colorDarkTheme}}}">
+                    <Frame
+                        BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}}"
+                        CornerRadius="18"
+                        HasShadow="False">
+                        <tk:Expander IsEnabled="{Binding MapEnabled}">
+                            <tk:Expander.Header>
+                                <Grid>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{x:Static resx:AppResources.Map}" />
+                                    <Label
+                                        Margin="0,0,7,0"
+                                        HorizontalOptions="End"
+                                        IsVisible="{Binding MapEnabled, Converter={StaticResource InverterConverter}}"
+                                        Text="{x:Static resx:AppResources.LocationNotSet}"
+                                        TextColor="Gray" />
+                                </Grid>
+                            </tk:Expander.Header>
+                            <map:Map
+                                x:Name="map"
+                                Grid.Row="1"
+                                Margin="7"
+                                x:FieldModifier="public"
+                                HeightRequest="300"
+                                IsShowingUser="True" />
+                        </tk:Expander>
+                    </Frame>
+                </sh:Shadows>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentPage>

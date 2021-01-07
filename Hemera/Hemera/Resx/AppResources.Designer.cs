@@ -124,6 +124,15 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Empty).
+        /// </summary>
+        public static string Empty {
+            get {
+                return ResourceManager.GetString("Empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable Do-Not-Disturb-Mode.
         /// </summary>
         public static string EnableDND {
@@ -183,6 +192,15 @@ namespace Hemera.Resx {
         public static string Location {
             get {
                 return ResourceManager.GetString("Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (Location not set).
+        /// </summary>
+        public static string LocationNotSet {
+            get {
+                return ResourceManager.GetString("LocationNotSet", resourceCulture);
             }
         }
         

@@ -8,13 +8,13 @@ namespace Hemera.Models
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool _Bought = false;
-        public bool Bought
+        private bool _Checked = false;
+        public bool Checked
         {
-            get => _Bought;
+            get => _Checked;
             set
             {
-                _Bought = value;
+                _Checked = value;
                 OnPropertyChanged();
             }
         }

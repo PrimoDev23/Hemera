@@ -210,4 +210,10 @@
   <data name="ResetStatus" xml:space="preserve">
     <value>Reset status</value>
   </data>
+  <data name="Empty" xml:space="preserve">
+    <value>(Empty)</value>
+  </data>
+  <data name="LocationNotSet" xml:space="preserve">
+    <value>(Location not set)</value>
+  </data>
 </root>

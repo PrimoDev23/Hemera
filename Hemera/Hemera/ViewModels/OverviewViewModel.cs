@@ -4,7 +4,6 @@ using Hemera.Models;
 using Hemera.Resx;
 using Hemera.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -22,6 +21,7 @@ namespace Hemera.ViewModels
         public Command CreateNewCommand { get; set; }
         public Command BackCommand { get; set; }
         public Command ForwardCommand { get; set; }
+        public Command<Activity> DoubleTappedCommand { get; set; }
         public Command<Activity> TappedCommand { get; set; }
 
         private DateTime _CurrentDate = DateTime.Now;
@@ -65,6 +65,7 @@ namespace Hemera.ViewModels
             CreateNewCommand = new Command(new Action(createNewActivity));
             BackCommand = new Command(new Action(dayBack));
             ForwardCommand = new Command(new Action(dayForward));
+            DoubleTappedCommand = new Command<Activity>(new Action<Activity>(activityDoubleTapped));
             TappedCommand = new Command<Activity>(new Action<Activity>(activityTapped));
 
             void load()
@@ -140,13 +141,13 @@ namespace Hemera.ViewModels
 
         #region Buttons
 
-        string[] noneButtons = new string[] { AppResources.Delete, AppResources.Edit, AppResources.MarkAsDone, AppResources.MarkAsMissed };
-        string[] doneButtons = new string[] { AppResources.ResetStatus, AppResources.MarkAsMissed };
-        string[] missedButtons = new string[] { AppResources.ResetStatus, AppResources.MarkAsDone };
+        private readonly string[] noneButtons = new string[] { AppResources.Delete, AppResources.Edit, AppResources.MarkAsDone, AppResources.MarkAsMissed };
+        private readonly string[] doneButtons = new string[] { AppResources.ResetStatus, AppResources.MarkAsMissed };
+        private readonly string[] missedButtons = new string[] { AppResources.ResetStatus, AppResources.MarkAsDone };
 
         #endregion Buttons
 
-        private async void activityTapped(Activity activity)
+        private async void activityDoubleTapped(Activity activity)
         {
             string[] buttons;
 
@@ -185,6 +186,17 @@ namespace Hemera.ViewModels
                     await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
                 }
             }
+        }
+
+        private async void activityTapped(Activity activity)
+        {
+            DetailView detail = new DetailView(this, activity);
+            await page.Navigation.PushAsync(detail).ConfigureAwait(false);
+        }
+
+        public async Task saveFromOuter()
+        {
+            await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
         }
 
         private async Task deleteActivity(Activity activity)

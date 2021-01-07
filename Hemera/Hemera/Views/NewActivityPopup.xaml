@@ -22,8 +22,6 @@
             RowDefinitions="130, *">
             <Path
                 Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="5"
                 Margin="-1,-1,-1,0"
                 Aspect="Fill"
                 Data="M0,0H375V129.651s-9.025,2.382-55.426-5.3-70.141-41.09-130.3-41.176-83.544,33.5-130.893,41.176S0,129.651,0,129.651Z"
@@ -40,8 +38,6 @@
             </Path>
             <Path
                 Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="5"
                 Margin="0,0,0,10"
                 Data="{Binding CurrentCategory.PathData}"
                 Fill="{AppThemeBinding Dark=White,
@@ -55,17 +51,12 @@
             <Entry
                 x:Name="txt_title"
                 Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="5"
                 Margin="7"
                 Placeholder="{x:Static resx:AppResources.Title}"
                 Text="{Binding Activity.Title}"
                 TextChanged="txt_title_TextChanged"
                 Visual="Material" />
-            <ScrollView
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="5">
+            <ScrollView Grid.Row="1" Grid.Column="0">
                 <Grid ColumnDefinitions="30, AUTO, *, 30, AUTO" RowDefinitions="70, AUTO, AUTO, AUTO, AUTO, AUTO, *">
                     <Image
                         Grid.Row="0"
