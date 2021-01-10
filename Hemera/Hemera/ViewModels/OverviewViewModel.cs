@@ -6,6 +6,7 @@ using Hemera.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace Hemera.ViewModels
         public Command CreateNewCommand { get; set; }
         public Command BackCommand { get; set; }
         public Command ForwardCommand { get; set; }
-        public Command<Activity> DoubleTappedCommand { get; set; }
+        public Command<Activity> OpenSelectionMenuCommand { get; set; }
         public Command<Activity> TappedCommand { get; set; }
 
         private DateTime _CurrentDate = DateTime.Now;
@@ -65,7 +66,7 @@ namespace Hemera.ViewModels
             CreateNewCommand = new Command(new Action(createNewActivity));
             BackCommand = new Command(new Action(dayBack));
             ForwardCommand = new Command(new Action(dayForward));
-            DoubleTappedCommand = new Command<Activity>(new Action<Activity>(activityDoubleTapped));
+            OpenSelectionMenuCommand = new Command<Activity>(new Action<Activity>(openSelectionMenu));
             TappedCommand = new Command<Activity>(new Action<Activity>(activityTapped));
 
             void load()
@@ -147,7 +148,7 @@ namespace Hemera.ViewModels
 
         #endregion Buttons
 
-        private async void activityDoubleTapped(Activity activity)
+        private async void openSelectionMenu(Activity activity)
         {
             string[] buttons = activity.Status switch
             {
@@ -205,6 +206,18 @@ namespace Hemera.ViewModels
 
             void orderAndSave()
             {
+                if (activity.Attachments?.Count > 0)
+                {
+                    string path;
+                    for (int i = 0; i < activity.Attachments.Count; i++)
+                    {
+                        path = activity.Attachments[i].File.FullPath;
+                        if (File.Exists(path))
+                        {
+                            File.Delete(path);
+                        }
+                    }
+                }
                 Order();
             }
             await Task.Run(new Action(orderAndSave)).ConfigureAwait(false);

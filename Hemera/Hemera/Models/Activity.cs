@@ -213,6 +213,17 @@ namespace Hemera.Models
             }
         }
 
+        private ObservableCollection<Attachment> _Attachments = new ObservableCollection<Attachment>();
+        public ObservableCollection<Attachment> Attachments
+        {
+            get => _Attachments;
+            set
+            {
+                _Attachments = value;
+                OnPropertyChanged();
+            }
+        }
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -190,26 +190,38 @@
                                             VerticalOptions="Center" />
                                         <Path
                                             Grid.Row="0"
-                                            Grid.Column="2"
-                                            Margin="0,0,25,0"
+                                            Grid.Column="0"
+                                            Margin="20,0,0,0"
                                             Data="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"
                                             Fill="{Binding Category.BadgeBrush}"
-                                            HorizontalOptions="End"
+                                            HorizontalOptions="Start"
                                             ScaleX="1.7"
                                             ScaleY="3"
                                             VerticalOptions="Start" />
                                         <Path
                                             Grid.Row="0"
-                                            Grid.Column="2"
-                                            Margin="0,5,21.2,0"
+                                            Grid.Column="0"
+                                            Margin="21.2,5,0,0"
                                             Data="{Binding Category.PathData}"
                                             Fill="#232323"
-                                            HorizontalOptions="End"
+                                            HorizontalOptions="Start"
                                             VerticalOptions="Start" />
+                                        <Path
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Margin="0,5,15,0"
+                                            Data="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                                            Fill="{AppThemeBinding Dark=White,
+                                                                   Light=Black}"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Start">
+                                            <Path.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.OpenSelectionMenuCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
+                                            </Path.GestureRecognizers>
+                                        </Path>
                                     </Grid>
                                     <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.TappedCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
-                                        <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding Path=BindingContext.DoubleTappedCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.TappedCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
                                     </Frame.GestureRecognizers>
                                 </Frame>
                             </sh:Shadows>

@@ -1,8 +1,11 @@
 ﻿using Hemera.Models;
 using Hemera.Resx;
 using Hemera.Views;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 namespace Hemera.ViewModels
@@ -55,12 +58,28 @@ namespace Hemera.ViewModels
             }
         }
 
+        private bool _AttachmentsEnabled;
+        public bool AttachmentsEnabled
+        {
+            get => _AttachmentsEnabled;
+            set
+            {
+                _AttachmentsEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Command<Attachment> OpenCommand { get; set; }
+
+        private readonly DetailView page;
         public DetailViewViewModel(DetailView page, Activity activity)
         {
+            OpenCommand = new Command<Attachment>(new Action<Attachment>(openFile));
             Activity = activity;
 
             NotesEnabled = activity.Notes?.Length > 0;
             ChecklistEnabled = activity.Checklist?.Count > 0;
+            AttachmentsEnabled = activity.Attachments?.Count > 0;
 
             //Show the pin on the map and center it
             if (activity.Position != default)
@@ -73,6 +92,16 @@ namespace Hemera.ViewModels
                 });
                 page.map.MoveToRegion(MapSpan.FromCenterAndRadius(activity.Position, Distance.FromKilometers(1)));
             }
+
+            this.page = page;
+        }
+
+        private async void openFile(Attachment attachment)
+        {
+            await Launcher.OpenAsync(new OpenFileRequest()
+            {
+                File = new ReadOnlyFile(attachment.File.FullPath)
+            });
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

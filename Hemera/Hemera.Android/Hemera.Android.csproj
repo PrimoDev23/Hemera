@@ -82,6 +82,7 @@
   <ItemGroup>
     <Compile Include="DependencyService\AlarmHandler.cs" />
     <Compile Include="DependencyService\AndroidNotificationManager.cs" />
+    <Compile Include="DependencyService\AudioHelper.cs" />
     <Compile Include="DependencyService\DND.cs" />
     <Compile Include="DependencyService\NotificationWorkManager.cs" />
     <Compile Include="MainActivity.cs" />
@@ -153,10 +154,13 @@
   <ItemGroup>
     <Folder Include="Resources\mipmap-anydpi-v26\" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\xml\file_paths.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties TriggeredFromHotReload="False" XamarinHotReloadUnhandledDeviceExceptionHemeraAndroidHideInfoBar="True" />
+      <UserProperties TriggeredFromHotReload="False" XamarinHotReloadUnhandledDeviceExceptionHemeraAndroidHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptionHemeraAndroidHideInfoBar="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

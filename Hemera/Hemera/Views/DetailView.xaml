@@ -10,6 +10,7 @@
     xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
     xmlns:tk="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
     xmlns:vm="clr-namespace:Hemera.ViewModels"
+    x:Name="self"
     x:DataType="vm:DetailViewViewModel"
     NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
@@ -52,7 +53,7 @@
             VerticalOptions="Start"
             Visual="Material" />
         <ScrollView Grid.Row="1" Grid.Column="0">
-            <Grid RowDefinitions="AUTO, AUTO, AUTO, AUTO, AUTO, AUTO, *">
+            <Grid RowDefinitions="AUTO, AUTO, AUTO, AUTO, AUTO, AUTO, AUTO, *">
                 <sh:Shadows
                     Grid.Row="0"
                     Margin="7"
@@ -137,19 +138,20 @@
                                         <Grid ColumnDefinitions="50, *">
                                             <CheckBox
                                                 Grid.Column="0"
-                                                Color="{AppThemeBinding Dark=White, Light=Black}"
                                                 HeightRequest="30"
                                                 HorizontalOptions="Center"
                                                 IsChecked="{Binding Checked}"
                                                 VerticalOptions="Center"
                                                 Visual="Material"
-                                                WidthRequest="30" />
+                                                WidthRequest="30"
+                                                Color="{AppThemeBinding Dark=White,
+                                                                        Light=Black}" />
                                             <Label
-                                        VerticalOptions="Center"
                                                 Grid.Column="1"
                                                 Text="{Binding ItemName}"
                                                 TextColor="{AppThemeBinding Dark=White,
                                                                             Light=Black}"
+                                                VerticalOptions="Center"
                                                 Visual="Material" />
                                         </Grid>
                                     </DataTemplate>
@@ -196,6 +198,70 @@
                                 x:FieldModifier="public"
                                 HeightRequest="300"
                                 IsShowingUser="True" />
+                        </tk:Expander>
+                    </Frame>
+                </sh:Shadows>
+                <sh:Shadows
+                    Grid.Row="3"
+                    Margin="7"
+                    CornerRadius="18"
+                    Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                                  Opacity=0.3,
+                                                                  BlurRadius=4,
+                                                                  Color=Black},
+                                             Light={sh:SingleShade Offset='2,2',
+                                                                   Opacity=0.2,
+                                                                   BlurRadius=3,
+                                                                   Color={StaticResource colorDarkTheme}}}">
+                    <Frame
+                        BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}}"
+                        CornerRadius="18"
+                        HasShadow="False">
+                        <tk:Expander IsEnabled="{Binding AttachmentsEnabled}">
+                            <tk:Expander.Header>
+                                <Grid>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{x:Static resx:AppResources.Attachments}" />
+                                    <Label
+                                        Margin="0,0,7,0"
+                                        HorizontalOptions="End"
+                                        IsVisible="{Binding AttachmentsEnabled, Converter={StaticResource InverterConverter}}"
+                                        Text="{x:Static resx:AppResources.Empty}"
+                                        TextColor="Gray" />
+                                </Grid>
+                            </tk:Expander.Header>
+                            <Grid RowDefinitions="100">
+                                <CollectionView
+                                    Grid.Row="0"
+                                    Margin="0,7,0,0"
+                                    ItemsSource="{Binding Activity.Attachments}">
+                                    <CollectionView.ItemsLayout>
+                                        <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:Attachment">
+                                            <Grid ColumnDefinitions="30, *" RowDefinitions="40">
+                                                <Path
+                                                    Grid.Column="0"
+                                                    Data="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+                                                    Fill="{AppThemeBinding Dark=White,
+                                                                           Light=Black}"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center" />
+                                                <Label
+                                                    Grid.Column="1"
+                                                    Text="{Binding File.FileName}"
+                                                    VerticalOptions="Center" />
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.OpenCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
+                                                </Grid.GestureRecognizers>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </Grid>
                         </tk:Expander>
                     </Frame>
                 </sh:Shadows>

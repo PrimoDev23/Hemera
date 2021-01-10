@@ -1,17 +1,21 @@
 ﻿using Hemera.Helpers;
+using Hemera.Interfaces;
 using Hemera.Models;
 using Hemera.Resx;
 using Hemera.Views;
 using Hemera.Views.Popups;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
+using Xamarin.Forms.Shapes;
 
 namespace Hemera.ViewModels
 {
@@ -60,13 +64,34 @@ namespace Hemera.ViewModels
             }
         }
 
-        private bool _WrongDuration;
-        public bool WrongDuration
+        private Color _AudioFrameBorder = Color.Transparent;
+        public Color AudioFrameBorder
         {
-            get => _WrongDuration;
+            get => _AudioFrameBorder;
             set
             {
-                _WrongDuration = value;
+                _AudioFrameBorder = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _Recording;
+        public bool Recording
+        {
+            get => _Recording;
+            set
+            {
+                _Recording = value;
+
+                if (value)
+                {
+                    AudioFrameBorder = Color.Red;
+                }
+                else
+                {
+                    AudioFrameBorder = Color.Transparent;
+                }
+
                 OnPropertyChanged();
             }
         }
@@ -80,6 +105,9 @@ namespace Hemera.ViewModels
         public Command<ShoppingItem> RemoveCommand { get; set; }
         public Command<string> ReturnCommand { get; set; }
         public Command LocationReturnCommand { get; set; }
+        public Command AttachFileCommand { get; set; }
+        public Command RecordAudioCommand { get; set; }
+        public Command<Attachment> RemoveAttachmentCommand { get; set; }
 
         #endregion Commands
 
@@ -169,6 +197,20 @@ namespace Hemera.ViewModels
 
         #endregion ValidProperty
 
+        #region Paths
+
+        public Geometry FileGeometry
+        {
+            get => VarContainer.FileGeometry;
+        }
+
+        public Geometry AudioGeometry
+        {
+            get => VarContainer.AudioGeometry;
+        }
+
+        #endregion Paths
+
         public NewActivityPopup page;
 
         #region Constructors
@@ -181,6 +223,9 @@ namespace Hemera.ViewModels
             ReturnCommand = new Command<string>(new Action<string>(returnPressed));
             RemoveCommand = new Command<ShoppingItem>(new Action<ShoppingItem>(removeItem));
             LocationReturnCommand = new Command(new Action(setLocation));
+            AttachFileCommand = new Command(new Action(attachFile));
+            RecordAudioCommand = new Command(new Action(recordAudio));
+            RemoveAttachmentCommand = new Command<Attachment>(new Action<Attachment>(removeAttachment));
 
             //Select the first Category
             void updateCategories()
@@ -216,6 +261,9 @@ namespace Hemera.ViewModels
             ReturnCommand = new Command<string>(new Action<string>(returnPressed));
             RemoveCommand = new Command<ShoppingItem>(new Action<ShoppingItem>(removeItem));
             LocationReturnCommand = new Command(new Action(setLocation));
+            AttachFileCommand = new Command(new Action(attachFile));
+            RecordAudioCommand = new Command(new Action(recordAudio));
+            RemoveAttachmentCommand = new Command<Attachment>(new Action<Attachment>(removeAttachment));
 
             //Select the Category that is given in activity
             void updateCategories()
@@ -419,12 +467,6 @@ namespace Hemera.ViewModels
             if (!(last.ItemName?.Length > 0))
             {
                 Activity.Checklist.Remove(last);
-
-                //If checklist is empty after removing it just set it to null
-                if (Activity.Checklist.Count == 0)
-                {
-                    Activity.Checklist = null;
-                }
             }
 
             //Set notification type and time
@@ -453,6 +495,86 @@ namespace Hemera.ViewModels
             Activity.Duration = double.Parse(page.txt_duration.Text);
 
             newActivityCompleted.TrySetResult(Activity);
+        }
+
+        private async void attachFile()
+        {
+            try
+            {
+                IEnumerable<FileResult> files = await FilePicker.PickMultipleAsync().ConfigureAwait(false);
+
+                if (files == null)
+                {
+                    return;
+                }
+
+                foreach (FileResult result in files)
+                {
+                    Activity.Attachments.Add(new Attachment(AttachmentType.File, result));
+                }
+            }
+            catch //This is most probably happen if the user denied permission request, so don't make the app crash
+            {
+
+            }
+        }
+
+        private string currentRecordFile;
+
+        private async void recordAudio()
+        {
+            bool success = true;
+
+            //If we are already recording stop it
+            if (Recording)
+            {
+                await Task.Run(new Action(stopRecording));
+
+                Activity.Attachments.Add(new Attachment(AttachmentType.Audio, new FileResult(currentRecordFile)));
+            }
+            else //Else start recording
+            {
+                if (!DependencyService.Get<IAudio>().checkPermission())
+                {
+                    return;
+                }
+
+                string name = await page.DisplayPromptAsync(AppResources.RecordTitle, null, "OK");
+
+                if(!(name?.Length > 0))
+                {
+                    return;
+                }
+
+                currentRecordFile = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), name + DateTime.Now.ToString("dd-MM-yyyy-HH-mm") + ".3gpp");
+
+                void start()
+                {
+                    success = DependencyService.Get<IAudio>().startRecord(currentRecordFile);
+                }
+                await Task.Run(new Action(start)).ConfigureAwait(false);
+            }
+
+            if (success)
+            {
+                Recording = !Recording;
+            }
+        }
+
+        public static void stopRecording()
+        {
+            DependencyService.Get<IAudio>().stopRecord();
+        }
+
+        public void removeAttachment(Attachment attachment)
+        {
+            Activity.Attachments.Remove(attachment);
+
+            //Remove the file if it's an audio file
+            if(attachment.Type == AttachmentType.Audio)
+            {
+                File.Delete(attachment.File.FullPath);
+            }
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

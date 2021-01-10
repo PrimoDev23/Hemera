@@ -81,7 +81,7 @@
                 TextChanged="txt_title_TextChanged"
                 Visual="Material" />
             <ScrollView Grid.Row="1" Grid.Column="0">
-                <Grid ColumnDefinitions="30, AUTO, *, 30, AUTO" RowDefinitions="70, AUTO, AUTO, AUTO, AUTO, AUTO, *">
+                <Grid ColumnDefinitions="30, AUTO, *, 30, AUTO" RowDefinitions="70, AUTO, AUTO, AUTO, AUTO, AUTO, AUTO, *">
                     <Image
                         Grid.Row="0"
                         Grid.Column="0"
@@ -436,6 +436,140 @@
                                         IsToggled="{Binding Activity.DoNotDisturb}"
                                         Toggled="switch_dnd_Toggled" />
                                     <Label Grid.Column="1" Text="{x:Static resx:AppResources.EnableDND}" />
+                                </Grid>
+                            </tk:Expander>
+                        </Frame>
+                    </sh:Shadows>
+                    <sh:Shadows
+                        Grid.Row="7"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="5"
+                        Margin="7"
+                        CornerRadius="18"
+                        Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                                      Opacity=0.3,
+                                                                      BlurRadius=4,
+                                                                      Color=Black},
+                                                 Light={sh:SingleShade Offset='2,2',
+                                                                       Opacity=0.2,
+                                                                       BlurRadius=3,
+                                                                       Color={StaticResource colorDarkTheme}}}">
+                        <Frame
+                            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}}"
+                            CornerRadius="18"
+                            HasShadow="False">
+                            <tk:Expander>
+                                <tk:Expander.Header>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{x:Static resx:AppResources.Attachments}" />
+                                </tk:Expander.Header>
+                                <Grid
+                                    Margin="7"
+                                    ColumnDefinitions="*, *"
+                                    RowDefinitions="AUTO, 100">
+                                    <sh:Shadows
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        CornerRadius="50"
+                                        Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
+                                                                                      Opacity=0.3,
+                                                                                      BlurRadius=4,
+                                                                                      Color=Black},
+                                                                 Light={sh:SingleShade Offset='2,2',
+                                                                                       Opacity=0.2,
+                                                                                       BlurRadius=3,
+                                                                                       Color={StaticResource colorDarkTheme}}}">
+                                        <Frame
+                                            Padding="0"
+                                            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                                              Light={StaticResource colorLightTheme}}"
+                                            CornerRadius="50"
+                                            HasShadow="False"
+                                            HeightRequest="56"
+                                            HorizontalOptions="Center"
+                                            WidthRequest="56">
+                                            <Path
+                                                Margin="-2,-2,0,0"
+                                                Data="{Binding FileGeometry}"
+                                                Fill="{AppThemeBinding Dark=White,
+                                                                       Light=Black}"
+                                                HorizontalOptions="Center"
+                                                InputTransparent="True"
+                                                VerticalOptions="Center" />
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding AttachFileCommand}" />
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+                                    </sh:Shadows>
+                                    <sh:Shadows
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        CornerRadius="50"
+                                        Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
+                                                                                      Opacity=0.3,
+                                                                                      BlurRadius=4,
+                                                                                      Color=Black},
+                                                                 Light={sh:SingleShade Offset='2,2',
+                                                                                       Opacity=0.2,
+                                                                                       BlurRadius=3,
+                                                                                       Color={StaticResource colorDarkTheme}}}">
+                                        <Frame
+                                            Padding="0"
+                                            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                                              Light={StaticResource colorLightTheme}}"
+                                            BorderColor="{Binding AudioFrameBorder}"
+                                            CornerRadius="50"
+                                            HasShadow="False"
+                                            HeightRequest="56"
+                                            HorizontalOptions="Center"
+                                            WidthRequest="56">
+                                            <Path
+                                                Margin="-4,-2,0,0"
+                                                Data="{Binding AudioGeometry}"
+                                                Fill="{AppThemeBinding Dark=White,
+                                                                       Light=Black}"
+                                                HorizontalOptions="Center"
+                                                InputTransparent="True"
+                                                VerticalOptions="Center" />
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding RecordAudioCommand}" />
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+                                    </sh:Shadows>
+                                    <CollectionView
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Margin="0,7,0,0"
+                                        ItemsSource="{Binding Activity.Attachments}">
+                                        <CollectionView.ItemsLayout>
+                                            <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                                        </CollectionView.ItemsLayout>
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate x:DataType="models:Attachment">
+                                                <Grid ColumnDefinitions="30, *" RowDefinitions="30">
+                                                    <Path
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Data="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
+                                                        Fill="Gray"
+                                                        HorizontalOptions="Center"
+                                                        VerticalOptions="Center">
+                                                        <Path.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.RemoveAttachmentCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
+                                                        </Path.GestureRecognizers>
+                                                    </Path>
+                                                    <Label
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Text="{Binding File.FileName}"
+                                                        VerticalOptions="Center" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
                                 </Grid>
                             </tk:Expander>
                         </Frame>

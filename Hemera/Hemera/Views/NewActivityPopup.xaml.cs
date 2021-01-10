@@ -2,6 +2,7 @@
 using Hemera.Models;
 using Hemera.Resx;
 using Hemera.ViewModels;
+using System;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -152,6 +153,15 @@ namespace Hemera.Views
             }
 
             viewModel.DurationInvalid = false;
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            //Make sure we end any audio streams
+            Task.Run(new Action(NewActivityViewModel.stopRecording));
+            viewModel.Recording = false;
         }
     }
 }

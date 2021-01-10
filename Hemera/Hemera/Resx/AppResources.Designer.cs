@@ -61,6 +61,15 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attachments.
+        /// </summary>
+        public static string Attachments {
+            get {
+                return ResourceManager.GetString("Attachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Checklist.
         /// </summary>
         public static string Checklist {
@@ -147,6 +156,24 @@ namespace Hemera.Resx {
         public static string EnableNotification {
             get {
                 return ResourceManager.GetString("EnableNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file couldn&apos;t be opened.
+        /// </summary>
+        public static string ErrorOpeningFIle {
+            get {
+                return ResourceManager.GetString("ErrorOpeningFIle", resourceCulture);
             }
         }
         
@@ -282,6 +309,15 @@ namespace Hemera.Resx {
         public static string PlanedActivity {
             get {
                 return ResourceManager.GetString("PlanedActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title of the recording.
+        /// </summary>
+        public static string RecordTitle {
+            get {
+                return ResourceManager.GetString("RecordTitle", resourceCulture);
             }
         }
         

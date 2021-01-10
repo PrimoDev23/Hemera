@@ -216,4 +216,16 @@
   <data name="LocationNotSet" xml:space="preserve">
     <value>(Ort nicht gesetzt)</value>
   </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Anhänge</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="ErrorOpeningFIle" xml:space="preserve">
+    <value>Die Datei konnte nicht geöffnet werden</value>
+  </data>
+  <data name="RecordTitle" xml:space="preserve">
+    <value>Titel der Aufnahme</value>
+  </data>
 </root>
