@@ -1,9 +1,9 @@
 ﻿using Hemera.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Xml.Serialization;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -79,7 +79,7 @@ namespace Hemera.Models
 
         private Category _Category;
 
-        [XmlIgnore]
+        [JsonIgnore]
         public Category Category
         {
             get => _Category;
@@ -173,7 +173,7 @@ namespace Hemera.Models
         }
 
         private DateTime _EndDate = DateTime.Now.AddMinutes(60);
-        [XmlIgnore]
+        [JsonIgnore]
         public DateTime EndDate
         {
             get => _EndDate;
@@ -202,7 +202,7 @@ namespace Hemera.Models
         }
 
         private Color _BorderColor = Color.Transparent;
-        [XmlIgnore]
+        [JsonIgnore]
         public Color BorderColor
         {
             get => _BorderColor;

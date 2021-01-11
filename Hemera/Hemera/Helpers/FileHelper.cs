@@ -1,16 +1,16 @@
 ﻿using Hemera.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace Hemera.Helpers
 {
     public static class FileHelper
     {
         /// <summary>
-        /// Save the given activities into an xml at activityPath
+        /// Save the given activities into a json at activityPath
         /// </summary>
         /// <param name="activities">Activities to save</param>
         /// <returns></returns>
@@ -18,11 +18,7 @@ namespace Hemera.Helpers
         {
             void save()
             {
-                using (FileStream fs = new FileStream(VarContainer.activityPath, FileMode.Create))
-                {
-                    XmlSerializer xml = new XmlSerializer(typeof(ObservableCollection<Activity>));
-                    xml.Serialize(fs, activities);
-                }
+                File.WriteAllText(VarContainer.activityPath, JsonConvert.SerializeObject(activities));
             }
             return Task.Run(new Action(save));
         }
@@ -34,11 +30,7 @@ namespace Hemera.Helpers
                 return new ObservableCollection<Activity>();
             }
 
-            using (FileStream fs = new FileStream(VarContainer.activityPath, FileMode.Open))
-            {
-                XmlSerializer xml = new XmlSerializer(typeof(ObservableCollection<Activity>));
-                return (ObservableCollection<Activity>)xml.Deserialize(fs);
-            }
+            return JsonConvert.DeserializeObject<ObservableCollection<Activity>>(File.ReadAllText(VarContainer.activityPath));
         }
     }
 }

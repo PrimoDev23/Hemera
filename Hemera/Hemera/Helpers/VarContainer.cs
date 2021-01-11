@@ -28,6 +28,6 @@ namespace Hemera.Helpers
             return (Geometry)new PathGeometryConverter().ConvertFromInvariantString(data);
         }
 
-        public static string activityPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "activities.xml");
+        public static string activityPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "activities.json");
     }
 }

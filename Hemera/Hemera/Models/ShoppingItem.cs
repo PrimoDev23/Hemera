@@ -1,6 +1,6 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Xml.Serialization;
 
 namespace Hemera.Models
 {
@@ -30,7 +30,7 @@ namespace Hemera.Models
             }
         }
 
-        [XmlIgnore]
+        [JsonIgnore]
         private bool _Focused;
         public bool Focused
         {

@@ -1,7 +1,7 @@
 ﻿using Hemera.Helpers;
+using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Xml.Serialization;
 using Xamarin.Essentials;
 using Xamarin.Forms.Shapes;
 
@@ -38,7 +38,7 @@ namespace Hemera.Models
         }
 
         private Geometry _Path;
-        [XmlIgnore]
+        [JsonIgnore]
         public Geometry Path
         {
             get => _Path;
