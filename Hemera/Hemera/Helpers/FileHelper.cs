@@ -18,7 +18,14 @@ namespace Hemera.Helpers
         {
             void save()
             {
-                File.WriteAllText(VarContainer.activityPath, JsonConvert.SerializeObject(activities));
+                using (StreamWriter sw = new StreamWriter(VarContainer.activityPath))
+                {
+                    using (JsonWriter reader = new JsonTextWriter(sw))
+                    {
+                        JsonSerializer serializer = new JsonSerializer();
+                        serializer.Serialize(reader, activities);
+                    } 
+                }
             }
             return Task.Run(new Action(save));
         }
@@ -30,7 +37,14 @@ namespace Hemera.Helpers
                 return new ObservableCollection<Activity>();
             }
 
-            return JsonConvert.DeserializeObject<ObservableCollection<Activity>>(File.ReadAllText(VarContainer.activityPath));
+            using (StreamReader sr = new StreamReader(VarContainer.activityPath))
+            {
+                using (JsonReader reader = new JsonTextReader(sr))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    return serializer.Deserialize<ObservableCollection<Activity>>(reader);
+                }
+            }
         }
     }
 }
