@@ -483,8 +483,6 @@
                                                                                        Color={StaticResource colorDarkTheme}}}">
                                         <Frame
                                             Padding="0"
-                                            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
-                                                                              Light={StaticResource colorLightTheme}}"
                                             CornerRadius="50"
                                             HasShadow="False"
                                             HeightRequest="56"
@@ -501,6 +499,14 @@
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding AttachFileCommand}" />
                                             </Frame.GestureRecognizers>
+                                            <Frame.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStopCollection>
+                                                        <GradientStop Offset="0.0" Color="{AppThemeBinding Dark=#252525, Light={StaticResource colorLightTheme}}" />
+                                                        <GradientStop Offset="1.0" Color="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light=#FAFAFA}" />
+                                                    </GradientStopCollection>
+                                                </LinearGradientBrush>
+                                            </Frame.Background>
                                         </Frame>
                                     </sh:Shadows>
                                     <sh:Shadows
@@ -517,8 +523,6 @@
                                                                                        Color={StaticResource colorDarkTheme}}}">
                                         <Frame
                                             Padding="0"
-                                            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
-                                                                              Light={StaticResource colorLightTheme}}"
                                             BorderColor="{Binding AudioFrameBorder}"
                                             CornerRadius="50"
                                             HasShadow="False"
@@ -536,6 +540,14 @@
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding RecordAudioCommand}" />
                                             </Frame.GestureRecognizers>
+                                            <Frame.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStopCollection>
+                                                        <GradientStop Offset="0.0" Color="{AppThemeBinding Dark=#252525, Light={StaticResource colorLightTheme}}" />
+                                                        <GradientStop Offset="1.0" Color="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light=#FAFAFA}" />
+                                                    </GradientStopCollection>
+                                                </LinearGradientBrush>
+                                            </Frame.Background>
                                         </Frame>
                                     </sh:Shadows>
                                     <CollectionView

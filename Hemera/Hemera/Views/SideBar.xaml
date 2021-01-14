@@ -3,14 +3,37 @@
     x:Class="Hemera.Views.SideBar"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
     BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                       Light={StaticResource colorLightTheme}}">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label
-                HorizontalOptions="CenterAndExpand"
-                Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+    <Grid RowDefinitions="50, 1, *, 56">
+        <!--<Path
+            Grid.Row="0"
+            Margin="-1,-1,-1,0"
+            Aspect="Fill"
+            Data="M0,0H375V129.651s-9.025,2.382-55.426-5.3-70.141-41.09-130.3-41.176-83.544,33.5-130.893,41.176S0,129.651,0,129.651Z"
+            HorizontalOptions="Fill">
+            <Path.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStopCollection>
+                        <GradientStop Offset="0.0" Color="{StaticResource colorLight}" />
+                        <GradientStop Offset="1" Color="{StaticResource colorPrimary}" />
+                    </GradientStopCollection>
+                </LinearGradientBrush>
+            </Path.Fill>
+        </Path>-->
+
+        <Label
+            Grid.Row="0"
+            Margin="7,0,0,0"
+            FontSize="30"
+            Text="Hemera"
+            TextColor="{AppThemeBinding Dark=White,
+                                        Light=Black}"
+            VerticalOptions="Center" />
+        <BoxView
+            Grid.Row="1"
+            BackgroundColor="{AppThemeBinding Dark=White}"
+            Opacity="0.5" />
+    </Grid>
 </ContentPage>

@@ -44,6 +44,17 @@ namespace Hemera.ViewModels
             get => CurrentDate.ToString("ddd dd.MM.yyyy");
         }
 
+        private bool _BottomAppBarVisible;
+        public bool BottomAppBarVisible
+        {
+            get => _BottomAppBarVisible;
+            set
+            {
+                _BottomAppBarVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         private ObservableCollection<Activity> allActivities;
 
         private ObservableCollection<Activity> _ActivitiesPerDay;
