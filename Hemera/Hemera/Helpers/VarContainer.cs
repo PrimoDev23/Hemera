@@ -29,5 +29,7 @@ namespace Hemera.Helpers
         }
 
         public static string activityPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "activities.json");
+
+        public static Color colorPrimaryOpaque = Color.FromHex("#5500c853");
     }
 }

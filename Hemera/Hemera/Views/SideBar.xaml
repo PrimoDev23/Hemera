@@ -6,7 +6,7 @@
     xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
     BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                       Light={StaticResource colorLightTheme}}">
-    <Grid RowDefinitions="50, 1, *, 56">
+    <Grid ColumnDefinitions="56, *" RowDefinitions="56, 1, 50, *">
         <!--<Path
             Grid.Row="0"
             Margin="-1,-1,-1,0"
@@ -22,9 +22,39 @@
                 </LinearGradientBrush>
             </Path.Fill>
         </Path>-->
-
+        <sh:Shadows
+            Grid.Row="0"
+            Grid.Column="0"
+            AbsoluteLayout.LayoutBounds=".93,.95,56,56"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            CornerRadius="50"
+            Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
+                                                          Opacity=0.4,
+                                                          BlurRadius=4,
+                                                          Color=Black},
+                                     Light={sh:SingleShade Offset='2,2',
+                                                           Opacity=0.3,
+                                                           BlurRadius=1,
+                                                           Color=#232323}}">
+            <Frame
+                Padding="0"
+                BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                  Light={StaticResource colorLightTheme}}"
+                CornerRadius="50"
+                HasShadow="False">
+                <Label
+                    Margin="12,10,0,0"
+                    FontFamily="AlexBrush-Regular"
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    Text="H"
+                    VerticalOptions="Center"
+                    WidthRequest="56" />
+            </Frame>
+        </sh:Shadows>
         <Label
             Grid.Row="0"
+            Grid.Column="1"
             Margin="7,0,0,0"
             FontSize="30"
             Text="Hemera"
@@ -33,7 +63,35 @@
             VerticalOptions="Center" />
         <BoxView
             Grid.Row="1"
-            BackgroundColor="{AppThemeBinding Dark=White}"
-            Opacity="0.5" />
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            BackgroundColor="{AppThemeBinding Dark=White,
+                                              Light=Gray}"
+            Opacity="{AppThemeBinding Dark=0.1,
+                                      Light=0.4}" />
+        <Frame
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="-20,0,10,0"
+            Padding="0"
+            BackgroundColor="{Binding MenuItems[0].BackColor}"
+            CornerRadius="50"
+            HasShadow="False">
+            <Grid ColumnDefinitions="95, *">
+                <Path
+                    Grid.Column="0"
+                    Data="{Binding MenuItems[0].PathData}"
+                    Fill="{AppThemeBinding Dark=White,
+                                           Light=Black}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Column="1"
+                    FontSize="17"
+                    Text="Test"
+                    VerticalOptions="Center" />
+            </Grid>
+        </Frame>
     </Grid>
 </ContentPage>
