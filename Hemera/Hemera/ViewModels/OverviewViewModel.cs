@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using MenuItem = Hemera.Models.MenuItem;
 
 namespace Hemera.ViewModels
 {
@@ -24,6 +25,9 @@ namespace Hemera.ViewModels
         public Command ForwardCommand { get; set; }
         public Command<Activity> OpenSelectionMenuCommand { get; set; }
         public Command<Activity> TappedCommand { get; set; }
+        public Command ExpandMenuCommand { get; set; }
+        public Command SlideUpCommand { get; set; }
+        public Command SlideDownCommand { get; set; }
 
         private DateTime _CurrentDate = DateTime.Now;
 
@@ -44,13 +48,13 @@ namespace Hemera.ViewModels
             get => CurrentDate.ToString("ddd dd.MM.yyyy");
         }
 
-        private bool _BottomAppBarVisible;
-        public bool BottomAppBarVisible
+        private bool _BottomMenuVisible;
+        public bool BottomMenuVisible
         {
-            get => _BottomAppBarVisible;
+            get => _BottomMenuVisible;
             set
             {
-                _BottomAppBarVisible = value;
+                _BottomMenuVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -69,6 +73,21 @@ namespace Hemera.ViewModels
             }
         }
 
+
+        private ObservableCollection<MenuItem> _MenuItems = new ObservableCollection<MenuItem>()
+        {
+            new MenuItem("Home", VarContainer.createPath("M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"), true)
+        };
+        public ObservableCollection<MenuItem> MenuItems
+        {
+            get => _MenuItems;
+            set
+            {
+                _MenuItems = value;
+                OnPropertyChanged();
+            }
+        }
+
         private readonly Overview page;
 
         public OverviewViewModel(Overview page)
@@ -79,6 +98,9 @@ namespace Hemera.ViewModels
             ForwardCommand = new Command(new Action(dayForward));
             OpenSelectionMenuCommand = new Command<Activity>(new Action<Activity>(openSelectionMenu));
             TappedCommand = new Command<Activity>(new Action<Activity>(activityTapped));
+            ExpandMenuCommand = new Command(new Action(expandCommand));
+            SlideUpCommand = new Command(new Action(slideUp));
+            SlideDownCommand = new Command(new Action(slideDown));
 
             void load()
             {
@@ -289,6 +311,38 @@ namespace Hemera.ViewModels
                 {
                     DependencyService.Get<INotificationManager>().SetupDNDWork(res.Date, $"DND|{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
                 }
+            }
+        }
+
+        private async void expandCommand()
+        {
+            BottomMenuVisible = !BottomMenuVisible;
+            //Expand it
+            if (BottomMenuVisible)
+            {
+                page.bottomMenu.TranslateTo(0, 0);
+                page.backgroundLayer.FadeTo(1);
+            }
+            else
+            {
+                page.bottomMenu.TranslateTo(0, 344);
+                page.backgroundLayer.FadeTo(0);
+            }
+        }
+
+        private void slideUp()
+        {
+            if (!BottomMenuVisible)
+            {
+                expandCommand();
+            }
+        }
+
+        private void slideDown()
+        {
+            if (BottomMenuVisible)
+            {
+                expandCommand();
             }
         }
 

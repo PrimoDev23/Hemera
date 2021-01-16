@@ -3,7 +3,7 @@
     x:Class="Hemera.Views.Popups.BottomMenu"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <Frame BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme}, Light={StaticResource colorLightTheme}}" CornerRadius="18">
+    <Frame BackgroundColor="{AppThemeBinding Dark=#181818, Light={StaticResource colorLightTheme}}" CornerRadius="18">
         <Grid />
     </Frame>
 </ContentView>
