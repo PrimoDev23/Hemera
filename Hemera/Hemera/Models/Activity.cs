@@ -97,20 +97,17 @@ namespace Hemera.Models
             get => _CategoryType;
             set
             {
-                switch (value)
+                Category = value switch
                 {
-                    case CategoryType.Shopping:
-                        Category = VarContainer.categories[0];
-                        break;
+                    CategoryType.Shopping => VarContainer.categories[0],
+                    CategoryType.Sports => VarContainer.categories[1],
+                    CategoryType.Meeting => VarContainer.categories[2],
+                    CategoryType.Work => VarContainer.categories[3],
+                    CategoryType.Break => VarContainer.categories[4],
+                    CategoryType.Learning => VarContainer.categories[5],
+                    CategoryType.Housework => VarContainer.categories[6],
+                };
 
-                    case CategoryType.Sports:
-                        Category = VarContainer.categories[1];
-                        break;
-
-                    case CategoryType.Meeting:
-                        Category = VarContainer.categories[2];
-                        break;
-                }
                 _CategoryType = value;
             }
         }
