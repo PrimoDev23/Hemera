@@ -19,67 +19,33 @@
         <Grid
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             AbsoluteLayout.LayoutFlags="All"
-            RowDefinitions="130, *">
-            <Path
-                Grid.Row="0"
-                Margin="-1,-1,-1,0"
-                Aspect="Fill"
-                Data="M0,0H375V129.651s-9.025,2.382-55.426-5.3-70.141-41.09-130.3-41.176-83.544,33.5-130.893,41.176S0,129.651,0,129.651Z"
-                HorizontalOptions="Fill">
-
-                <Path.Fill>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStopCollection>
-                            <GradientStop Offset="0.0" Color="{StaticResource colorLight}" />
-                            <GradientStop Offset="1" Color="{StaticResource colorPrimary}" />
-                        </GradientStopCollection>
-                    </LinearGradientBrush>
-                </Path.Fill>
-            </Path>
+            RowDefinitions="75, *">
             <sh:Shadows
                 Grid.Row="0"
-                Margin="0,0,0,-15"
-                CornerRadius="50"
-                HeightRequest="56"
-                HorizontalOptions="Center"
-                Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
-                                                              Opacity=0.3,
+                CornerRadius="0"
+                Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,2',
+                                                              Opacity=0.4,
                                                               BlurRadius=4,
                                                               Color=Black},
-                                         Light={sh:SingleShade Offset='2,2',
-                                                               Opacity=0.2,
-                                                               BlurRadius=3,
-                                                               Color={StaticResource colorDarkTheme}}}"
-                VerticalOptions="End"
-                WidthRequest="56">
+                                         Light={sh:SingleShade Offset='0,2',
+                                                               Opacity=0.3,
+                                                               BlurRadius=1,
+                                                               Color=#232323}}">
                 <Frame
                     Padding="0"
-                    BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
-                                                      Light={StaticResource colorLightTheme}}"
-                    CornerRadius="50"
-                    HeightRequest="56"
-                    WidthRequest="56">
-                    <Path
-                        Margin="-2,-2,0,0"
-                        Data="{Binding CurrentCategory.PathData}"
-                        Fill="{AppThemeBinding Dark=White,
-                                               Light=Black}"
-                        HorizontalOptions="Center"
-                        InputTransparent="True"
-                        VerticalOptions="Center" />
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SelectCategoryCommand}" />
-                    </Frame.GestureRecognizers>
+                    BackgroundColor="{StaticResource colorPrimary}"
+                    CornerRadius="0"
+                    HasShadow="False">
+                    <Entry
+                        x:Name="txt_title"
+                        Grid.Row="0"
+                        Margin="8"
+                        Placeholder="{x:Static resx:AppResources.Title}"
+                        Text="{Binding Activity.Title}"
+                        TextChanged="txt_title_TextChanged"
+                        Visual="Material" />
                 </Frame>
             </sh:Shadows>
-            <Entry
-                x:Name="txt_title"
-                Grid.Row="0"
-                Margin="8"
-                Placeholder="{x:Static resx:AppResources.Title}"
-                Text="{Binding Activity.Title}"
-                TextChanged="txt_title_TextChanged"
-                Visual="Material" />
             <ScrollView Grid.Row="1" Grid.Column="0">
                 <Grid ColumnDefinitions="30, AUTO, *, 30, AUTO" RowDefinitions="70, AUTO, AUTO, AUTO, AUTO, AUTO, AUTO, *">
                     <Image

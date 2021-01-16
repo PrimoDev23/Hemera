@@ -20,19 +20,6 @@
                                               Light={StaticResource colorLightTheme}}"
             RowDefinitions="56, *, 56"
             RowSpacing="0">
-            <!--<Path
-            Grid.Row="0"
-            Margin="20,20,0,0"
-            Data="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
-            Fill="{AppThemeBinding Dark=White,
-                                   Light=Black}"
-            HorizontalOptions="Start"
-            Scale="1.4"
-            VerticalOptions="Start">
-            <Path.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding OpenMenuCommand}" />
-            </Path.GestureRecognizers>
-        </Path>-->
             <sh:Shadows
                 Grid.Row="0"
                 CornerRadius="0"

@@ -228,4 +228,16 @@
   <data name="RecordTitle" xml:space="preserve">
     <value>Title of the recording</value>
   </data>
+  <data name="Break" xml:space="preserve">
+    <value>Break</value>
+  </data>
+  <data name="Housework" xml:space="preserve">
+    <value>Housework</value>
+  </data>
+  <data name="Learning" xml:space="preserve">
+    <value>Learning</value>
+  </data>
+  <data name="Work" xml:space="preserve">
+    <value>Work</value>
+  </data>
 </root>

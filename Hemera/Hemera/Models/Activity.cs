@@ -103,7 +103,7 @@ namespace Hemera.Models
                         Category = VarContainer.categories[0];
                         break;
 
-                    case CategoryType.EnduranceSports:
+                    case CategoryType.Sports:
                         Category = VarContainer.categories[1];
                         break;
 

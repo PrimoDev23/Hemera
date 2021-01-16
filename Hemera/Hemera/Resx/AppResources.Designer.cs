@@ -70,6 +70,15 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Break.
+        /// </summary>
+        public static string Break {
+            get {
+                return ResourceManager.GetString("Break", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Checklist.
         /// </summary>
         public static string Checklist {
@@ -205,11 +214,29 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Housework.
+        /// </summary>
+        public static string Housework {
+            get {
+                return ResourceManager.GetString("Housework", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Item.
         /// </summary>
         public static string ItemName {
             get {
                 return ResourceManager.GetString("ItemName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Learning.
+        /// </summary>
+        public static string Learning {
+            get {
+                return ResourceManager.GetString("Learning", resourceCulture);
             }
         }
         
@@ -390,6 +417,15 @@ namespace Hemera.Resx {
         public static string TitleMissing {
             get {
                 return ResourceManager.GetString("TitleMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work.
+        /// </summary>
+        public static string Work {
+            get {
+                return ResourceManager.GetString("Work", resourceCulture);
             }
         }
     }
