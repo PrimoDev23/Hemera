@@ -240,4 +240,10 @@
   <data name="Work" xml:space="preserve">
     <value>Arbeit</value>
   </data>
+  <data name="ChartPage" xml:space="preserve">
+    <value>Statistik</value>
+  </data>
+  <data name="HomePage" xml:space="preserve">
+    <value>Startseite</value>
+  </data>
 </root>

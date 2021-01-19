@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Hemera.Views.ChartView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:chart="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+    xmlns:models="clr-namespace:Hemera.Models"
+    xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
+    NavigationPage.HasNavigationBar="False">
+    <Grid
+        BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                          Light={StaticResource colorLightTheme}}"
+        RowDefinitions="56, 230, *"
+        RowSpacing="0">
+        <sh:Shadows
+            Grid.Row="0"
+            CornerRadius="0"
+            Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,2',
+                                                          Opacity=0.4,
+                                                          BlurRadius=4,
+                                                          Color=Black},
+                                     Light={sh:SingleShade Offset='0,2',
+                                                           Opacity=0.3,
+                                                           BlurRadius=1,
+                                                           Color=#232323}}">
+            <Frame
+                Padding="0"
+                BackgroundColor="{StaticResource colorPrimary}"
+                CornerRadius="0"
+                HasShadow="False" />
+        </sh:Shadows>
+        <sh:Shadows
+            Grid.Row="1"
+            Margin="8"
+            CornerRadius="8"
+            Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                          Opacity=0.3,
+                                                          BlurRadius=4,
+                                                          Color=Black},
+                                     Light={sh:SingleShade Offset='2,2',
+                                                           Opacity=0.2,
+                                                           BlurRadius=3,
+                                                           Color={StaticResource colorDarkTheme}}}">
+            <Frame
+                Padding="0"
+                BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                  Light={StaticResource colorLightTheme}}"
+                CornerRadius="8">
+                <Grid RowDefinitions="*">
+                    <chart:ChartView Grid.Row="0" Chart="{Binding Chart}" />
+                </Grid>
+            </Frame>
+        </sh:Shadows>
+    </Grid>
+</ContentView>

@@ -35,7 +35,7 @@ namespace Hemera.Models
 
         public CategoryType type;
 
-        public Brush BadgeBrush { get; set; }
+        public SolidColorBrush BadgeBrush { get; set; }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

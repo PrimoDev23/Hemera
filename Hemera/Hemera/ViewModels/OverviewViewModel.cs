@@ -4,6 +4,7 @@ using Hemera.Models;
 using Hemera.Resx;
 using Hemera.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -43,8 +44,6 @@ namespace Hemera.ViewModels
             get => CurrentDate.ToString("ddd dd.MM.yyyy");
         }
 
-        private ObservableCollection<Activity> allActivities;
-
         private ObservableCollection<Activity> _ActivitiesPerDay;
 
         public ObservableCollection<Activity> ActivitiesPerDay
@@ -68,11 +67,8 @@ namespace Hemera.ViewModels
 
             void load()
             {
-                //Load all Activities
-                allActivities = FileHelper.loadActivities();
-
                 //Sort those by time
-                ActivitiesPerDay = new ObservableCollection<Activity>(from act in allActivities.getActivitiesPerDay(CurrentDate)
+                ActivitiesPerDay = new ObservableCollection<Activity>(from act in VarContainer.allActivities.getActivitiesPerDay(CurrentDate)
                                                                       orderby act.Date
                                                                       select act);
             }
@@ -98,7 +94,7 @@ namespace Hemera.ViewModels
         /// </summary>
         private void Order()
         {
-            ActivitiesPerDay = new ObservableCollection<Activity>(from act in allActivities.getActivitiesPerDay(CurrentDate)
+            ActivitiesPerDay = new ObservableCollection<Activity>(from act in VarContainer.allActivities.getActivitiesPerDay(CurrentDate)
                                                                   orderby act.Date
                                                                   select act);
         }
@@ -123,10 +119,10 @@ namespace Hemera.ViewModels
                 await page.Navigation.PopModalAsync().ConfigureAwait(false);
 
                 //Add the new activity to list
-                allActivities.Add(res);
+                VarContainer.allActivities.Add(res);
 
                 //Save the newly added activity
-                await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
+                await FileHelper.saveActivities(VarContainer.allActivities).ConfigureAwait(false);
                 await Task.Run(new Action(Order)).ConfigureAwait(false);
 
                 //Set the notification
@@ -167,17 +163,17 @@ namespace Hemera.ViewModels
                 else if (res == AppResources.ResetStatus)
                 {
                     activity.Status = ActivityStatus.None;
-                    await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
+                    await FileHelper.saveActivities(VarContainer.allActivities).ConfigureAwait(false);
                 }
                 else if (res == AppResources.MarkAsDone)
                 {
                     activity.Status = ActivityStatus.Done;
-                    await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
+                    await FileHelper.saveActivities(VarContainer.allActivities).ConfigureAwait(false);
                 }
                 else if (res == AppResources.MarkAsMissed)
                 {
                     activity.Status = ActivityStatus.Missed;
-                    await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
+                    await FileHelper.saveActivities(VarContainer.allActivities).ConfigureAwait(false);
                 }
             }
         }
@@ -190,14 +186,14 @@ namespace Hemera.ViewModels
 
         public async Task saveFromOuter()
         {
-            await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
+            await FileHelper.saveActivities(VarContainer.allActivities).ConfigureAwait(false);
         }
 
         private async Task deleteActivity(Activity activity)
         {
             DependencyService.Get<INotificationManager>().CancelWork($"Notify|{activity.Title}|{activity.Date.ToString("yyyyMMddmmhh")}|{activity.CategoryType.ToString()}");
             DependencyService.Get<INotificationManager>().CancelWork($"DND|{activity.Title}|{activity.Date.ToString("yyyyMMddmmhh")}|{activity.CategoryType.ToString()}");
-            allActivities.Remove(activity);
+            VarContainer.allActivities.Remove(activity);
 
             void orderAndSave()
             {
@@ -216,7 +212,7 @@ namespace Hemera.ViewModels
                 Order();
             }
             await Task.Run(new Action(orderAndSave)).ConfigureAwait(false);
-            await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
+            await FileHelper.saveActivities(VarContainer.allActivities).ConfigureAwait(false);
         }
 
         //Edit activity
@@ -257,10 +253,10 @@ namespace Hemera.ViewModels
                 await page.Navigation.PopModalAsync().ConfigureAwait(false);
 
                 //Add the new activity to list
-                allActivities.Add(res);
+                VarContainer.allActivities.Add(res);
 
                 //Save the edited activity
-                await FileHelper.saveActivities(allActivities).ConfigureAwait(false);
+                await FileHelper.saveActivities(VarContainer.allActivities).ConfigureAwait(false);
                 await Task.Run(new Action(Order)).ConfigureAwait(false);
 
                 //Set the notification

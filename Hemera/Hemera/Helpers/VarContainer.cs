@@ -3,6 +3,7 @@ using Hemera.Resx;
 using Hemera.ViewModels;
 using Hemera.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Shapes;
@@ -14,6 +15,8 @@ namespace Hemera.Helpers
         public static StartPage holderPage;
 
         public static OverviewViewModel currentOverviewModel;
+
+        public static List<Activity> allActivities;
 
         public static ObservableCollection<Category> categories = new ObservableCollection<Models.Category>()
         {

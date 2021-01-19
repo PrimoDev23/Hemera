@@ -20,7 +20,8 @@ namespace Hemera.ViewModels
 
         private ObservableCollection<MenuItem> _MenuItems = new ObservableCollection<MenuItem>()
         {
-            new MenuItem("Home", VarContainer.createPath("M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"), true)
+            new MenuItem(AppResources.HomePage, VarContainer.createPath("M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"), true),
+            new MenuItem(AppResources.ChartPage, VarContainer.createPath("M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-5h2v5zm4 0h-2v-3h2v3zm0-5h-2v-2h2v2zm4 5h-2V7h2v10z"), false),
         };
         public ObservableCollection<MenuItem> MenuItems
         {
@@ -36,8 +37,9 @@ namespace Hemera.ViewModels
         public Command ExpandMenuCommand { get; set; }
         public Command SlideUpCommand { get; set; }
         public Command SlideDownCommand { get; set; }
+        public Command<MenuItem> SelectMenuItemCommand { get; set; }
 
-        private bool _BottomMenuVisible;
+        private bool _BottomMenuVisible = false;
         public bool BottomMenuVisible
         {
             get => _BottomMenuVisible;
@@ -48,13 +50,28 @@ namespace Hemera.ViewModels
             }
         }
 
+        //Allow changing Visibility of Add-Button
+        private bool allowChangeAddButtonVisible = true;
+
+        private bool _AddButtonVisible = true;
+        public bool AddButtonVisible
+        {
+            get => _AddButtonVisible;
+            set
+            {
+                _AddButtonVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         private readonly StartPage page;
         public StartPageViewModel(StartPage page)
         {
             CreateNewCommand = new Command(new Action(createActivity));
-            ExpandMenuCommand = new Command(new Action(expandCommand));
+            ExpandMenuCommand = new Command(new Action(toggleMenu));
             SlideUpCommand = new Command(new Action(slideUp));
             SlideDownCommand = new Command(new Action(slideDown));
+            SelectMenuItemCommand = new Command<MenuItem>(new Action<MenuItem>(selectMenuItem));
 
             this.page = page;
         }
@@ -64,9 +81,16 @@ namespace Hemera.ViewModels
             await VarContainer.currentOverviewModel?.createNewActivity();
         }
 
-        private void expandCommand()
+        private void toggleMenu()
         {
             BottomMenuVisible = !BottomMenuVisible;
+
+            //Check if changing the visibility of add button is allowed
+            if (allowChangeAddButtonVisible)
+            {
+                AddButtonVisible = !BottomMenuVisible;
+            }
+
             //Expand it
             if (BottomMenuVisible)
             {
@@ -84,7 +108,7 @@ namespace Hemera.ViewModels
         {
             if (!BottomMenuVisible)
             {
-                expandCommand();
+                toggleMenu();
             }
         }
 
@@ -92,7 +116,39 @@ namespace Hemera.ViewModels
         {
             if (BottomMenuVisible)
             {
-                expandCommand();
+                toggleMenu();
+            }
+        }
+
+        private void selectMenuItem(MenuItem item)
+        {
+            //Return if it's already selected
+            if (item.Selected)
+            {
+                return;
+            }
+
+            //Change selection
+            MenuItem curr;
+            for (int i = 0; i < MenuItems.Count; i++)
+            {
+                curr = MenuItems[i];
+                curr.Selected = curr == item;
+            }
+
+            toggleMenu();
+
+            //Display page
+            if (item.Title == AppResources.HomePage)
+            {
+                page.holderView.Content = new Overview();
+                AddButtonVisible = true;
+                allowChangeAddButtonVisible = true;
+            }else if(item.Title == AppResources.ChartPage)
+            {
+                page.holderView.Content = new ChartView();
+                AddButtonVisible = false;
+                allowChangeAddButtonVisible = false;
             }
         }
 

@@ -13,7 +13,7 @@ namespace Hemera.Helpers
         /// <param name="activities">Activities to search</param>
         /// <param name="date">Date to search by</param>
         /// <returns></returns>
-        public static IEnumerable<Activity> getActivitiesPerDay(this ObservableCollection<Activity> activities, DateTime date)
+        public static IEnumerable<Activity> getActivitiesPerDay(this List<Activity> activities, DateTime date)
         {
             Activity curr;
             for (int i = 0; i < activities.Count; i++)

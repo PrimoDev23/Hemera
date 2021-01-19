@@ -19,6 +19,9 @@ namespace Hemera
             //We need to reload Categories if Theme changes
             Application.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
 
+            //Load all Activities
+            VarContainer.allActivities = FileHelper.loadActivities();
+
             MainPage = new Views.StartPage();
         }
 

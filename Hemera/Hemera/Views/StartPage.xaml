@@ -3,17 +3,23 @@
     x:Class="Hemera.Views.StartPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:converter="clr-namespace:Hemera.Converter"
-    xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows">
-    <ContentPage.Resources>
-        <converter:InverterConverter x:Key="InverterConverter" />
-    </ContentPage.Resources>
+    xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
+    BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                      Light={StaticResource colorLightTheme}}"
+    NavigationPage.HasNavigationBar="False">
     <AbsoluteLayout>
-        <Grid RowDefinitions="*">
-            <ContentView x:Name="holderView" />
+        <Grid
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            RowDefinitions="*, 50">
+            <ContentView
+                x:Name="holderView"
+                Grid.Row="0"
+                x:FieldModifier="public" />
             <BoxView
                 x:Name="backgroundLayer"
                 Grid.Row="0"
+                Grid.RowSpan="2"
                 x:FieldModifier="public"
                 BackgroundColor="#AA232323"
                 IsVisible="{Binding BottomMenuVisible}"
@@ -25,6 +31,7 @@
             <Frame
                 x:Name="bottomMenu"
                 Grid.Row="0"
+                Grid.RowSpan="2"
                 Padding="0"
                 x:FieldModifier="public"
                 BackgroundColor="#181818"
@@ -33,7 +40,7 @@
                 HeightRequest="400"
                 TranslationY="344"
                 VerticalOptions="End">
-                <Grid RowDefinitions="50, 1, 48, *">
+                <Grid RowDefinitions="50, 1, 48, 48, *">
                     <Path
                         Grid.Row="0"
                         Margin="0,15,20,0"
@@ -74,6 +81,34 @@
                                 Text="{Binding MenuItems[0].Title}"
                                 VerticalOptions="Center" />
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectMenuItemCommand}" CommandParameter="{Binding MenuItems[0]}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                    <Frame
+                        Grid.Row="3"
+                        Margin="8,0"
+                        Padding="0"
+                        BackgroundColor="{Binding MenuItems[1].BackColor}"
+                        CornerRadius="8">
+                        <Grid ColumnDefinitions="56, *">
+                            <Path
+                                Grid.Column="0"
+                                Data="{Binding MenuItems[1].PathData}"
+                                Fill="{AppThemeBinding Dark=White,
+                                                       Light=Black}"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                FontSize="17"
+                                Text="{Binding MenuItems[1].Title}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectMenuItemCommand}" CommandParameter="{Binding MenuItems[1]}" />
+                        </Frame.GestureRecognizers>
                     </Frame>
                 </Grid>
                 <Frame.GestureRecognizers>
@@ -86,7 +121,7 @@
             AbsoluteLayout.LayoutBounds=".50,.97,56,56"
             AbsoluteLayout.LayoutFlags="PositionProportional"
             CornerRadius="50"
-            IsVisible="{Binding BottomMenuVisible, Converter={StaticResource InverterConverter}}"
+            IsVisible="{Binding AddButtonVisible}"
             Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
                                                           Opacity=0.4,
                                                           BlurRadius=4,

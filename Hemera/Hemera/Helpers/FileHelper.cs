@@ -1,6 +1,7 @@
 ﻿using Hemera.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Hemera.Helpers
         /// </summary>
         /// <param name="activities">Activities to save</param>
         /// <returns></returns>
-        public static Task saveActivities(ObservableCollection<Activity> activities)
+        public static Task saveActivities(List<Activity> activities)
         {
             void save()
             {
@@ -30,11 +31,11 @@ namespace Hemera.Helpers
             return Task.Run(new Action(save));
         }
 
-        public static ObservableCollection<Activity> loadActivities()
+        public static List<Activity> loadActivities()
         {
             if (!File.Exists(VarContainer.activityPath))
             {
-                return new ObservableCollection<Activity>();
+                return new List<Activity>();
             }
 
             using (StreamReader sr = new StreamReader(VarContainer.activityPath))
@@ -42,7 +43,7 @@ namespace Hemera.Helpers
                 using (JsonReader reader = new JsonTextReader(sr))
                 {
                     JsonSerializer serializer = new JsonSerializer();
-                    return serializer.Deserialize<ObservableCollection<Activity>>(reader);
+                    return serializer.Deserialize<List<Activity>>(reader);
                 }
             }
         }

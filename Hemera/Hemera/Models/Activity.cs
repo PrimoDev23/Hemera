@@ -154,8 +154,8 @@ namespace Hemera.Models
 
         public TimeType DurationType;
 
-        private double _Duration = 60;
-        public double Duration
+        private float _Duration = 60;
+        public float Duration
         {
             get => _Duration;
             set

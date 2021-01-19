@@ -486,7 +486,7 @@ namespace Hemera.ViewModels
             }
 
             Activity.DurationType = DurMinuteChecked ? TimeType.Minute : TimeType.Hour;
-            Activity.Duration = double.Parse(page.txt_duration.Text);
+            Activity.Duration = float.Parse(page.txt_duration.Text);
 
             newActivityCompleted.TrySetResult(Activity);
         }
