@@ -28,7 +28,20 @@ namespace Hemera.ViewModels
             }
         }
 
-        public ObservableCollection<Category> Categories => VarContainer.categories;
+        #region MaxDuration
+
+        private string _MaxDurationString = "-";
+        public string MaxDurationString
+        {
+            get => _MaxDurationString;
+            set
+            {
+                _MaxDurationString = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion MaxDuration
 
         public ChartViewModel()
         {
@@ -64,18 +77,26 @@ namespace Hemera.ViewModels
 
             ChartEntry[] entries = new ChartEntry[VarContainer.categories.Count];
 
+            float maxDuration = 0f;
+
             Category curr_category;
             for (int i = 0; i < VarContainer.categories.Count; i++)
             {
                 curr_category = VarContainer.categories[i];
                 entries[i] = new ChartEntry(values[i])
                 {
-                    Color = new SKColor((byte)(curr_category.BadgeBrush.Color.R * 100), (byte)(curr_category.BadgeBrush.Color.G * 100), (byte)(curr_category.BadgeBrush.Color.B * 100)),
+                    Color = SKColor.Parse(curr_category.BadgeBrush.Color.ToHex()),
                     Label = curr_category.Name,
                     ValueLabel = values[i].ToString() + "h",
-                    ValueLabelColor = new SKColor((byte)(curr_category.BadgeBrush.Color.R * 100), (byte)(curr_category.BadgeBrush.Color.G * 100), (byte)(curr_category.BadgeBrush.Color.B * 100)),
+                    ValueLabelColor = SKColor.Parse(curr_category.BadgeBrush.Color.ToHex()),
                     TextColor = Application.Current.RequestedTheme == OSAppTheme.Dark ? SKColors.White : SKColors.Black,
                 };
+
+                if(values[i] > maxDuration)
+                {
+                    maxDuration = values[i];
+                    MaxDurationString = $"{curr_category.Name} ({values[i].ToString()}h)";
+                }
             }
 
             Chart = new DonutChart()

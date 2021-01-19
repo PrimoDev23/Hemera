@@ -304,6 +304,15 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Category with the longest duration.
+        /// </summary>
+        public static string MaxDuration {
+            get {
+                return ResourceManager.GetString("MaxDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meeting.
         /// </summary>
         public static string Meeting {

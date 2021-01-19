@@ -34,7 +34,8 @@
                 Grid.RowSpan="2"
                 Padding="0"
                 x:FieldModifier="public"
-                BackgroundColor="#181818"
+                BackgroundColor="{AppThemeBinding Dark=#181818,
+                                                  Light=#f1f1f1}"
                 CornerRadius="8"
                 HasShadow="False"
                 HeightRequest="400"

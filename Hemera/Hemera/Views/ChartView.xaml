@@ -5,12 +5,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:chart="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
     xmlns:models="clr-namespace:Hemera.Models"
+    xmlns:resx="clr-namespace:Hemera.Resx"
     xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
     NavigationPage.HasNavigationBar="False">
     <Grid
         BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                           Light={StaticResource colorLightTheme}}"
-        RowDefinitions="56, 230, *"
+        RowDefinitions="56, 230, 120, *"
         RowSpacing="0">
         <sh:Shadows
             Grid.Row="0"
@@ -42,12 +43,45 @@
                                                            BlurRadius=3,
                                                            Color={StaticResource colorDarkTheme}}}">
             <Frame
-                Padding="0"
+                Padding="8"
                 BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                                   Light={StaticResource colorLightTheme}}"
-                CornerRadius="8">
-                <Grid RowDefinitions="*">
-                    <chart:ChartView Grid.Row="0" Chart="{Binding Chart}" />
+                CornerRadius="8"
+                HasShadow="False">
+                <chart:ChartView Grid.Row="0" Chart="{Binding Chart}" />
+            </Frame>
+        </sh:Shadows>
+        <sh:Shadows
+            Grid.Row="2"
+            Margin="8"
+            CornerRadius="8"
+            Shades="{AppThemeBinding Dark={sh:SingleShade Offset='1,2',
+                                                          Opacity=0.3,
+                                                          BlurRadius=4,
+                                                          Color=Black},
+                                     Light={sh:SingleShade Offset='2,2',
+                                                           Opacity=0.2,
+                                                           BlurRadius=3,
+                                                           Color={StaticResource colorDarkTheme}}}">
+            <Frame
+                BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                  Light={StaticResource colorLightTheme}}"
+                CornerRadius="8"
+                HasShadow="False">
+                <Grid RowDefinitions="*, *">
+                    <Label
+                        Grid.Row="0"
+                        FontAttributes="Bold"
+                        FontSize="17"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{x:Static resx:AppResources.MaxDuration}" />
+                    <Label
+                        Grid.Row="1"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding MaxDurationString}" />
                 </Grid>
             </Frame>
         </sh:Shadows>

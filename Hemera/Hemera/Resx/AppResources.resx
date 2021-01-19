@@ -246,4 +246,7 @@
   <data name="HomePage" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="MaxDuration" xml:space="preserve">
+    <value>Category with the longest duration</value>
+  </data>
 </root>
