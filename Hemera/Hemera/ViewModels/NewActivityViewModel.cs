@@ -344,21 +344,31 @@ namespace Hemera.ViewModels
 
         #region Checklist
 
-        //If user presses return
+        /// <summary>
+        /// User presses return key
+        /// </summary>
+        /// <param name="Text">Text in current entry</param>
         private void returnPressed(string Text)
         {
             //If Text isn't empty we can add a new list item
             if (Text?.Length > 0)
             {
+                //Add a new item
                 ShoppingItem item = new ShoppingItem();
                 Activity?.Checklist.Add(item);
+
+                //Scroll to the newly created item
                 page.collView.ScrollTo(Activity.Checklist.Count - 1);
 
+                //Focus entry
                 item.Focused = true;
             }
         }
 
-        //Remove a item from the checklist
+        /// <summary>
+        /// Remove an item from the checklist
+        /// </summary>
+        /// <param name="item">Item to remove</param>
         private void removeItem(ShoppingItem item)
         {
             //First remove that entry
@@ -375,7 +385,10 @@ namespace Hemera.ViewModels
 
         #region Location
 
-        //Center the users location
+        /// <summary>
+        /// Center location of the user if possible
+        /// </summary>
+        /// <returns></returns>
         public async Task CenterUsersLocation()
         {
             try
@@ -395,7 +408,11 @@ namespace Hemera.ViewModels
             }
         }
 
-        //Center the users selected location (For edit)
+        /// <summary>
+        /// Center a specific position
+        /// </summary>
+        /// <param name="pos">Position to center</param>
+        /// <returns></returns>
         public async Task CenterSelectedLocation(Position pos)
         {
             void UI()
@@ -405,18 +422,24 @@ namespace Hemera.ViewModels
             await Device.InvokeOnMainThreadAsync(new Action(UI)).ConfigureAwait(false);
         }
 
-        //Add Pin by address
+        /// <summary>
+        /// Add pin by address
+        /// </summary>
         private async void setLocation()
         {
+            //Get the Location for an address
             Location loc = (await Geocoding.GetLocationsAsync(Location)).First();
 
+            //Return if no data was found
             if (loc == null)
             {
                 return;
             }
 
+            //Clear pins
             page.map.Pins.Clear();
 
+            //Add a new pin
             Pin pin = new Pin()
             {
                 Position = new Position(loc.Latitude, loc.Longitude),
@@ -424,6 +447,7 @@ namespace Hemera.ViewModels
             };
             page.map.Pins.Add(pin);
 
+            //Set the current activity's location
             Activity.Position = pin.Position;
 
             page.map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(loc.Latitude, loc.Longitude), Distance.FromKilometers(1)));
@@ -431,6 +455,9 @@ namespace Hemera.ViewModels
 
         #endregion Location
 
+        /// <summary>
+        /// Select a category
+        /// </summary>
         private async void selectCategory()
         {
             //Show category popup and wait for selection
@@ -448,9 +475,12 @@ namespace Hemera.ViewModels
             await page.Navigation.PopModalAsync().ConfigureAwait(false);
         }
 
-        //User tapped done button
+        /// <summary>
+        /// User finished this view and pressed done button
+        /// </summary>
         private void finished()
         {
+            //If any needed data is invalid return
             if (NotifyTimeInvalid || titleInvalid || DurationInvalid)
             {
                 return;
@@ -491,10 +521,16 @@ namespace Hemera.ViewModels
             newActivityCompleted.TrySetResult(Activity);
         }
 
+        #region Attachments
+
+        /// <summary>
+        /// Attach a file to the activity
+        /// </summary>
         private async void attachFile()
         {
             try
             {
+                //Let the user pick files
                 IEnumerable<FileResult> files = await FilePicker.PickMultipleAsync().ConfigureAwait(false);
 
                 if (files == null)
@@ -502,6 +538,7 @@ namespace Hemera.ViewModels
                     return;
                 }
 
+                //Add them to the activity
                 foreach (FileResult result in files)
                 {
                     Activity.Attachments.Add(new Attachment(AttachmentType.File, result));
@@ -514,6 +551,9 @@ namespace Hemera.ViewModels
 
         private string currentRecordFile;
 
+        /// <summary>
+        /// Record audio
+        /// </summary>
         private async void recordAudio()
         {
             bool success = true;
@@ -527,11 +567,13 @@ namespace Hemera.ViewModels
             }
             else //Else start recording
             {
+                //Check if we have permission
                 if (!DependencyService.Get<IAudio>().checkPermission())
                 {
                     return;
                 }
 
+                //Let the user enter a name for the file
                 string name = await page.DisplayPromptAsync(AppResources.RecordTitle, null, "OK").ConfigureAwait(false);
 
                 if (!(name?.Length > 0))
@@ -539,6 +581,7 @@ namespace Hemera.ViewModels
                     return;
                 }
 
+                //Create filename for record
                 currentRecordFile = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), name + DateTime.Now.ToString("dd-MM-yyyy-HH-mm") + ".3gpp");
 
                 void start()
@@ -554,13 +597,21 @@ namespace Hemera.ViewModels
             }
         }
 
+        /// <summary>
+        /// Stop current recording session
+        /// </summary>
         public static void stopRecording()
         {
             DependencyService.Get<IAudio>().stopRecord();
         }
 
+        /// <summary>
+        /// Remove an attachment
+        /// </summary>
+        /// <param name="attachment">Attachment to remove</param>
         public void removeAttachment(Attachment attachment)
         {
+            //Remove the attachment from the list
             Activity.Attachments.Remove(attachment);
 
             //Remove the file if it's an audio file
@@ -569,6 +620,8 @@ namespace Hemera.ViewModels
                 File.Delete(attachment.File.FullPath);
             }
         }
+
+        #endregion Attachments
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

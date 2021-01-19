@@ -76,11 +76,17 @@ namespace Hemera.ViewModels
             this.page = page;
         }
 
+        /// <summary>
+        /// Create new activity
+        /// </summary>
         private async void createActivity()
         {
             await VarContainer.currentOverviewModel?.createNewActivity();
         }
 
+        /// <summary>
+        /// Toggle bottom bar menu
+        /// </summary>
         private void toggleMenu()
         {
             BottomMenuVisible = !BottomMenuVisible;
@@ -97,13 +103,16 @@ namespace Hemera.ViewModels
                 page.bottomMenu.TranslateTo(0, 0);
                 page.backgroundLayer.FadeTo(1);
             }
-            else
+            else //Collapse it
             {
                 page.bottomMenu.TranslateTo(0, 344);
                 page.backgroundLayer.FadeTo(0);
             }
         }
 
+        /// <summary>
+        /// Expand Menu if not already expanded
+        /// </summary>
         private void slideUp()
         {
             if (!BottomMenuVisible)
@@ -112,6 +121,9 @@ namespace Hemera.ViewModels
             }
         }
 
+        /// <summary>
+        /// Collapse menu if not already collapsed
+        /// </summary>
         private void slideDown()
         {
             if (BottomMenuVisible)
@@ -120,6 +132,10 @@ namespace Hemera.ViewModels
             }
         }
 
+        /// <summary>
+        /// Select a menu item
+        /// </summary>
+        /// <param name="item">Menu item to select</param>
         private void selectMenuItem(MenuItem item)
         {
             //Return if it's already selected

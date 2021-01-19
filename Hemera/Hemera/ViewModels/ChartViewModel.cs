@@ -45,9 +45,12 @@ namespace Hemera.ViewModels
 
         public ChartViewModel()
         {
-            initPerCategoryChart();
+            Task.Run(new Action(initPerCategoryChart));
         }
 
+        /// <summary>
+        /// Initialize the Chart and other values
+        /// </summary>
         unsafe private void initPerCategoryChart()
         {
             //We don't need to show the diagram if this is empty
@@ -79,6 +82,7 @@ namespace Hemera.ViewModels
 
             float maxDuration = 0f;
 
+            //Fill the entries array
             Category curr_category;
             for (int i = 0; i < VarContainer.categories.Count; i++)
             {
@@ -92,6 +96,7 @@ namespace Hemera.ViewModels
                     TextColor = Application.Current.RequestedTheme == OSAppTheme.Dark ? SKColors.White : SKColors.Black,
                 };
 
+                //Set the maxDuration of Categories
                 if(values[i] > maxDuration)
                 {
                     maxDuration = values[i];
@@ -99,11 +104,13 @@ namespace Hemera.ViewModels
                 }
             }
 
-            Chart = new DonutChart()
+            //Show a Donutchart
+            Chart = new RadialGaugeChart()
             {
                 Entries = entries,
                 BackgroundColor = Application.Current.RequestedTheme == OSAppTheme.Dark ? new SKColor(35, 35, 35) : SKColors.White,
-                LabelTextSize = 50
+                LabelTextSize = 30,
+                LineSize = 14
             };
         }
 

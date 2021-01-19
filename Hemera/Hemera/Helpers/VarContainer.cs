@@ -27,6 +27,9 @@ namespace Hemera.Helpers
             new Category(AppResources.Break, VarContainer.createPath("M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.9 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"), false, CategoryType.Break, new SolidColorBrush(Color.FromHex("#80deea"))),
             new Category(AppResources.Learning, VarContainer.createPath("M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"), false, CategoryType.Learning, new SolidColorBrush(Color.FromHex("#ce93d8"))),
             new Category(AppResources.Housework, VarContainer.createPath("M19,9.3V4h-3v2.6L12,3L2,12h3v8h5v-6h4v6h5v-8h3L19,9.3z M10,10c0-1.1,0.9-2,2-2s2,0.9,2,2H10z"), false, CategoryType.Housework, new SolidColorBrush(Color.FromHex("#f48fb1"))),
+            new Category(AppResources.Reading, VarContainer.createPath("M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"), false, CategoryType.Reading, new SolidColorBrush(Color.FromHex("#ff9800"))),
+            new Category(AppResources.TV, VarContainer.createPath("M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"), false, CategoryType.TV, new SolidColorBrush(Color.FromHex("#8d6e63"))),
+            new Category(AppResources.Internet, VarContainer.createPath("M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"), false, CategoryType.Internet, new SolidColorBrush(Color.FromHex("#039be5"))),
         };
 
         public static Geometry FileGeometry = VarContainer.createPath("M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 14h-3v3h-2v-3H8v-2h3v-3h2v3h3v2zm-3-7V3.5L18.5 9H13z");

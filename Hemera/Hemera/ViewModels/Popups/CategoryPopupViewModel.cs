@@ -37,6 +37,9 @@ namespace Hemera.ViewModels.Popups
             this.popup = popup;
         }
 
+        /// <summary>
+        /// Complete the current popup
+        /// </summary>
         private void done()
         {
             Category curr;
@@ -47,11 +50,15 @@ namespace Hemera.ViewModels.Popups
                 curr = Categories[i];
                 if (curr.Selected)
                 {
+                    //And finish the TaskCompletitionSource with selected category
                     popup.categorySelected.TrySetResult(curr);
                 }
             }
         }
 
+        /// <summary>
+        /// Close the popup
+        /// </summary>
         private void abort()
         {
             //Prevents changing the selected radiobutton on abort

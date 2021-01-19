@@ -76,6 +76,7 @@ namespace Hemera.ViewModels
             OpenCommand = new Command<Attachment>(new Action<Attachment>(openFile));
             Activity = activity;
 
+            //Enable Expander if needed
             NotesEnabled = activity.Notes?.Length > 0;
             ChecklistEnabled = activity.Checklist?.Count > 0;
             AttachmentsEnabled = activity.Attachments?.Count > 0;

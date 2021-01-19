@@ -1,4 +1,5 @@
-﻿using Hemera.Models;
+﻿using Hemera.Helpers;
+using Hemera.Models;
 using Hemera.ViewModels;
 
 using Xamarin.Forms;
@@ -24,7 +25,7 @@ namespace Hemera.Views
         protected override void OnDisappearing()
         {
             //We need to save the current activity on disappear if it gets killed (useful with Checklist)
-            overviewViewModel.saveFromOuter();
+            FileHelper.saveActivities(VarContainer.allActivities);
 
             base.OnDisappearing();
         }

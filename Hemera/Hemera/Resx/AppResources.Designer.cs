@@ -196,6 +196,15 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Freetime.
+        /// </summary>
+        public static string Freetime {
+            get {
+                return ResourceManager.GetString("Freetime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General Settings.
         /// </summary>
         public static string GeneralSettings {
@@ -237,6 +246,15 @@ namespace Hemera.Resx {
         public static string Housework {
             get {
                 return ResourceManager.GetString("Housework", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internet.
+        /// </summary>
+        public static string Internet {
+            get {
+                return ResourceManager.GetString("Internet", resourceCulture);
             }
         }
         
@@ -358,11 +376,29 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pets.
+        /// </summary>
+        public static string Pets {
+            get {
+                return ResourceManager.GetString("Pets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Planed activity at.
         /// </summary>
         public static string PlanedActivity {
             get {
                 return ResourceManager.GetString("PlanedActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reading.
+        /// </summary>
+        public static string Reading {
+            get {
+                return ResourceManager.GetString("Reading", resourceCulture);
             }
         }
         
@@ -444,6 +480,15 @@ namespace Hemera.Resx {
         public static string TitleMissing {
             get {
                 return ResourceManager.GetString("TitleMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TV.
+        /// </summary>
+        public static string TV {
+            get {
+                return ResourceManager.GetString("TV", resourceCulture);
             }
         }
         

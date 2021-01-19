@@ -249,4 +249,19 @@
   <data name="MaxDuration" xml:space="preserve">
     <value>Category with the longest duration</value>
   </data>
+  <data name="Freetime" xml:space="preserve">
+    <value>Freetime</value>
+  </data>
+  <data name="Internet" xml:space="preserve">
+    <value>Internet</value>
+  </data>
+  <data name="Pets" xml:space="preserve">
+    <value>Pets</value>
+  </data>
+  <data name="Reading" xml:space="preserve">
+    <value>Reading</value>
+  </data>
+  <data name="TV" xml:space="preserve">
+    <value>TV</value>
+  </data>
 </root>

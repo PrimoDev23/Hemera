@@ -51,6 +51,11 @@ namespace Hemera.Models
         Work,
         Break,
         Learning,
-        Housework
+        Housework,
+        Reading,
+        Freetime,
+        TV,
+        Internet,
+        Pets
     }
 }

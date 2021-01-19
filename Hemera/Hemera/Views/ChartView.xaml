@@ -11,7 +11,7 @@
     <Grid
         BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                           Light={StaticResource colorLightTheme}}"
-        RowDefinitions="56, 230, 120, *"
+        RowDefinitions="56, 350, 120, *"
         RowSpacing="0">
         <sh:Shadows
             Grid.Row="0"
@@ -48,7 +48,7 @@
                                                   Light={StaticResource colorLightTheme}}"
                 CornerRadius="8"
                 HasShadow="False">
-                <chart:ChartView Grid.Row="0" Chart="{Binding Chart}" />
+                <chart:ChartView  Grid.Row="0" Chart="{Binding Chart}" />
             </Frame>
         </sh:Shadows>
         <sh:Shadows
