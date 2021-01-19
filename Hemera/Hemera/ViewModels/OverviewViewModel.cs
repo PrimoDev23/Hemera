@@ -19,14 +19,10 @@ namespace Hemera.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Command CreateNewCommand { get; set; }
         public Command BackCommand { get; set; }
         public Command ForwardCommand { get; set; }
         public Command<Activity> OpenSelectionMenuCommand { get; set; }
         public Command<Activity> TappedCommand { get; set; }
-        public Command ExpandMenuCommand { get; set; }
-        public Command SlideUpCommand { get; set; }
-        public Command SlideDownCommand { get; set; }
 
         private DateTime _CurrentDate = DateTime.Now;
 
@@ -47,17 +43,6 @@ namespace Hemera.ViewModels
             get => CurrentDate.ToString("ddd dd.MM.yyyy");
         }
 
-        private bool _BottomMenuVisible;
-        public bool BottomMenuVisible
-        {
-            get => _BottomMenuVisible;
-            set
-            {
-                _BottomMenuVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
         private ObservableCollection<Activity> allActivities;
 
         private ObservableCollection<Activity> _ActivitiesPerDay;
@@ -72,32 +57,14 @@ namespace Hemera.ViewModels
             }
         }
 
-        private ObservableCollection<MenuItem> _MenuItems = new ObservableCollection<MenuItem>()
-        {
-            new MenuItem("Home", VarContainer.createPath("M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"), true)
-        };
-        public ObservableCollection<MenuItem> MenuItems
-        {
-            get => _MenuItems;
-            set
-            {
-                _MenuItems = value;
-                OnPropertyChanged();
-            }
-        }
-
         private readonly Overview page;
 
         public OverviewViewModel(Overview page)
         {
-            CreateNewCommand = new Command(new Action(createNewActivity));
             BackCommand = new Command(new Action(dayBack));
             ForwardCommand = new Command(new Action(dayForward));
             OpenSelectionMenuCommand = new Command<Activity>(new Action<Activity>(openSelectionMenu));
             TappedCommand = new Command<Activity>(new Action<Activity>(activityTapped));
-            ExpandMenuCommand = new Command(new Action(expandCommand));
-            SlideUpCommand = new Command(new Action(slideUp));
-            SlideDownCommand = new Command(new Action(slideDown));
 
             void load()
             {
@@ -110,6 +77,8 @@ namespace Hemera.ViewModels
                                                                       select act);
             }
             Task.Run(new Action(load));
+
+            VarContainer.currentOverviewModel = this;
 
             this.page = page;
         }
@@ -124,7 +93,25 @@ namespace Hemera.ViewModels
             CurrentDate = CurrentDate.AddDays(1);
         }
 
-        private async void createNewActivity()
+        /// <summary>
+        /// Get activities for the selected day and order by time
+        /// </summary>
+        private void Order()
+        {
+            ActivitiesPerDay = new ObservableCollection<Activity>(from act in allActivities.getActivitiesPerDay(CurrentDate)
+                                                                  orderby act.Date
+                                                                  select act);
+        }
+
+        #region Buttons
+
+        private readonly string[] noneButtons = new string[] { AppResources.Delete, AppResources.Edit, AppResources.MarkAsDone, AppResources.MarkAsMissed };
+        private readonly string[] doneButtons = new string[] { AppResources.ResetStatus, AppResources.MarkAsMissed };
+        private readonly string[] missedButtons = new string[] { AppResources.ResetStatus, AppResources.MarkAsDone };
+
+        #endregion Buttons
+
+        public async Task createNewActivity()
         {
             NewActivityPopup popup = new NewActivityPopup();
             await page.Navigation.PushModalAsync(popup, true).ConfigureAwait(false);
@@ -155,24 +142,6 @@ namespace Hemera.ViewModels
             }
         }
 
-        /// <summary>
-        /// Get activities for the selected day and order by time
-        /// </summary>
-        private void Order()
-        {
-            ActivitiesPerDay = new ObservableCollection<Activity>(from act in allActivities.getActivitiesPerDay(CurrentDate)
-                                                                  orderby act.Date
-                                                                  select act);
-        }
-
-        #region Buttons
-
-        private readonly string[] noneButtons = new string[] { AppResources.Delete, AppResources.Edit, AppResources.MarkAsDone, AppResources.MarkAsMissed };
-        private readonly string[] doneButtons = new string[] { AppResources.ResetStatus, AppResources.MarkAsMissed };
-        private readonly string[] missedButtons = new string[] { AppResources.ResetStatus, AppResources.MarkAsDone };
-
-        #endregion Buttons
-
         private async void openSelectionMenu(Activity activity)
         {
             string[] buttons = activity.Status switch
@@ -183,7 +152,7 @@ namespace Hemera.ViewModels
                 _ => throw new NotImplementedException(),
             };
 
-            string res = await page.DisplayActionSheet(AppResources.ChooseOperation, null, null, buttons).ConfigureAwait(false);
+            string res = await VarContainer.holderPage.DisplayActionSheet(AppResources.ChooseOperation, null, null, buttons).ConfigureAwait(false);
 
             if (res != null)
             {
@@ -304,38 +273,6 @@ namespace Hemera.ViewModels
                 {
                     DependencyService.Get<INotificationManager>().SetupDNDWork(res.Date, $"DND|{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
                 }
-            }
-        }
-
-        private void expandCommand()
-        {
-            BottomMenuVisible = !BottomMenuVisible;
-            //Expand it
-            if (BottomMenuVisible)
-            {
-                page.bottomMenu.TranslateTo(0, 0);
-                page.backgroundLayer.FadeTo(1);
-            }
-            else
-            {
-                page.bottomMenu.TranslateTo(0, 344);
-                page.backgroundLayer.FadeTo(0);
-            }
-        }
-
-        private void slideUp()
-        {
-            if (!BottomMenuVisible)
-            {
-                expandCommand();
-            }
-        }
-
-        private void slideDown()
-        {
-            if (BottomMenuVisible)
-            {
-                expandCommand();
             }
         }
 

@@ -19,7 +19,7 @@ namespace Hemera
             //We need to reload Categories if Theme changes
             Application.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
 
-            MainPage = new NavigationPage(new Views.Overview());
+            MainPage = new Views.StartPage();
         }
 
         private void Current_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)

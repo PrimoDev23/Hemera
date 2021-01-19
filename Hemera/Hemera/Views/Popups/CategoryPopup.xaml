@@ -3,6 +3,7 @@
     x:Class="Hemera.Views.Popups.CategoryPopup"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Hemera.Models"
     xmlns:resx="clr-namespace:Hemera.Resx"
     BackgroundColor="Transparent">
     <Grid
@@ -32,7 +33,7 @@
                         <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="models:Category">
                             <RadioButton Content="{Binding Name}" IsChecked="{Binding Selected}" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

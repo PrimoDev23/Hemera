@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+<ContentView
     x:Class="Hemera.Views.Overview"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:converter="clr-namespace:Hemera.Converter"
     xmlns:models="clr-namespace:Hemera.Models"
     xmlns:popups="clr-namespace:Hemera.Views.Popups"
     xmlns:resx="clr-namespace:Hemera.Resx"
@@ -12,9 +11,6 @@
     x:Name="self"
     x:DataType="vm:OverviewViewModel"
     NavigationPage.HasNavigationBar="False">
-    <ContentPage.Resources>
-        <converter:InverterConverter x:Key="InverterConverter" />
-    </ContentPage.Resources>
     <AbsoluteLayout>
         <Grid
             BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
@@ -220,107 +216,7 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Grid>
-            <BoxView
-                x:Name="backgroundLayer"
-                Grid.Row="0"
-                Grid.RowSpan="2"
-                x:FieldModifier="public"
-                BackgroundColor="#AA232323"
-                IsVisible="{Binding BottomMenuVisible}"
-                Opacity="0">
-                <BoxView.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ExpandMenuCommand}" />
-                </BoxView.GestureRecognizers>
-            </BoxView>
-            <Frame
-                x:Name="bottomMenu"
-                Grid.Row="1"
-                Grid.RowSpan="2"
-                Padding="0"
-                x:FieldModifier="public"
-                BackgroundColor="#181818"
-                CornerRadius="8"
-                HasShadow="False"
-                HeightRequest="400"
-                TranslationY="344"
-                VerticalOptions="End">
-                <Grid RowDefinitions="50, 1, 48, *">
-                    <Path
-                        Grid.Row="0"
-                        Margin="0,15,20,0"
-                        Data="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
-                        Fill="{AppThemeBinding Dark=White,
-                                               Light=Black}"
-                        HorizontalOptions="End"
-                        Scale="1.5"
-                        VerticalOptions="Start">
-                        <Path.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ExpandMenuCommand}" />
-                        </Path.GestureRecognizers>
-                    </Path>
-                    <BoxView
-                        Grid.Row="1"
-                        BackgroundColor="{AppThemeBinding Dark=White,
-                                                          Light=LightGray}"
-                        Opacity="{AppThemeBinding Dark=0.1,
-                                                  Light=0.5}" />
-                    <Frame
-                        Grid.Row="2"
-                        Margin="8,0"
-                        Padding="0"
-                        BackgroundColor="{Binding MenuItems[0].BackColor}"
-                        CornerRadius="8">
-                        <Grid ColumnDefinitions="56, *">
-                            <Path
-                                Grid.Column="0"
-                                Data="{Binding MenuItems[0].PathData}"
-                                Fill="{AppThemeBinding Dark=White,
-                                                       Light=Black}"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center" />
-                            <Label
-                                Grid.Column="1"
-                                FontAttributes="Bold"
-                                FontSize="17"
-                                Text="{Binding MenuItems[0].Title}"
-                                VerticalOptions="Center" />
-                        </Grid>
-                    </Frame>
-                </Grid>
-                <Frame.GestureRecognizers>
-                    <SwipeGestureRecognizer Command="{Binding SlideUpCommand}" Direction="Up" />
-                    <SwipeGestureRecognizer Command="{Binding SlideDownCommand}" Direction="Down" />
-                </Frame.GestureRecognizers>
-            </Frame>
         </Grid>
-        <sh:Shadows
-            AbsoluteLayout.LayoutBounds=".50,.97,56,56"
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            CornerRadius="50"
-            IsVisible="{Binding BottomMenuVisible, Converter={StaticResource InverterConverter}}"
-            Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
-                                                          Opacity=0.4,
-                                                          BlurRadius=4,
-                                                          Color=Black},
-                                     Light={sh:SingleShade Offset='2,2',
-                                                           Opacity=0.3,
-                                                           BlurRadius=1,
-                                                           Color=#232323}}">
-            <Button
-                Command="{Binding CreateNewCommand}"
-                CornerRadius="50"
-                FontSize="25"
-                Text="+"
-                TextColor="White">
-                <Button.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStopCollection>
-                            <GradientStop Offset="0.0" Color="#54e375" />
-                            <GradientStop Offset="1" Color="{StaticResource colorPrimary}" />
-                        </GradientStopCollection>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-        </sh:Shadows>
+
     </AbsoluteLayout>
-</ContentPage>
+</ContentView>

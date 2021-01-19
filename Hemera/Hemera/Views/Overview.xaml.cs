@@ -6,7 +6,7 @@ using Xamarin.Forms.Xaml;
 namespace Hemera.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Overview : ContentPage
+    public partial class Overview : ContentView
     {
         private readonly OverviewViewModel viewModel;
 
