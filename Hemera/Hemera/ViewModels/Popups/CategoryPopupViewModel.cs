@@ -4,7 +4,6 @@ using Hemera.Views.Popups;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 namespace Hemera.ViewModels.Popups
@@ -58,22 +57,10 @@ namespace Hemera.ViewModels.Popups
             //Prevents changing the selected radiobutton on abort
             for (int i = 0; i < Categories.Count; i++)
             {
-                if (i == selectedCategoryIndex)
-                {
-                    Categories[i].Selected = true;
-                }
-                else
-                {
-                    Categories[i].Selected = false;
-                }
+                Categories[i].Selected = i == selectedCategoryIndex;
             }
 
             popup.categorySelected.TrySetResult(null);
-        }
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

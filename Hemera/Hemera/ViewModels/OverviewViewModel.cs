@@ -19,7 +19,6 @@ namespace Hemera.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Command OpenMenuCommand { get; set; }
         public Command CreateNewCommand { get; set; }
         public Command BackCommand { get; set; }
         public Command ForwardCommand { get; set; }
@@ -73,7 +72,6 @@ namespace Hemera.ViewModels
             }
         }
 
-
         private ObservableCollection<MenuItem> _MenuItems = new ObservableCollection<MenuItem>()
         {
             new MenuItem("Home", VarContainer.createPath("M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"), true)
@@ -92,7 +90,6 @@ namespace Hemera.ViewModels
 
         public OverviewViewModel(Overview page)
         {
-            OpenMenuCommand = new Command(new Action(openMenu));
             CreateNewCommand = new Command(new Action(createNewActivity));
             BackCommand = new Command(new Action(dayBack));
             ForwardCommand = new Command(new Action(dayForward));
@@ -125,11 +122,6 @@ namespace Hemera.ViewModels
         private void dayForward()
         {
             CurrentDate = CurrentDate.AddDays(1);
-        }
-
-        private async void openMenu()
-        {
-            await VarContainer.menuPage.OpenMenu().ConfigureAwait(false);
         }
 
         private async void createNewActivity()
@@ -188,6 +180,7 @@ namespace Hemera.ViewModels
                 ActivityStatus.None => noneButtons,
                 ActivityStatus.Done => doneButtons,
                 ActivityStatus.Missed => missedButtons,
+                _ => throw new NotImplementedException(),
             };
 
             string res = await page.DisplayActionSheet(AppResources.ChooseOperation, null, null, buttons).ConfigureAwait(false);
@@ -290,7 +283,7 @@ namespace Hemera.ViewModels
             if (res != null)
             {
                 //Delete the original activity
-                deleteActivity(activity);
+                await deleteActivity(activity).ConfigureAwait(false);
 
                 await page.Navigation.PopModalAsync().ConfigureAwait(false);
 
@@ -314,7 +307,7 @@ namespace Hemera.ViewModels
             }
         }
 
-        private async void expandCommand()
+        private void expandCommand()
         {
             BottomMenuVisible = !BottomMenuVisible;
             //Expand it

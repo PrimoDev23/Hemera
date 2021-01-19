@@ -39,8 +39,6 @@ namespace Hemera.Droid.DependencyService
                 .Build();
 
             WorkManager.GetInstance(AndroidApp.Context).EnqueueUniqueWork(name, ExistingWorkPolicy.Keep, work);
-
-            //WorkManager.Instance.EnqueueUniqueWork(name, ExistingWorkPolicy.Keep, work);
         }
 
         public void SetupDNDWork(DateTime date, string name)

@@ -31,6 +31,7 @@ namespace Hemera.Models
                 {
                     AttachmentType.File => VarContainer.FileGeometry,
                     AttachmentType.Audio => VarContainer.AudioGeometry,
+                    _ => throw new System.NotImplementedException(),
                 };
 
                 OnPropertyChanged();

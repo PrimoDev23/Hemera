@@ -71,7 +71,6 @@ namespace Hemera.ViewModels
 
         public Command<Attachment> OpenCommand { get; set; }
 
-        private readonly DetailView page;
         public DetailViewViewModel(DetailView page, Activity activity)
         {
             OpenCommand = new Command<Attachment>(new Action<Attachment>(openFile));
@@ -92,16 +91,28 @@ namespace Hemera.ViewModels
                 });
                 page.map.MoveToRegion(MapSpan.FromCenterAndRadius(activity.Position, Distance.FromKilometers(1)));
             }
-
-            this.page = page;
         }
 
+        /// <summary>
+        /// open file with default app
+        /// </summary>
+        /// <param name="attachment">
+        /// The attachment to open
+        /// </param>
         private async void openFile(Attachment attachment)
         {
-            await Launcher.OpenAsync(new OpenFileRequest()
+            try
             {
-                File = new ReadOnlyFile(attachment.File.FullPath)
-            });
+                await Launcher.OpenAsync(new OpenFileRequest()
+                {
+                    File = new ReadOnlyFile(attachment.File.FullPath)
+                }).ConfigureAwait(false);
+            }
+            catch //We should guard this, just in case
+            {
+                //Actually we don't need to do anything here
+                //It's probably users fault if we get here
+            }
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

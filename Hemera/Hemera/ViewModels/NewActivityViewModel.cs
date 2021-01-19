@@ -199,15 +199,9 @@ namespace Hemera.ViewModels
 
         #region Paths
 
-        public Geometry FileGeometry
-        {
-            get => VarContainer.FileGeometry;
-        }
+        public Geometry FileGeometry => VarContainer.FileGeometry;
 
-        public Geometry AudioGeometry
-        {
-            get => VarContainer.AudioGeometry;
-        }
+        public Geometry AudioGeometry => VarContainer.AudioGeometry;
 
         #endregion Paths
 
@@ -515,7 +509,6 @@ namespace Hemera.ViewModels
             }
             catch //This is most probably happen if the user denied permission request, so don't make the app crash
             {
-
             }
         }
 
@@ -528,7 +521,7 @@ namespace Hemera.ViewModels
             //If we are already recording stop it
             if (Recording)
             {
-                await Task.Run(new Action(stopRecording));
+                await Task.Run(new Action(stopRecording)).ConfigureAwait(false);
 
                 Activity.Attachments.Add(new Attachment(AttachmentType.Audio, new FileResult(currentRecordFile)));
             }
@@ -539,9 +532,9 @@ namespace Hemera.ViewModels
                     return;
                 }
 
-                string name = await page.DisplayPromptAsync(AppResources.RecordTitle, null, "OK");
+                string name = await page.DisplayPromptAsync(AppResources.RecordTitle, null, "OK").ConfigureAwait(false);
 
-                if(!(name?.Length > 0))
+                if (!(name?.Length > 0))
                 {
                     return;
                 }
@@ -571,7 +564,7 @@ namespace Hemera.ViewModels
             Activity.Attachments.Remove(attachment);
 
             //Remove the file if it's an audio file
-            if(attachment.Type == AttachmentType.Audio)
+            if (attachment.Type == AttachmentType.Audio)
             {
                 File.Delete(attachment.File.FullPath);
             }

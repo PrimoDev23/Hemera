@@ -23,7 +23,7 @@ namespace Hemera.Views
 
         protected override void OnDisappearing()
         {
-            //We need to save the current activity on disappear if it gets killed
+            //We need to save the current activity on disappear if it gets killed (useful with Checklist)
             overviewViewModel.saveFromOuter();
 
             base.OnDisappearing();

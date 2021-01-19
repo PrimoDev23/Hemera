@@ -106,6 +106,7 @@ namespace Hemera.Models
                     CategoryType.Break => VarContainer.categories[4],
                     CategoryType.Learning => VarContainer.categories[5],
                     CategoryType.Housework => VarContainer.categories[6],
+                    _ => throw new NotImplementedException(), //This will never ever happen
                 };
 
                 _CategoryType = value;
@@ -165,6 +166,10 @@ namespace Hemera.Models
                 {
                     TimeType.Minute => Date.AddMinutes(value),
                     TimeType.Hour => Date.AddHours(value),
+                    //This should not happen
+                    TimeType.Day => throw new NotImplementedException(),
+                    TimeType.Disabled => throw new NotImplementedException(),
+                    _ => throw new NotImplementedException(),
                 };
             }
         }
@@ -194,6 +199,7 @@ namespace Hemera.Models
                     ActivityStatus.None => Color.Transparent,
                     ActivityStatus.Done => (Color)Application.Current.Resources["colorPrimary"],
                     ActivityStatus.Missed => Color.Red,
+                    _ => throw new NotImplementedException(),
                 };
             }
         }

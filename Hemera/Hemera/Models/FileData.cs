@@ -38,7 +38,6 @@ namespace Hemera.Models
 
         public FileData()
         {
-
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

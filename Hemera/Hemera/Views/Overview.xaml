@@ -10,7 +10,8 @@
     xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
     xmlns:vm="clr-namespace:Hemera.ViewModels"
     x:Name="self"
-    x:DataType="vm:OverviewViewModel">
+    x:DataType="vm:OverviewViewModel"
+    NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <converter:InverterConverter x:Key="InverterConverter" />
     </ContentPage.Resources>

@@ -24,7 +24,7 @@ namespace Hemera.Helpers
                     {
                         JsonSerializer serializer = new JsonSerializer();
                         serializer.Serialize(reader, activities);
-                    } 
+                    }
                 }
             }
             return Task.Run(new Action(save));
