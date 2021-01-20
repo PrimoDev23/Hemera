@@ -52,27 +52,6 @@ namespace Hemera.Models
             set
             {
                 _Selected = value;
-
-                if (value)
-                {
-                    BackColor = VarContainer.colorPrimaryOpaque;
-                }
-                else
-                {
-                    BackColor = Color.Transparent;
-                }
-
-                OnPropertyChanged();
-            }
-        }
-
-        private Color _BackColor;
-        public Color BackColor
-        {
-            get => _BackColor;
-            set
-            {
-                _BackColor = value;
                 OnPropertyChanged();
             }
         }

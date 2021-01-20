@@ -85,6 +85,20 @@
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding SelectMenuItemCommand}" CommandParameter="{Binding MenuItems[0]}" />
                         </Frame.GestureRecognizers>
+                        <Frame.Triggers>
+                            <DataTrigger
+                                Binding="{Binding MenuItems[0].Selected}"
+                                TargetType="Frame"
+                                Value="True">
+                                <Setter Property="BackgroundColor" Value="{StaticResource colorSelectedOpaque}" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding MenuItems[0].Selected}"
+                                TargetType="Frame"
+                                Value="False">
+                                <Setter Property="BackgroundColor" Value="Transparent" />
+                            </DataTrigger>
+                        </Frame.Triggers>
                     </Frame>
                     <Frame
                         Grid.Row="3"
@@ -110,6 +124,20 @@
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding SelectMenuItemCommand}" CommandParameter="{Binding MenuItems[1]}" />
                         </Frame.GestureRecognizers>
+                        <Frame.Triggers>
+                            <DataTrigger
+                                Binding="{Binding MenuItems[1].Selected}"
+                                TargetType="Frame"
+                                Value="True">
+                                <Setter Property="BackgroundColor" Value="{StaticResource colorSelectedOpaque}" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding MenuItems[1].Selected}"
+                                TargetType="Frame"
+                                Value="False">
+                                <Setter Property="BackgroundColor" Value="Transparent" />
+                            </DataTrigger>
+                        </Frame.Triggers>
                     </Frame>
                 </Grid>
                 <Frame.GestureRecognizers>
