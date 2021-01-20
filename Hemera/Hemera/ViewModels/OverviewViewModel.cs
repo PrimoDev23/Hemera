@@ -20,10 +20,16 @@ namespace Hemera.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        #region Commands
+
         public Command BackCommand { get; set; }
         public Command ForwardCommand { get; set; }
         public Command<Activity> OpenSelectionMenuCommand { get; set; }
         public Command<Activity> TappedCommand { get; set; }
+
+        #endregion Commands
+
+        #region Date
 
         private DateTime _CurrentDate = DateTime.Now;
 
@@ -44,8 +50,10 @@ namespace Hemera.ViewModels
             get => CurrentDate.ToString("ddd dd.MM.yyyy");
         }
 
-        private ObservableCollection<Activity> _ActivitiesPerDay;
+        #endregion Date
 
+        //Activities for the selected date
+        private ObservableCollection<Activity> _ActivitiesPerDay;
         public ObservableCollection<Activity> ActivitiesPerDay
         {
             get => _ActivitiesPerDay;
@@ -65,12 +73,15 @@ namespace Hemera.ViewModels
             OpenSelectionMenuCommand = new Command<Activity>(new Action<Activity>(openSelectionMenu));
             TappedCommand = new Command<Activity>(new Action<Activity>(activityTapped));
 
+            //Get the activities for today
             Task.Run(new Action(getActivitiesPerDay));
 
             VarContainer.currentOverviewModel = this;
 
             this.page = page;
         }
+
+        #region DateMoving
 
         /// <summary>
         /// Go one day back
@@ -87,6 +98,8 @@ namespace Hemera.ViewModels
         {
             CurrentDate = CurrentDate.AddDays(1);
         }
+
+        #endregion DateMoving
 
         /// <summary>
         /// Get activities for the selected day and order by time
@@ -105,6 +118,8 @@ namespace Hemera.ViewModels
         private readonly string[] missedButtons = new string[] { AppResources.ResetStatus, AppResources.MarkAsDone };
 
         #endregion Buttons
+
+        #region ActivityHandling
 
         /// <summary>
         /// Create a new activity
@@ -306,6 +321,8 @@ namespace Hemera.ViewModels
                 }
             }
         }
+
+        #endregion ActivityHandling
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

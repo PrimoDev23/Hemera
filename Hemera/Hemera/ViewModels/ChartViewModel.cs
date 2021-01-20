@@ -54,6 +54,7 @@ namespace Hemera.ViewModels
             }
         }
 
+        //Duration of the longest activity
         private string _MaxDurationActivityDur = "-";
         public string MaxDurationActivityDur
         {
@@ -65,6 +66,7 @@ namespace Hemera.ViewModels
             }
         }
 
+        //Title of the activity with most duration
         private string _MaxDurationActivityTitle = "-";
         public string MaxDurationActivityTitle
         {

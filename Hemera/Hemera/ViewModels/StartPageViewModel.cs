@@ -18,6 +18,7 @@ namespace Hemera.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        //MenuItems for the bottom menu
         private ObservableCollection<MenuItem> _MenuItems = new ObservableCollection<MenuItem>()
         {
             new MenuItem(AppResources.HomePage, VarContainer.createPath("M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"), true),
@@ -33,11 +34,17 @@ namespace Hemera.ViewModels
             }
         }
 
+        #region Commands
+
         public Command CreateNewCommand { get; set; }
         public Command ExpandMenuCommand { get; set; }
         public Command SlideUpCommand { get; set; }
         public Command SlideDownCommand { get; set; }
         public Command<MenuItem> SelectMenuItemCommand { get; set; }
+
+        #endregion Commands
+
+        #region MenuVisibility
 
         private bool _BottomMenuVisible = false;
         public bool BottomMenuVisible
@@ -52,7 +59,6 @@ namespace Hemera.ViewModels
 
         //Allow changing Visibility of Add-Button
         private bool allowChangeAddButtonVisible = true;
-
         private bool _AddButtonVisible = true;
         public bool AddButtonVisible
         {
@@ -63,6 +69,8 @@ namespace Hemera.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        #endregion MenuVisibility
 
         private readonly StartPage page;
         public StartPageViewModel(StartPage page)
@@ -76,13 +84,7 @@ namespace Hemera.ViewModels
             this.page = page;
         }
 
-        /// <summary>
-        /// Create new activity
-        /// </summary>
-        private async void createActivity()
-        {
-            await VarContainer.currentOverviewModel?.createNewActivity();
-        }
+        #region MoveMenu
 
         /// <summary>
         /// Toggle bottom bar menu
@@ -132,6 +134,8 @@ namespace Hemera.ViewModels
             }
         }
 
+        #endregion MoveMenu
+
         /// <summary>
         /// Select a menu item
         /// </summary>
@@ -160,12 +164,21 @@ namespace Hemera.ViewModels
                 page.holderView.Content = new Overview();
                 AddButtonVisible = true;
                 allowChangeAddButtonVisible = true;
-            }else if(item.Title == AppResources.ChartPage)
+            }
+            else if (item.Title == AppResources.ChartPage)
             {
                 page.holderView.Content = new ChartView();
                 AddButtonVisible = false;
                 allowChangeAddButtonVisible = false;
             }
+        }
+
+        /// <summary>
+        /// Create new activity
+        /// </summary>
+        private async void createActivity()
+        {
+            await VarContainer.currentOverviewModel?.createNewActivity();
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

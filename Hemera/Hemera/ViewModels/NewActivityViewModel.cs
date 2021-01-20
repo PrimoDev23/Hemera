@@ -25,6 +25,7 @@ namespace Hemera.ViewModels
 
         public TaskCompletionSource<Activity> newActivityCompleted;
 
+        //Current activity
         public Activity Activity { get; set; }
 
         public ObservableCollection<Category> Categories { get; set; } = VarContainer.categories;
@@ -515,6 +516,7 @@ namespace Hemera.ViewModels
                 Activity.NotificationTimeType = TimeType.Disabled;
             }
 
+            //Set the duration data
             Activity.DurationType = DurMinuteChecked ? TimeType.Minute : TimeType.Hour;
             Activity.Duration = float.Parse(page.txt_duration.Text);
 

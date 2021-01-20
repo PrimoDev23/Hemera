@@ -14,6 +14,7 @@ namespace Hemera.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        //Currently shown activity
         private Activity _Activity;
         public Activity Activity
         {
@@ -24,6 +25,8 @@ namespace Hemera.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        #region ExpanderEnabled
 
         private bool _NotesEnabled;
         public bool NotesEnabled
@@ -68,6 +71,8 @@ namespace Hemera.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        #endregion ExpanderEnabled
 
         public Command<Attachment> OpenCommand { get; set; }
 

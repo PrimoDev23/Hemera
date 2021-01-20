@@ -12,12 +12,17 @@ namespace Hemera.ViewModels.Popups
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        #region Commands
+
         public Command DoneCommand { get; set; }
         public Command AbortCommand { get; set; }
+
+        #endregion Commands
 
         public ObservableCollection<Category> Categories { get; set; } = VarContainer.categories;
 
         private readonly int selectedCategoryIndex;
+
         private readonly CategoryPopup popup;
         public CategoryPopupViewModel(CategoryPopup popup)
         {
