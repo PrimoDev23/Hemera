@@ -267,4 +267,13 @@
   <data name="MaxDurationActivity" xml:space="preserve">
     <value>Max. Duration (Activity)</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Select category</value>
+  </data>
 </root>

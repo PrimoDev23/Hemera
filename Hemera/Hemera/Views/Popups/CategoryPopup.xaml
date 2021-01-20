@@ -9,7 +9,7 @@
     <Grid
         BackgroundColor="#AA232323"
         ColumnDefinitions="20, *, 20"
-        RowDefinitions="*, 190, *">
+        RowDefinitions="130, AUTO, 130">
         <BoxView
             Grid.Row="0"
             Grid.RowSpan="3"
@@ -26,9 +26,25 @@
             Padding="0"
             BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                               Light={StaticResource colorLightTheme}}"
-            CornerRadius="18">
-            <Grid Margin="10" RowDefinitions="120, 70">
-                <CollectionView Grid.Row="0" ItemsSource="{Binding Categories}">
+            CornerRadius="8">
+            <Grid Margin="10" RowDefinitions="50, 1, *, 1, 40">
+                <Label
+                    Grid.Row="0"
+                    Margin="16,8,8,8"
+                    FontAttributes="Bold"
+                    FontSize="17"
+                    Text="{x:Static resx:AppResources.SelectCategory}"
+                    VerticalOptions="Center" />
+                <BoxView
+                    Grid.Row="1"
+                    BackgroundColor="{AppThemeBinding Dark=White,
+                                                      Light=LightGray}"
+                    Opacity="{AppThemeBinding Dark=0.1,
+                                              Light=0.5}" />
+                <CollectionView
+                    Grid.Row="2"
+                    Margin="8"
+                    ItemsSource="{Binding Categories}">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
                     </CollectionView.ItemsLayout>
@@ -38,14 +54,32 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Button
-                    Grid.Row="1"
-                    BackgroundColor="Transparent"
-                    Command="{Binding DoneCommand}"
-                    HorizontalOptions="End"
-                    Text="{x:Static resx:AppResources.Done}"
-                    TextColor="{StaticResource colorPrimary}"
-                    VerticalOptions="Center" />
+                <BoxView
+                    Grid.Row="3"
+                    BackgroundColor="{AppThemeBinding Dark=White,
+                                                      Light=LightGray}"
+                    Opacity="{AppThemeBinding Dark=0.1,
+                                              Light=0.5}" />
+                <Grid Grid.Row="4" ColumnDefinitions="*, AUTO">
+                    <Button
+                        Grid.Column="0"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        Command="{Binding AbortCommand}"
+                        HorizontalOptions="End"
+                        Text="{x:Static resx:AppResources.Cancel}"
+                        TextColor="{StaticResource colorPrimary}"
+                        VerticalOptions="Center" />
+                    <Button
+                        Grid.Column="1"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        Command="{Binding DoneCommand}"
+                        HorizontalOptions="End"
+                        Text="{x:Static resx:AppResources.OK}"
+                        TextColor="{StaticResource colorPrimary}"
+                        VerticalOptions="Center" />
+                </Grid>
             </Grid>
         </Frame>
     </Grid>
