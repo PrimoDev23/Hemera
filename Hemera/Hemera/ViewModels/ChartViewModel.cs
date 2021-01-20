@@ -80,6 +80,7 @@ namespace Hemera.ViewModels
 
         public ChartViewModel()
         {
+            //Init chart and other values
             Task.Run(new Action(initPerCategoryChart));
         }
 
@@ -109,9 +110,13 @@ namespace Hemera.ViewModels
                 {
                     values[(int)curr.CategoryType] += curr.Duration;
 
+                    //Check if the current duration is higher than current maxDuration
                     if (curr.Duration > maxDuration)
                     {
+                        //Set new maxDuration
                         maxDuration = curr.Duration;
+
+                        //Set MaxDuration Texts
                         MaxDurationActivityDur = $"{curr.Duration.ToString()}h";
                         MaxDurationActivityTitle = $"({curr.Title})";
                     }
@@ -123,7 +128,10 @@ namespace Hemera.ViewModels
 
                     if (divided > maxDuration)
                     {
+                        //Set new maxDuration
                         maxDuration = divided;
+
+                        //Set MaxDuration texts
                         MaxDurationActivityDur = $"{divided.ToString()}h";
                         MaxDurationActivityTitle = $"({curr.Title})";
                     }
@@ -148,6 +156,7 @@ namespace Hemera.ViewModels
                 curr_category = VarContainer.categories[i];
                 curr_color = ColorHelper.ConvertToSKColor(curr_category.BadgeBrush.Color.ToHex());
 
+                //Add a new entry
                 entries.Add(new ChartEntry(values[i])
                 {
                     Color = curr_color,
@@ -160,7 +169,10 @@ namespace Hemera.ViewModels
                 //Set the maxDuration of Categories
                 if(values[i] > maxDuration)
                 {
+                    //Set new maxDuration
                     maxDuration = values[i];
+
+                    //Set MaxDuration texts
                     MaxDurationCategoryCat = $"({curr_category.Name})";
                     MaxDurationCategoryDur = $"{values[i].ToString()}h";
                 }
