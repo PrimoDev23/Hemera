@@ -30,13 +30,48 @@ namespace Hemera.ViewModels
 
         #region MaxDuration
 
-        private string _MaxDurationString = "-";
-        public string MaxDurationString
+        //Duration of the max. Duration Category
+        private string _MaxDurationCategoryDur = "-";
+        public string MaxDurationCategoryDur
         {
-            get => _MaxDurationString;
+            get => _MaxDurationCategoryDur;
             set
             {
-                _MaxDurationString = value;
+                _MaxDurationCategoryDur = value;
+                OnPropertyChanged();
+            }
+        }
+
+        //Category-title of the max. Duration Category
+        private string _MaxDurationCategoryCat = "-";
+        public string MaxDurationCategoryCat
+        {
+            get => _MaxDurationCategoryCat;
+            set
+            {
+                _MaxDurationCategoryCat = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _MaxDurationActivityDur = "-";
+        public string MaxDurationActivityDur
+        {
+            get => _MaxDurationActivityDur;
+            set
+            {
+                _MaxDurationActivityDur = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _MaxDurationActivityTitle = "-";
+        public string MaxDurationActivityTitle
+        {
+            get => _MaxDurationActivityTitle;
+            set
+            {
+                _MaxDurationActivityTitle = value;
                 OnPropertyChanged();
             }
         }
@@ -62,6 +97,8 @@ namespace Hemera.ViewModels
             //Init Entry-Array with length of categories
             float* values = stackalloc float[VarContainer.categories.Count];
 
+            float maxDuration = 0f;
+
             //Calculate the sum of duration for every category
             Activity curr;
             for (int i = 0; i < VarContainer.allActivities.Count; i++)
@@ -71,36 +108,61 @@ namespace Hemera.ViewModels
                 if(curr.DurationType == TimeType.Hour)
                 {
                     values[(int)curr.CategoryType] += curr.Duration;
+
+                    if (curr.Duration > maxDuration)
+                    {
+                        maxDuration = curr.Duration;
+                        MaxDurationActivityDur = $"{curr.Duration.ToString()}h";
+                        MaxDurationActivityTitle = $"({curr.Title})";
+                    }
                 }
                 else
                 {
-                    values[(int)curr.CategoryType] += curr.Duration / 60f;
+                    float divided = curr.Duration / 60f;
+                    values[(int)curr.CategoryType] += divided;
+
+                    if (divided > maxDuration)
+                    {
+                        maxDuration = divided;
+                        MaxDurationActivityDur = $"{divided.ToString()}h";
+                        MaxDurationActivityTitle = $"({curr.Title})";
+                    }
                 }
             }
 
-            ChartEntry[] entries = new ChartEntry[VarContainer.categories.Count];
+            List<ChartEntry> entries = new List<ChartEntry>();
 
-            float maxDuration = 0f;
+            maxDuration = 0f;
 
             //Fill the entries array
             Category curr_category;
+            SKColor curr_color;
             for (int i = 0; i < VarContainer.categories.Count; i++)
             {
-                curr_category = VarContainer.categories[i];
-                entries[i] = new ChartEntry(values[i])
+                //continue if we don't have any values
+                if(values[i] == 0)
                 {
-                    Color = SKColor.Parse(curr_category.BadgeBrush.Color.ToHex()),
+                    continue;
+                }
+
+                curr_category = VarContainer.categories[i];
+                curr_color = ColorHelper.ConvertToSKColor(curr_category.BadgeBrush.Color.ToHex());
+
+                entries.Add(new ChartEntry(values[i])
+                {
+                    Color = curr_color,
                     Label = curr_category.Name,
                     ValueLabel = values[i].ToString() + "h",
-                    ValueLabelColor = SKColor.Parse(curr_category.BadgeBrush.Color.ToHex()),
+                    ValueLabelColor = curr_color,
                     TextColor = Application.Current.RequestedTheme == OSAppTheme.Dark ? SKColors.White : SKColors.Black,
-                };
+                });
 
                 //Set the maxDuration of Categories
                 if(values[i] > maxDuration)
                 {
                     maxDuration = values[i];
-                    MaxDurationString = $"{curr_category.Name} ({values[i].ToString()}h)";
+                    MaxDurationCategoryCat = $"({curr_category.Name})";
+                    MaxDurationCategoryDur = $"{values[i].ToString()}h";
                 }
             }
 

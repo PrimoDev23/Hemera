@@ -22,7 +22,7 @@ namespace Hemera
             //Load all Activities
             VarContainer.allActivities = FileHelper.loadActivities();
 
-            MainPage = new Views.StartPage();
+            MainPage = new NavigationPage(new Views.StartPage());
         }
 
         private void Current_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)

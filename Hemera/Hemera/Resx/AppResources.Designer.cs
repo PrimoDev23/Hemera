@@ -322,11 +322,20 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Category with the longest duration.
+        ///   Looks up a localized string similar to Max. Duration (Activity).
         /// </summary>
-        public static string MaxDuration {
+        public static string MaxDurationActivity {
             get {
-                return ResourceManager.GetString("MaxDuration", resourceCulture);
+                return ResourceManager.GetString("MaxDurationActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max. Duration (Category).
+        /// </summary>
+        public static string MaxDurationCategory {
+            get {
+                return ResourceManager.GetString("MaxDurationCategory", resourceCulture);
             }
         }
         

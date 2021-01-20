@@ -11,5 +11,3 @@ using Xamarin.Forms.Xaml;
 // documentation for additional information:
 // https://docs.microsoft.com/dotnet/api/system.resources.neutralresourceslanguageattribute
 [assembly: NeutralResourcesLanguage("en-US")]
-
-[assembly: ExportFont("AlexBrush-Regular.ttf", Alias = "AlexBrush")]

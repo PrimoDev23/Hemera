@@ -246,8 +246,8 @@
   <data name="HomePage" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="MaxDuration" xml:space="preserve">
-    <value>Category with the longest duration</value>
+  <data name="MaxDurationCategory" xml:space="preserve">
+    <value>Max. Duration (Category)</value>
   </data>
   <data name="Freetime" xml:space="preserve">
     <value>Freetime</value>
@@ -263,5 +263,8 @@
   </data>
   <data name="TV" xml:space="preserve">
     <value>TV</value>
+  </data>
+  <data name="MaxDurationActivity" xml:space="preserve">
+    <value>Max. Duration (Activity)</value>
   </data>
 </root>
