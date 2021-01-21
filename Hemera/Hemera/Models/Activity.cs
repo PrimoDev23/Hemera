@@ -104,20 +104,7 @@ namespace Hemera.Models
             get => _CategoryType;
             set
             {
-                Category = value switch
-                {
-                    CategoryType.Shopping => VarContainer.categories[0],
-                    CategoryType.Sports => VarContainer.categories[1],
-                    CategoryType.Meeting => VarContainer.categories[2],
-                    CategoryType.Work => VarContainer.categories[3],
-                    CategoryType.Break => VarContainer.categories[4],
-                    CategoryType.Learning => VarContainer.categories[5],
-                    CategoryType.Housework => VarContainer.categories[6],
-                    CategoryType.Reading => VarContainer.categories[7],
-                    CategoryType.TV => VarContainer.categories[8],
-                    CategoryType.Internet => VarContainer.categories[9],
-                    _ => throw new NotImplementedException(), //This will never ever happen
-                };
+                Category = VarContainer.categories[(int)value];
 
                 _CategoryType = value;
             }
