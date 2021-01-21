@@ -223,12 +223,12 @@ namespace Hemera.ViewModels
             }
 
             //Set sum Texts
-            SumDurationStatusNone = $"{sumNone.ToString()}h";
-            SumDurationStatusDone = $"{sumDone.ToString()}h";
-            SumDurationStatusMissed = $"{sumMissed.ToString()}h";
+            SumDurationStatusNone = $"{sumNone.ToString("0.##")}h";
+            SumDurationStatusDone = $"{sumDone.ToString("0.##")}h";
+            SumDurationStatusMissed = $"{sumMissed.ToString("0.##")}h";
 
             //Set MaxDuration Texts
-            MaxDurationActivityDur = $"{maxDuration.ToString()}h";
+            MaxDurationActivityDur = $"{maxDuration.ToString("0.##")}h";
             MaxDurationActivityTitle = $"({maxDurationActivity.Title})";
 
             List<ChartEntry> entries = new List<ChartEntry>();
@@ -255,7 +255,7 @@ namespace Hemera.ViewModels
                 {
                     Color = curr_color,
                     Label = curr_category.Name,
-                    ValueLabel = values[i].ToString() + "h",
+                    ValueLabel = values[i].ToString("0.##") + "h",
                     ValueLabelColor = curr_color,
                     TextColor = Application.Current.RequestedTheme == OSAppTheme.Dark ? SKColors.White : SKColors.Black,
                 });
@@ -271,7 +271,7 @@ namespace Hemera.ViewModels
 
             //Set MaxDuration texts
             MaxDurationCategoryCat = $"({maxDurationCategory.Name})";
-            MaxDurationCategoryDur = $"{maxDuration.ToString()}h";
+            MaxDurationCategoryDur = $"{maxDuration.ToString("0.##")}h";
 
             //Show a Donutchart
             Chart = new RadialGaugeChart()
