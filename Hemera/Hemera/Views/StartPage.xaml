@@ -4,6 +4,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
+    xmlns:vm="clr-namespace:Hemera.ViewModels"
+    x:DataType="vm:StartPageViewModel"
     BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
                                       Light={StaticResource colorLightTheme}}"
     NavigationPage.HasNavigationBar="False">
@@ -65,7 +67,6 @@
                         Grid.Row="2"
                         Margin="8,0"
                         Padding="0"
-                        BackgroundColor="{Binding MenuItems[0].BackColor}"
                         CornerRadius="8">
                         <Grid ColumnDefinitions="56, *">
                             <Path
@@ -104,7 +105,6 @@
                         Grid.Row="3"
                         Margin="8,0"
                         Padding="0"
-                        BackgroundColor="{Binding MenuItems[1].BackColor}"
                         CornerRadius="8">
                         <Grid ColumnDefinitions="56, *">
                             <Path
@@ -174,6 +174,34 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
+        </sh:Shadows>
+        <sh:Shadows
+            AbsoluteLayout.LayoutBounds=".50,.97,56,56"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            CornerRadius="50"
+            IsVisible="{Binding SelectDateButtonVisible}"
+            Shades="{AppThemeBinding Dark={sh:SingleShade Offset='2,2',
+                                                          Opacity=0.4,
+                                                          BlurRadius=4,
+                                                          Color=Black},
+                                     Light={sh:SingleShade Offset='2,2',
+                                                           Opacity=0.3,
+                                                           BlurRadius=1,
+                                                           Color=#232323}}">
+            <Frame HasShadow="False" Padding="0" CornerRadius="50">
+                <Path Data="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z" VerticalOptions="Center" HorizontalOptions="Center" Fill="White"/>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectDateCommand}"/>
+                </Frame.GestureRecognizers>
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStopCollection>
+                            <GradientStop Offset="0.0" Color="#54e375" />
+                            <GradientStop Offset="1" Color="{StaticResource colorPrimary}" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush>
+                </Frame.Background>
+            </Frame>
         </sh:Shadows>
     </AbsoluteLayout>
 </ContentPage>

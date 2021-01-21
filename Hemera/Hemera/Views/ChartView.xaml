@@ -7,6 +7,8 @@
     xmlns:models="clr-namespace:Hemera.Models"
     xmlns:resx="clr-namespace:Hemera.Resx"
     xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
+    xmlns:vm="clr-namespace:Hemera.ViewModels"
+    x:DataType="vm:ChartViewModel"
     NavigationPage.HasNavigationBar="False">
     <Grid
         BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
@@ -31,119 +33,16 @@
                 Padding="0"
                 BackgroundColor="{StaticResource colorPrimary}"
                 CornerRadius="0"
-                HasShadow="False">
-                <Grid ColumnDefinitions="*, *, *" RowDefinitions="*, 5">
-                    <Frame
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        Grid.Column="0"
-                        Padding="0"
-                        BackgroundColor="Transparent">
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="18"
-                            HorizontalOptions="Center"
-                            HorizontalTextAlignment="Center"
-                            Text="{x:Static resx:AppResources.Weekly}"
-                            VerticalOptions="Center" />
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SwitchTabCommand}" CommandParameter="{Binding ChartSettings[0]}"/>
-                        </Frame.GestureRecognizers>
-                    </Frame>
-                    <BoxView
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        BackgroundColor="Transparent">
-                        <BoxView.Triggers>
-                            <DataTrigger
-                                Binding="{Binding ChartSettings[0].Selected}"
-                                TargetType="BoxView"
-                                Value="True">
-                                <Setter Property="BackgroundColor" Value="White" />
-                            </DataTrigger>
-                            <DataTrigger
-                                Binding="{Binding ChartSettings[0].Selected}"
-                                TargetType="BoxView"
-                                Value="False">
-                                <Setter Property="BackgroundColor" Value="Transparent" />
-                            </DataTrigger>
-                        </BoxView.Triggers>
-                    </BoxView>
-                    <Frame
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        Grid.Column="1"
-                        Padding="0"
-                        BackgroundColor="Transparent">
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="18"
-                            HorizontalOptions="Center"
-                            HorizontalTextAlignment="Center"
-                            Text="{x:Static resx:AppResources.Monthly}"
-                            VerticalOptions="Center" />
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SwitchTabCommand}" CommandParameter="{Binding ChartSettings[1]}"/>
-                        </Frame.GestureRecognizers>
-                    </Frame>
-                    <BoxView
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        BackgroundColor="Transparent">
-                        <BoxView.Triggers>
-                            <DataTrigger
-                                Binding="{Binding ChartSettings[1].Selected}"
-                                TargetType="BoxView"
-                                Value="True">
-                                <Setter Property="BackgroundColor" Value="White" />
-                            </DataTrigger>
-                            <DataTrigger
-                                Binding="{Binding ChartSettings[1].Selected}"
-                                TargetType="BoxView"
-                                Value="False">
-                                <Setter Property="BackgroundColor" Value="Transparent" />
-                            </DataTrigger>
-                        </BoxView.Triggers>
-                    </BoxView>
-                    <Frame
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        Grid.Column="2"
-                        Padding="0"
-                        BackgroundColor="Transparent">
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="18"
-                            HorizontalOptions="Center"
-                            HorizontalTextAlignment="Center"
-                            Text="{x:Static resx:AppResources.Yearly}"
-                            VerticalOptions="Center" />
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SwitchTabCommand}" CommandParameter="{Binding ChartSettings[2]}"/>
-                        </Frame.GestureRecognizers>
-                    </Frame>
-                    <BoxView
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        BackgroundColor="Transparent">
-                        <BoxView.Triggers>
-                            <DataTrigger
-                                Binding="{Binding ChartSettings[2].Selected}"
-                                TargetType="BoxView"
-                                Value="True">
-                                <Setter Property="BackgroundColor" Value="White" />
-                            </DataTrigger>
-                            <DataTrigger
-                                Binding="{Binding ChartSettings[2].Selected}"
-                                TargetType="BoxView"
-                                Value="False">
-                                <Setter Property="BackgroundColor" Value="Transparent" />
-                            </DataTrigger>
-                        </BoxView.Triggers>
-                    </BoxView>
-                </Grid>
-            </Frame>
+                HasShadow="False" />
         </sh:Shadows>
+        <DatePicker
+            x:Name="datePicker"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            x:FieldModifier="public"
+            Date="{Binding SelectedDate}"
+            Visual="Material" />
         <sh:Shadows
             Grid.Row="1"
             Grid.Column="0"

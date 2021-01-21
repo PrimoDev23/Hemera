@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Hemera.Views.Popups.SelectDatePopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Hemera.Models"
+    xmlns:resx="clr-namespace:Hemera.Resx">
+    <Grid
+        BackgroundColor="#AA232323"
+        ColumnDefinitions="20, *, 20"
+        RowDefinitions="*, AUTO, *">
+        <BoxView
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            BackgroundColor="#AA232323">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AbortCommand}" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+        <Frame
+            Grid.Row="1"
+            Grid.Column="1"
+            Padding="0"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                              Light={StaticResource colorLightTheme}}"
+            CornerRadius="8">
+            <Grid Margin="10" RowDefinitions="50, 1, AUTO, AUTO, AUTO, AUTO, 1, 40">
+                <Label
+                    Grid.Row="0"
+                    Margin="16,8,8,8"
+                    FontAttributes="Bold"
+                    FontSize="17"
+                    Text="{x:Static resx:AppResources.SelectCategory}"
+                    VerticalOptions="Center" />
+                <BoxView
+                    Grid.Row="1"
+                    BackgroundColor="{AppThemeBinding Dark=White,
+                                                      Light=LightGray}"
+                    Opacity="{AppThemeBinding Dark=0.1,
+                                              Light=0.5}" />
+                <Label Grid.Row="2" Text="From" />
+                <DatePicker
+                    x:Name="pickerFrom"
+                    Grid.Row="3"
+                    Date="{Binding FromDate}"
+                    MaximumDate="{Binding MaxDate}"
+                    MinimumDate="{Binding MinDate}"
+                    TextColor="{AppThemeBinding Dark=White,
+                                                Light=Black}"
+                    Visual="Material" />
+                <Label Grid.Row="4" Text="To" />
+                <DatePicker
+                    x:Name="pickerTo"
+                    Grid.Row="5"
+                    Date="{Binding ToDate}"
+                    MaximumDate="{Binding MaxDate}"
+                    MinimumDate="{Binding MinDate}"
+                    TextColor="{AppThemeBinding Dark=White,
+                                                Light=Black}"
+                    Visual="Material" />
+                <BoxView
+                    Grid.Row="6"
+                    BackgroundColor="{AppThemeBinding Dark=White,
+                                                      Light=LightGray}"
+                    Opacity="{AppThemeBinding Dark=0.1,
+                                              Light=0.5}" />
+                <Grid Grid.Row="7" ColumnDefinitions="*, AUTO">
+                    <Button
+                        Grid.Column="0"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        Command="{Binding AbortCommand}"
+                        HorizontalOptions="End"
+                        Text="{x:Static resx:AppResources.Cancel}"
+                        TextColor="{StaticResource colorPrimary}"
+                        VerticalOptions="Center" />
+                    <Button
+                        Grid.Column="1"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        Command="{Binding DoneCommand}"
+                        HorizontalOptions="End"
+                        Text="{x:Static resx:AppResources.OK}"
+                        TextColor="{StaticResource colorPrimary}"
+                        VerticalOptions="Center" />
+                </Grid>
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentPage>

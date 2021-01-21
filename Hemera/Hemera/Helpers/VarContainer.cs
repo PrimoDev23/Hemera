@@ -15,6 +15,7 @@ namespace Hemera.Helpers
         public static StartPage holderPage;
 
         public static OverviewViewModel currentOverviewModel;
+        public static ChartViewModel currentChartViewModel;
 
         public static List<Activity> allActivities;
 

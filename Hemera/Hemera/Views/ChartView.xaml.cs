@@ -13,7 +13,7 @@ namespace Hemera.Views
         {
             InitializeComponent();
 
-            viewModel = new ChartViewModel();
+            viewModel = new ChartViewModel(this);
             BindingContext = viewModel;
         }
     }

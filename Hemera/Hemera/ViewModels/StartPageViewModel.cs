@@ -33,6 +33,7 @@ namespace Hemera.ViewModels
         #region Commands
 
         public Command CreateNewCommand { get; set; }
+        public Command SelectDateCommand { get; set; }
         public Command ExpandMenuCommand { get; set; }
         public Command SlideUpCommand { get; set; }
         public Command SlideDownCommand { get; set; }
@@ -66,12 +67,26 @@ namespace Hemera.ViewModels
             }
         }
 
+        //Allow changing Visibility of Add-Button
+        private bool allowChangeSelectDateButtonVisible;
+        private bool _SelectDateButtonVisible = false;
+        public bool SelectDateButtonVisible
+        {
+            get => _SelectDateButtonVisible;
+            set
+            {
+                _SelectDateButtonVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion MenuVisibility
 
         private readonly StartPage page;
         public StartPageViewModel(StartPage page)
         {
             CreateNewCommand = new Command(new Action(createActivity));
+            SelectDateCommand = new Command(new Action(selectDate));
             ExpandMenuCommand = new Command(new Action(toggleMenu));
             SlideUpCommand = new Command(new Action(slideUp));
             SlideDownCommand = new Command(new Action(slideDown));
@@ -93,6 +108,12 @@ namespace Hemera.ViewModels
             if (allowChangeAddButtonVisible)
             {
                 AddButtonVisible = !BottomMenuVisible;
+            }
+
+            //Check if changing the visibility of selectDate button is allowed
+            if (allowChangeSelectDateButtonVisible)
+            {
+                SelectDateButtonVisible = !SelectDateButtonVisible;
             }
 
             //Expand it
@@ -159,13 +180,17 @@ namespace Hemera.ViewModels
             {
                 page.holderView.Content = new Overview();
                 AddButtonVisible = true;
+                SelectDateButtonVisible = false;
                 allowChangeAddButtonVisible = true;
+                allowChangeSelectDateButtonVisible = false;
             }
             else if (item.Title == AppResources.ChartPage)
             {
                 page.holderView.Content = new ChartView();
                 AddButtonVisible = false;
+                SelectDateButtonVisible = true;
                 allowChangeAddButtonVisible = false;
+                allowChangeSelectDateButtonVisible = true;
             }
         }
 
@@ -175,6 +200,11 @@ namespace Hemera.ViewModels
         private async void createActivity()
         {
             await VarContainer.currentOverviewModel?.createNewActivity();
+        }
+
+        private async void selectDate()
+        {
+            await VarContainer.currentChartViewModel.selectDate().ConfigureAwait(false);
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

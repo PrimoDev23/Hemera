@@ -1,5 +1,7 @@
 ﻿using Hemera.Helpers;
 using Hemera.Models;
+using Hemera.Views;
+using Hemera.Views.Popups;
 using Microcharts;
 using SkiaSharp;
 using System;
@@ -17,24 +19,6 @@ namespace Hemera.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ChartType selectedType = 0;
-
-        private ObservableCollection<ChartSettings> _ChartSettings = new ObservableCollection<ChartSettings>()
-        {
-            new ChartSettings(ChartType.Weekly, true),
-            new ChartSettings(ChartType.Monthly, false),
-            new ChartSettings(ChartType.Yearly, false),
-        };
-        public ObservableCollection<ChartSettings> ChartSettings
-        {
-            get => _ChartSettings;
-            set
-            {
-                _ChartSettings = value;
-                OnPropertyChanged();
-            }
-        }
-
         private Chart _Chart;
         public Chart Chart
         {
@@ -46,11 +30,27 @@ namespace Hemera.ViewModels
             }
         }
 
-        #region Commands
+        #region DateProperties
 
-        public Command<ChartSettings> SwitchTabCommand { get; set; }
+        private DateTime _SelectedDate = DateTime.Now;
+        public DateTime SelectedDate
+        {
+            get => _SelectedDate;
+            set
+            {
+                _SelectedDate = value;
 
-        #endregion Commands
+                Task.Run(new Action(initPerCategoryChart));
+
+                OnPropertyChanged();
+            }
+        }
+
+        private DateTime minDate = DateTime.MaxValue;
+
+        private DateTime maxDate = DateTime.MinValue;
+
+        #endregion DateProperties
 
         #region MaxDuration
 
@@ -104,12 +104,22 @@ namespace Hemera.ViewModels
 
         #endregion MaxDuration
 
-        public ChartViewModel()
+        private readonly ChartView page;
+        public ChartViewModel(ChartView page)
         {
-            SwitchTabCommand = new Command<ChartSettings>(new Action<ChartSettings>(switchTab));
-
             //Init chart and other values
-            Task.Run(new Action(initPerCategoryChart));
+            Task.Run(new Action(Init));
+
+            this.page = page;
+
+            VarContainer.currentChartViewModel = this;
+        }
+
+        private void Init()
+        {
+            getMinMaxDates();
+
+            initPerCategoryChart();
         }
 
         /// <summary>
@@ -231,135 +241,23 @@ namespace Hemera.ViewModels
             };
         }
 
-        private void switchTab(ChartSettings selected)
-        {
-            ChartSettings curr;
-            for (int i = 0; i < ChartSettings.Count; i++)
-            {
-                curr = ChartSettings[i];
-                curr.Selected = curr == selected;
-
-                if (curr.Selected)
-                {
-                    selectedType = curr.ChartType;
-                }
-            }
-
-            //Init chart and other values
-            Task.Run(new Action(initPerCategoryChart));
-        }
-
         /// <summary>
         /// Get activities to analyze according to charttype
         /// </summary>
         /// <returns></returns>
         private IEnumerable<Activity> getCurrentActivities()
         {
-            DateTime startDate = DateTime.Now, endDate = DateTime.Now;
-
-            switch (selectedType)
-            {
-                case ChartType.Yearly:
-                    startDate = getStartOfYear();
-                    endDate = getEndOfYear();
-                    break;
-                case ChartType.Monthly:
-                    startDate = getStartOfMonth();
-                    endDate = getEndOfMonth();
-                    break;
-                case ChartType.Weekly:
-                    startDate = getStartOfWeek();
-                    endDate = getEndOfWeek();
-                    break;
-            }
-
-            return getActivitiesBetweenDates(startDate, endDate);
+            return getActivitiesBetweenDates(minDate, maxDate.Add(new TimeSpan(23, 59, 59)));
         }
 
         #region Date
 
         /// <summary>
-        /// Get the date of monday this week
+        /// Get the activities between two dates
         /// </summary>
-        /// <returns>Date of Monday this week</returns>
-        private DateTime getStartOfWeek()
-        {
-            //Create a fresh date at 00:00:00
-            DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-
-            if (now.DayOfWeek == DayOfWeek.Sunday)
-            {
-                //Sunday is exactly at the end so we want to jump back to monday
-                return now.AddDays(-6);
-            }
-            else
-            {
-                //Tueday has the value two and needs 1 day to be subtracted (-2 + 1)
-                return now.AddDays(-(int)now.DayOfWeek + 1);
-            }
-        }
-
-        /// <summary>
-        /// Get the date of sunday this week
-        /// </summary>
-        /// <returns>Date of Sunday this week</returns>
-        private DateTime getEndOfWeek()
-        {
-            //Create a fresh date at 23:59:59
-            DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
-
-            if (now.DayOfWeek == DayOfWeek.Sunday)
-            {
-                //Sunday is the end of the week so just return it
-                return now;
-            }
-            else
-            {
-                //Monday starts with value 1 and needs 5 days to be added (6 - 1)
-                return now.AddDays(6 - (int)now.DayOfWeek);
-            }
-        }
-
-        /// <summary>
-        /// Get the first day of this month
-        /// </summary>
-        /// <returns>First day of current month</returns>
-        private DateTime getStartOfMonth()
-        {
-            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-        }
-
-        /// <summary>
-        /// Get the last day of this month
-        /// </summary>
-        /// <returns>last day of current month</returns>
-        private DateTime getEndOfMonth()
-        {
-            return DateTime.Now.Month switch
-            {
-                1 or 3 or 5 or 7 or 8 or 10 or 12 => new DateTime(DateTime.Now.Year, DateTime.Now.Month, 31, 23, 59, 59),
-                _ => new DateTime(DateTime.Now.Year, DateTime.Now.Month, 30, 23, 59, 59),
-            };
-        }
-
-        /// <summary>
-        /// Get the first day of this year
-        /// </summary>
-        /// <returns>First day of current year</returns>
-        private DateTime getStartOfYear()
-        {
-            return new DateTime(DateTime.Now.Year, 1, 1);
-        }
-
-        /// <summary>
-        /// Get the last day of this year
-        /// </summary>
-        /// <returns>Last day of current year</returns>
-        private DateTime getEndOfYear()
-        {
-            return new DateTime(DateTime.Now.Year, 12, 31, 23, 59, 59);
-        }
-
+        /// <param name="startDate">Date to start with (included)</param>
+        /// <param name="endDate">Date to end with (included)</param>
+        /// <returns></returns>
         private IEnumerable<Activity> getActivitiesBetweenDates(DateTime startDate, DateTime endDate)
         {
             Activity curr;
@@ -373,6 +271,44 @@ namespace Hemera.ViewModels
                     yield return curr;
                 }
             }
+        }
+
+        private void getMinMaxDates()
+        {
+            Activity curr;
+            for (int i = 0; i < VarContainer.allActivities.Count; i++)
+            {
+                curr = VarContainer.allActivities[i];
+                //Update minDate if curr.Date is smaller
+                if (DateTime.Compare(curr.Date, minDate) < 0)
+                {
+                    minDate = curr.Date;
+                }
+
+                //Update maxDate if curr.Date is bigger
+                if (DateTime.Compare(curr.Date, maxDate) > 0)
+                {
+                    maxDate = curr.Date;
+                }
+            }
+        }
+
+        public async Task selectDate()
+        {
+            SelectDatePopup popup = new SelectDatePopup(minDate, maxDate);
+
+            await page.Navigation.PushModalAsync(popup).ConfigureAwait(false);
+            (DateTime, DateTime) result = await popup.waitTillFinish().ConfigureAwait(false);
+
+            if (result != default)
+            {
+                minDate = result.Item1;
+                maxDate = result.Item2;
+
+                Task.Run(new Action(initPerCategoryChart));
+            }
+
+            await page.Navigation.PopModalAsync().ConfigureAwait(false);
         }
 
         #endregion Date
