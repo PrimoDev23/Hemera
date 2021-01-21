@@ -223,12 +223,12 @@ namespace Hemera.ViewModels
             }
 
             //Set sum Texts
-            SumDurationStatusNone = $"{sumNone.ToString("0.##")}h";
-            SumDurationStatusDone = $"{sumDone.ToString("0.##")}h";
-            SumDurationStatusMissed = $"{sumMissed.ToString("0.##")}h";
+            SumDurationStatusNone = sumNone >= 1 ? $"{sumNone.ToString("0.##")}h" : $"{(sumNone * 60f).ToString("F0")}min";
+            SumDurationStatusDone = sumDone >= 1 ? $"{sumDone.ToString("0.##")}h" : $"{(sumDone * 60f).ToString("F0")}min";
+            SumDurationStatusMissed = sumMissed >= 1 ? $"{sumMissed.ToString("0.##")}h" : $"{(sumMissed * 60f).ToString("F0")}min";
 
             //Set MaxDuration Texts
-            MaxDurationActivityDur = $"{maxDuration.ToString("0.##")}h";
+            MaxDurationActivityDur = maxDuration >= 1 ? $"{maxDuration.ToString("0.##")}h" : $"{(maxDuration * 60f).ToString("F0")}min";
             MaxDurationActivityTitle = $"({maxDurationActivity.Title})";
 
             List<ChartEntry> entries = new List<ChartEntry>();
@@ -255,7 +255,7 @@ namespace Hemera.ViewModels
                 {
                     Color = curr_color,
                     Label = curr_category.Name,
-                    ValueLabel = values[i].ToString("0.##") + "h",
+                    ValueLabel = values[i] >= 1 ? $"{values[i].ToString("0.##")}h" : $"{(values[i] * 60f).ToString("F0")}min",
                     ValueLabelColor = curr_color,
                     TextColor = Application.Current.RequestedTheme == OSAppTheme.Dark ? SKColors.White : SKColors.Black,
                 });
@@ -271,7 +271,7 @@ namespace Hemera.ViewModels
 
             //Set MaxDuration texts
             MaxDurationCategoryCat = $"({maxDurationCategory.Name})";
-            MaxDurationCategoryDur = $"{maxDuration.ToString("0.##")}h";
+            MaxDurationCategoryDur = maxDuration >= 1 ? $"{maxDuration.ToString("0.##")}h" : $"{(maxDuration * 60f).ToString("F0")}min";
 
             //Show a Donutchart
             Chart = new RadialGaugeChart()
