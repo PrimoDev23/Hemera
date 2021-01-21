@@ -128,6 +128,13 @@ namespace Hemera.ViewModels
             //We don't need to show the diagram if this is empty
             if (!(activities?.Length > 0))
             {
+                //we need to clear values here
+                Chart = null;
+                MaxDurationActivityDur = "-";
+                MaxDurationActivityTitle = "-";
+                MaxDurationCategoryDur = "-";
+                MaxDurationCategoryCat = "-";
+
                 return;
             }
 
