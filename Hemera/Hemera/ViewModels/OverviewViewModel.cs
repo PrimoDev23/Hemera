@@ -145,17 +145,7 @@ namespace Hemera.ViewModels
                 await FileHelper.saveActivities(VarContainer.allActivities).ConfigureAwait(false);
                 await Task.Run(new Action(getActivitiesPerDay)).ConfigureAwait(false);
 
-                //Set the notification
-                if (res.NotificationTimeType != TimeType.Disabled && DateTime.Compare(res.NotificationDateTime, DateTime.Now) > 0)
-                {
-                    DependencyService.Get<INotificationManager>().SetupNotifyWork($"{AppResources.PlanedActivity} {res.Date.ToString("t")}", res.Title, res.NotificationDateTime, $"Notify|{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
-                }
-
-                //Set DND at the specified time
-                if (res.DoNotDisturb)
-                {
-                    DependencyService.Get<INotificationManager>().SetupDNDWork(res.Date, $"DND|{res.Title}|{res.Date.ToString("yyyyMMddmmhh")}|{res.CategoryType.ToString()}");
-                }
+                NotifyHelper.CreateNotification(res);
             }
         }
 
@@ -191,16 +181,19 @@ namespace Hemera.ViewModels
                 else if (res == AppResources.ResetStatus)
                 {
                     activity.Status = ActivityStatus.None;
+                    NotifyHelper.CreateNotification(activity);
                     await FileHelper.saveActivities(VarContainer.allActivities).ConfigureAwait(false);
                 }
                 else if (res == AppResources.MarkAsDone)
                 {
                     activity.Status = ActivityStatus.Done;
+                    NotifyHelper.DeleteNotification(activity);
                     await FileHelper.saveActivities(VarContainer.allActivities).ConfigureAwait(false);
                 }
                 else if (res == AppResources.MarkAsMissed)
                 {
                     activity.Status = ActivityStatus.Missed;
+                    NotifyHelper.DeleteNotification(activity);
                     await FileHelper.saveActivities(VarContainer.allActivities).ConfigureAwait(false);
                 }
             }
@@ -224,9 +217,7 @@ namespace Hemera.ViewModels
         /// <returns></returns>
         private async Task deleteActivity(Activity activity)
         {
-            //Cancel the work for the given activity
-            DependencyService.Get<INotificationManager>().CancelWork($"Notify|{activity.Title}|{activity.Date.ToString("yyyyMMddmmhh")}|{activity.CategoryType.ToString()}");
-            DependencyService.Get<INotificationManager>().CancelWork($"DND|{activity.Title}|{activity.Date.ToString("yyyyMMddmmhh")}|{activity.CategoryType.ToString()}");
+            NotifyHelper.DeleteNotification(activity);
 
             //Remove the activity
             VarContainer.allActivities.Remove(activity);
