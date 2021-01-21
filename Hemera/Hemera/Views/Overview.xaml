@@ -12,208 +12,227 @@
     x:DataType="vm:OverviewViewModel"
     NavigationPage.HasNavigationBar="False">
     <Grid
-            BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
-                                              Light={StaticResource colorLightTheme}}"
-            RowDefinitions="56, *"
-            RowSpacing="0">
-            <sh:Shadows
-                Grid.Row="0"
+        BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                          Light={StaticResource colorLightTheme}}"
+        RowDefinitions="56, *"
+        RowSpacing="0">
+        <sh:Shadows
+            Grid.Row="0"
+            CornerRadius="0"
+            Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,2',
+                                                          Opacity=0.4,
+                                                          BlurRadius=4,
+                                                          Color=Black},
+                                     Light={sh:SingleShade Offset='0,2',
+                                                           Opacity=0.3,
+                                                           BlurRadius=1,
+                                                           Color=#232323}}">
+            <Frame
+                Padding="0"
+                BackgroundColor="{StaticResource colorPrimary}"
                 CornerRadius="0"
-                Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,2',
-                                                              Opacity=0.4,
-                                                              BlurRadius=4,
-                                                              Color=Black},
-                                         Light={sh:SingleShade Offset='0,2',
-                                                               Opacity=0.3,
-                                                               BlurRadius=1,
-                                                               Color=#232323}}">
-                <Frame
-                    Padding="0"
-                    BackgroundColor="{StaticResource colorPrimary}"
-                    CornerRadius="0"
-                    HasShadow="False">
-                    <Grid Margin="0,0,0,0" ColumnDefinitions="50, *, 50">
-                        <Path
-                            Grid.Column="0"
-                            Margin="8,19,0,0"
-                            Data="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-                            Fill="{AppThemeBinding Dark=White,
-                                                   Light=Black}"
-                            Scale="1.4">
-                            <Path.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BackCommand}" />
-                            </Path.GestureRecognizers>
-                        </Path>
-                        <Label
-                            Grid.Column="1"
-                            Margin="0,0,0,0"
-                            FontAttributes="Bold"
-                            FontSize="17"
-                            HorizontalOptions="Center"
-                            HorizontalTextAlignment="Center"
-                            InputTransparent="True"
-                            Text="{Binding LiteralDate}"
-                            VerticalOptions="Center" />
-                        <DatePicker
-                            Grid.Column="1"
-                            Margin="0,0,0,0"
-                            BackgroundColor="Transparent"
-                            Date="{Binding CurrentDate}"
-                            FontAttributes="Bold"
-                            FontSize="17"
-                            HorizontalOptions="Center"
-                            Opacity="0"
-                            VerticalOptions="Center"
-                            Visual="Material" />
-                        <Path
-                            Grid.Column="2"
-                            Margin="0,19,12,0"
-                            Data="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-                            Fill="{AppThemeBinding Dark=White,
-                                                   Light=Black}"
-                            HorizontalOptions="End"
-                            Scale="1.4">
-                            <Path.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ForwardCommand}" />
-                            </Path.GestureRecognizers>
-                        </Path>
-                        <Grid.GestureRecognizers>
-                            <SwipeGestureRecognizer Command="{Binding BackCommand}" Direction="Right" />
-                            <SwipeGestureRecognizer Command="{Binding ForwardCommand}" Direction="Left" />
-                        </Grid.GestureRecognizers>
-                    </Grid>
-                </Frame>
-            </sh:Shadows>
-            <Grid
+                HasShadow="False">
+                <Grid Margin="0,0,0,0" ColumnDefinitions="50, *, 50">
+                    <Path
+                        Grid.Column="0"
+                        Margin="8,19,0,0"
+                        Data="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                        Fill="{AppThemeBinding Dark=White,
+                                               Light=Black}"
+                        Scale="1.4">
+                        <Path.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BackCommand}" />
+                        </Path.GestureRecognizers>
+                    </Path>
+                    <Label
+                        Grid.Column="1"
+                        Margin="0,0,0,0"
+                        FontAttributes="Bold"
+                        FontSize="17"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        InputTransparent="True"
+                        Text="{Binding LiteralDate}"
+                        VerticalOptions="Center" />
+                    <DatePicker
+                        Grid.Column="1"
+                        Margin="0,0,0,0"
+                        BackgroundColor="Transparent"
+                        Date="{Binding CurrentDate}"
+                        FontAttributes="Bold"
+                        FontSize="17"
+                        HorizontalOptions="Center"
+                        Opacity="0"
+                        VerticalOptions="Center"
+                        Visual="Material" />
+                    <Path
+                        Grid.Column="2"
+                        Margin="0,19,12,0"
+                        Data="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                        Fill="{AppThemeBinding Dark=White,
+                                               Light=Black}"
+                        HorizontalOptions="End"
+                        Scale="1.4">
+                        <Path.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ForwardCommand}" />
+                        </Path.GestureRecognizers>
+                    </Path>
+                    <Grid.GestureRecognizers>
+                        <SwipeGestureRecognizer Command="{Binding BackCommand}" Direction="Right" />
+                        <SwipeGestureRecognizer Command="{Binding ForwardCommand}" Direction="Left" />
+                    </Grid.GestureRecognizers>
+                </Grid>
+            </Frame>
+        </sh:Shadows>
+        <Grid
+            Grid.Row="1"
+            Margin="0"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            RowDefinitions="30, *">
+            <CollectionView
                 Grid.Row="1"
-                Margin="0"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                AbsoluteLayout.LayoutFlags="All"
-                RowDefinitions="30, *">
-                <CollectionView
-                    Grid.Row="1"
-                    Margin="7,0"
-                    BackgroundColor="Transparent"
-                    ItemsSource="{Binding ActivitiesPerDay}">
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout
-                            HorizontalItemSpacing="2"
-                            Orientation="Vertical"
-                            Span="2"
-                            VerticalItemSpacing="2" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:Activity">
-                            <sh:Shadows CornerRadius="8" Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,0.6', BlurRadius=2.1, Opacity=0.7, Color=#111111}, Light={sh:SingleShade Offset='0,0.5', BlurRadius=2, Opacity=0.2, Color=#232323}}">
-                                <Frame
-                                    Margin="5"
-                                    Padding="0"
-                                    BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
-                                                                      Light=White}"
-                                    BorderColor="{Binding BorderColor}"
-                                    CornerRadius="8"
-                                    HasShadow="False"
-                                    HeightRequest="120">
-                                    <Grid
-                                        ColumnDefinitions="*, 10, *"
-                                        RowDefinitions="40, 40, 30"
-                                        RowSpacing="0">
-                                        <Label
-                                            Grid.Row="0"
-                                            Grid.Column="0"
-                                            FontAttributes="Bold"
-                                            FontSize="19"
-                                            HorizontalOptions="End"
-                                            HorizontalTextAlignment="End"
-                                            Text="{Binding Date, StringFormat='{0:HH}'}"
-                                            VerticalOptions="End" />
-                                        <Label
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            FontAttributes="Bold"
-                                            FontSize="19"
-                                            HorizontalOptions="End"
-                                            HorizontalTextAlignment="End"
-                                            Text="{Binding Date, StringFormat='{0:mm}'}"
-                                            TextColor="{StaticResource colorPrimary}"
-                                            VerticalOptions="Start" />
-                                        <Label
-                                            Grid.Row="0"
-                                            Grid.RowSpan="2"
-                                            Grid.Column="1"
-                                            FontAttributes="Bold"
-                                            FontSize="19"
-                                            HorizontalOptions="Center"
-                                            HorizontalTextAlignment="Center"
-                                            Text="-"
-                                            VerticalOptions="Center" />
-                                        <Label
-                                            Grid.Row="0"
-                                            Grid.Column="2"
-                                            FontAttributes="Bold"
-                                            FontSize="19"
-                                            HorizontalOptions="Start"
-                                            HorizontalTextAlignment="Start"
-                                            Text="{Binding EndDate, StringFormat='{0:HH}'}"
-                                            VerticalOptions="End" />
-                                        <Label
-                                            Grid.Row="1"
-                                            Grid.Column="2"
-                                            FontAttributes="Bold"
-                                            FontSize="19"
-                                            HorizontalOptions="Start"
-                                            HorizontalTextAlignment="Start"
-                                            Text="{Binding EndDate, StringFormat='{0:mm}'}"
-                                            TextColor="{StaticResource colorPrimary}"
-                                            VerticalOptions="Start" />
-                                        <Label
-                                            Grid.Row="2"
-                                            Grid.Column="0"
-                                            Grid.ColumnSpan="3"
-                                            FontSize="15"
-                                            HorizontalOptions="Center"
-                                            Text="{Binding Title}"
-                                            VerticalOptions="Center" />
-                                        <Path
-                                            Grid.Row="0"
-                                            Grid.Column="0"
-                                            Margin="20,0,0,0"
-                                            Data="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"
-                                            Fill="{Binding Category.BadgeBrush}"
-                                            HorizontalOptions="Start"
-                                            ScaleX="1.7"
-                                            ScaleY="3"
-                                            VerticalOptions="Start" />
-                                        <Path
-                                            Grid.Row="0"
-                                            Grid.Column="0"
-                                            Margin="21.2,5,0,0"
-                                            Data="{Binding Category.PathData}"
-                                            Fill="#232323"
-                                            HorizontalOptions="Start"
-                                            VerticalOptions="Start" />
-                                        <Path
-                                            Grid.Row="0"
-                                            Grid.Column="2"
-                                            Margin="0,5,15,0"
-                                            Data="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                                            Fill="{AppThemeBinding Dark=White,
-                                                                   Light=Black}"
-                                            HorizontalOptions="End"
-                                            VerticalOptions="Start">
-                                            <Path.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.OpenSelectionMenuCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
-                                            </Path.GestureRecognizers>
-                                        </Path>
-                                    </Grid>
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.TappedCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
-                                    </Frame.GestureRecognizers>
-                                </Frame>
-                            </sh:Shadows>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </Grid>
+                Margin="7,0"
+                BackgroundColor="Transparent"
+                ItemsSource="{Binding ActivitiesPerDay}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        HorizontalItemSpacing="2"
+                        Orientation="Vertical"
+                        Span="2"
+                        VerticalItemSpacing="2" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Activity">
+                        <sh:Shadows CornerRadius="8" Shades="{AppThemeBinding Dark={sh:SingleShade Offset='0,0.6', BlurRadius=2.1, Opacity=0.7, Color=#111111}, Light={sh:SingleShade Offset='0,0.5', BlurRadius=2, Opacity=0.2, Color=#232323}}">
+                            <Frame
+                                Margin="5"
+                                Padding="0"
+                                BackgroundColor="{AppThemeBinding Dark={StaticResource colorDarkTheme},
+                                                                  Light=White}"
+                                CornerRadius="8"
+                                HasShadow="False"
+                                HeightRequest="120">
+                                <Grid
+                                    ColumnDefinitions="*, 10, *"
+                                    RowDefinitions="40, 40, 30"
+                                    RowSpacing="0">
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        FontSize="19"
+                                        HorizontalOptions="End"
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding Date, StringFormat='{0:HH}'}"
+                                        VerticalOptions="End" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        FontSize="19"
+                                        HorizontalOptions="End"
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding Date, StringFormat='{0:mm}'}"
+                                        TextColor="{StaticResource colorPrimary}"
+                                        VerticalOptions="Start" />
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="1"
+                                        FontAttributes="Bold"
+                                        FontSize="19"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Text="-"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        FontAttributes="Bold"
+                                        FontSize="19"
+                                        HorizontalOptions="Start"
+                                        HorizontalTextAlignment="Start"
+                                        Text="{Binding EndDate, StringFormat='{0:HH}'}"
+                                        VerticalOptions="End" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        FontAttributes="Bold"
+                                        FontSize="19"
+                                        HorizontalOptions="Start"
+                                        HorizontalTextAlignment="Start"
+                                        Text="{Binding EndDate, StringFormat='{0:mm}'}"
+                                        TextColor="{StaticResource colorPrimary}"
+                                        VerticalOptions="Start" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="3"
+                                        FontSize="15"
+                                        HorizontalOptions="Center"
+                                        Text="{Binding Title}"
+                                        VerticalOptions="Center" />
+                                    <Path
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="20,0,0,0"
+                                        Data="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"
+                                        Fill="{Binding Category.BadgeBrush}"
+                                        HorizontalOptions="Start"
+                                        ScaleX="1.7"
+                                        ScaleY="3"
+                                        VerticalOptions="Start" />
+                                    <Path
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="21.2,5,0,0"
+                                        Data="{Binding Category.PathData}"
+                                        Fill="#232323"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Start" />
+                                    <Path
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Margin="0,5,15,0"
+                                        Data="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                                        Fill="{AppThemeBinding Dark=White,
+                                                               Light=Black}"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Start">
+                                        <Path.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.OpenSelectionMenuCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
+                                        </Path.GestureRecognizers>
+                                    </Path>
+                                </Grid>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.TappedCommand, Source={x:Reference self}}" CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+                                <Frame.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding Status}"
+                                        TargetType="Frame"
+                                        Value="{x:Static models:ActivityStatus.None}">
+                                        <Setter Property="BorderColor" Value="Transparent" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding Status}"
+                                        TargetType="Frame"
+                                        Value="{x:Static models:ActivityStatus.Done}">
+                                        <Setter Property="BorderColor" Value="{StaticResource colorPrimary}" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding Status}"
+                                        TargetType="Frame"
+                                        Value="{x:Static models:ActivityStatus.Missed}">
+                                        <Setter Property="BorderColor" Value="Red" />
+                                    </DataTrigger>
+                                </Frame.Triggers>
+                            </Frame>
+                        </sh:Shadows>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
+    </Grid>
 </ContentView>

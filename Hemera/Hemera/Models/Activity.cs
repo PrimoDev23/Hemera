@@ -190,25 +190,6 @@ namespace Hemera.Models
             set
             {
                 _Status = value;
-
-                BorderColor = value switch
-                {
-                    ActivityStatus.None => Color.Transparent,
-                    ActivityStatus.Done => (Color)Application.Current.Resources["colorPrimary"],
-                    ActivityStatus.Missed => Color.Red,
-                    _ => throw new NotImplementedException(),
-                };
-            }
-        }
-
-        private Color _BorderColor = Color.Transparent;
-        [JsonIgnore]
-        public Color BorderColor
-        {
-            get => _BorderColor;
-            set
-            {
-                _BorderColor = value;
                 OnPropertyChanged();
             }
         }
@@ -230,7 +211,7 @@ namespace Hemera.Models
         }
     }
 
-    public enum ActivityStatus : byte
+    public enum ActivityStatus
     {
         None = 0,
         Done = 1,
