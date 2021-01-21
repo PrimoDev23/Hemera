@@ -204,7 +204,11 @@ namespace Hemera.ViewModels
 
         private async void selectDate()
         {
-            await VarContainer.currentChartViewModel.selectDate().ConfigureAwait(false);
+            //We don't want this to be executed when activities are empty
+            if (VarContainer.allActivities?.Count > 0)
+            {
+                await VarContainer.currentChartViewModel.selectDate().ConfigureAwait(false);
+            }
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
