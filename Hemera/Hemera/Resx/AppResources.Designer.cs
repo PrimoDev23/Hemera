@@ -376,6 +376,15 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monthly.
+        /// </summary>
+        public static string Monthly {
+            get {
+                return ResourceManager.GetString("Monthly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notes.
         /// </summary>
         public static string Notes {
@@ -529,11 +538,29 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Weekly.
+        /// </summary>
+        public static string Weekly {
+            get {
+                return ResourceManager.GetString("Weekly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Work.
         /// </summary>
         public static string Work {
             get {
                 return ResourceManager.GetString("Work", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yearly.
+        /// </summary>
+        public static string Yearly {
+            get {
+                return ResourceManager.GetString("Yearly", resourceCulture);
             }
         }
     }

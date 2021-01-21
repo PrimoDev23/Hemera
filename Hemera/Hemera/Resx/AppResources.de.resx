@@ -270,10 +270,19 @@
   <data name="Cancel" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
+  <data name="Monthly" xml:space="preserve">
+    <value>Monat</value>
+  </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="SelectCategory" xml:space="preserve">
     <value>Kategorie auswählen</value>
+  </data>
+  <data name="Weekly" xml:space="preserve">
+    <value>Woche</value>
+  </data>
+  <data name="Yearly" xml:space="preserve">
+    <value>Jahr</value>
   </data>
 </root>
