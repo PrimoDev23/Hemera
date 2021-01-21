@@ -107,10 +107,8 @@ namespace Hemera.Models
                     CategoryType.Learning => VarContainer.categories[5],
                     CategoryType.Housework => VarContainer.categories[6],
                     CategoryType.Reading => VarContainer.categories[7],
-                    CategoryType.Freetime => VarContainer.categories[8],
-                    CategoryType.TV => VarContainer.categories[9],
-                    CategoryType.Internet => VarContainer.categories[10],
-                    CategoryType.Pets => VarContainer.categories[11],
+                    CategoryType.TV => VarContainer.categories[8],
+                    CategoryType.Internet => VarContainer.categories[9],
                     _ => throw new NotImplementedException(), //This will never ever happen
                 };
 
