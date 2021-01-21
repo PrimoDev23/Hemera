@@ -177,6 +177,9 @@ namespace Hemera.ViewModels
                 MaxDurationActivityTitle = "-";
                 MaxDurationCategoryDur = "-";
                 MaxDurationCategoryCat = "-";
+                SumDurationStatusNone = "-";
+                SumDurationStatusDone = "-";
+                SumDurationStatusMissed = "-";
 
                 return;
             }
@@ -305,7 +308,7 @@ namespace Hemera.ViewModels
                 curr = VarContainer.allActivities[i];
 
                 //Check if Date is between start and end
-                if (DateTime.Compare(startDate, curr.Date) < 0 && DateTime.Compare(curr.Date, endDate) < 0)
+                if (DateTime.Compare(startDate, curr.Date) <= 0 && DateTime.Compare(curr.Date, endDate) <= 0)
                 {
                     yield return curr;
                 }
