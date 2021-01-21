@@ -4,7 +4,6 @@ using Hemera.Models;
 using Hemera.Resx;
 using Hemera.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -12,7 +11,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using MenuItem = Hemera.Models.MenuItem;
 
 namespace Hemera.ViewModels
 {

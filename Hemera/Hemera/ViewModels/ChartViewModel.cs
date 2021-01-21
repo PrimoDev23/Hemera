@@ -4,10 +4,8 @@ using Microcharts;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -92,7 +90,7 @@ namespace Hemera.ViewModels
         unsafe private void initPerCategoryChart()
         {
             //We don't need to show the diagram if this is empty
-            if(!(VarContainer.allActivities?.Count > 0))
+            if (!(VarContainer.allActivities?.Count > 0))
             {
                 return;
             }
@@ -108,7 +106,7 @@ namespace Hemera.ViewModels
             {
                 curr = VarContainer.allActivities[i];
 
-                if(curr.DurationType == TimeType.Hour)
+                if (curr.DurationType == TimeType.Hour)
                 {
                     values[(int)curr.CategoryType] += curr.Duration;
 
@@ -150,7 +148,7 @@ namespace Hemera.ViewModels
             for (int i = 0; i < VarContainer.categories.Count; i++)
             {
                 //continue if we don't have any values
-                if(values[i] == 0)
+                if (values[i] == 0)
                 {
                     continue;
                 }
@@ -169,7 +167,7 @@ namespace Hemera.ViewModels
                 });
 
                 //Set the maxDuration of Categories
-                if(values[i] > maxDuration)
+                if (values[i] > maxDuration)
                 {
                     //Set new maxDuration
                     maxDuration = values[i];

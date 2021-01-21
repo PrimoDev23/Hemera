@@ -1,14 +1,10 @@
 ﻿using Hemera.Helpers;
-using Hemera.Interfaces;
-using Hemera.Models;
 using Hemera.Resx;
 using Hemera.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using Xamarin.Forms;
 using MenuItem = Hemera.Models.MenuItem;
 

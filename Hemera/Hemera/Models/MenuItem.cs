@@ -1,6 +1,4 @@
-﻿using Hemera.Helpers;
-using System.ComponentModel;
-using System.Drawing;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms.Shapes;
 
