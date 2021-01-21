@@ -102,6 +102,39 @@ namespace Hemera.ViewModels
             }
         }
 
+        private string _SumDurationStatusNone = "-";
+        public string SumDurationStatusNone
+        {
+            get => _SumDurationStatusNone;
+            set
+            {
+                _SumDurationStatusNone = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _SumDurationStatusDone = "-";
+        public string SumDurationStatusDone
+        {
+            get => _SumDurationStatusDone;
+            set
+            {
+                _SumDurationStatusDone = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _SumDurationStatusMissed = "-";
+        public string SumDurationStatusMissed
+        {
+            get => _SumDurationStatusMissed;
+            set
+            {
+                _SumDurationStatusMissed = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion MaxDuration
 
         private readonly ChartView page;
@@ -151,49 +184,54 @@ namespace Hemera.ViewModels
             //Init Entry-Array with length of categories
             float* values = stackalloc float[VarContainer.categories.Count];
 
-            float maxDuration = 0f;
+            float maxDuration = 0f, sumNone = 0f, sumDone = 0f, sumMissed = 0f;
+            Activity maxDurationActivity = null;
 
             //Calculate the sum of duration for every category
             Activity curr;
+            float curr_duration = 0f;
             for (int i = 0; i < activities.Length; i++)
             {
                 curr = activities[i];
 
-                if (curr.DurationType == TimeType.Hour)
+                curr_duration = curr.DurationType == TimeType.Hour ? curr.Duration : curr.Duration / 60f;
+                values[(int)curr.CategoryType] += curr_duration;
+
+                //Check if the current duration is higher than current maxDuration
+                if (curr_duration > maxDuration)
                 {
-                    values[(int)curr.CategoryType] += curr.Duration;
-
-                    //Check if the current duration is higher than current maxDuration
-                    if (curr.Duration > maxDuration)
-                    {
-                        //Set new maxDuration
-                        maxDuration = curr.Duration;
-
-                        //Set MaxDuration Texts
-                        MaxDurationActivityDur = $"{curr.Duration.ToString()}h";
-                        MaxDurationActivityTitle = $"({curr.Title})";
-                    }
+                    //Set new maxDuration
+                    maxDuration = curr_duration;
+                    maxDurationActivity = curr;
                 }
-                else
+
+                switch (curr.Status)
                 {
-                    float divided = curr.Duration / 60f;
-                    values[(int)curr.CategoryType] += divided;
-
-                    if (divided > maxDuration)
-                    {
-                        //Set new maxDuration
-                        maxDuration = divided;
-
-                        //Set MaxDuration texts
-                        MaxDurationActivityDur = $"{divided.ToString()}h";
-                        MaxDurationActivityTitle = $"({curr.Title})";
-                    }
+                    case ActivityStatus.None:
+                        sumNone += curr_duration;
+                        break;
+                    case ActivityStatus.Done:
+                        sumDone += curr_duration;
+                        break;
+                    case ActivityStatus.Missed:
+                        sumMissed += curr_duration;
+                        break;
                 }
             }
+
+            //Set sum Texts
+            SumDurationStatusNone = $"{sumNone.ToString()}h";
+            SumDurationStatusDone = $"{sumDone.ToString()}h";
+            SumDurationStatusMissed = $"{sumMissed.ToString()}h";
+
+            //Set MaxDuration Texts
+            MaxDurationActivityDur = $"{maxDuration.ToString()}h";
+            MaxDurationActivityTitle = $"({maxDurationActivity.Title})";
 
             List<ChartEntry> entries = new List<ChartEntry>();
 
             maxDuration = 0f;
+            Category maxDurationCategory = null;
 
             //Fill the entries array
             Category curr_category;
@@ -224,12 +262,13 @@ namespace Hemera.ViewModels
                 {
                     //Set new maxDuration
                     maxDuration = values[i];
-
-                    //Set MaxDuration texts
-                    MaxDurationCategoryCat = $"({curr_category.Name})";
-                    MaxDurationCategoryDur = $"{values[i].ToString()}h";
+                    maxDurationCategory = curr_category;
                 }
             }
+
+            //Set MaxDuration texts
+            MaxDurationCategoryCat = $"({maxDurationCategory.Name})";
+            MaxDurationCategoryDur = $"{maxDuration.ToString()}h";
 
             //Show a Donutchart
             Chart = new RadialGaugeChart()

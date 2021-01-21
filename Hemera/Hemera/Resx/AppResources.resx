@@ -267,6 +267,9 @@
   <data name="MaxDurationActivity" xml:space="preserve">
     <value>Max. Duration (Activity)</value>
   </data>
+  <data name="ActivitiesPerStatus" xml:space="preserve">
+    <value>Activities per status</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -284,5 +287,11 @@
   </data>
   <data name="Yearly" xml:space="preserve">
     <value>Yearly</value>
+  </data>
+  <data name="Missed" xml:space="preserve">
+    <value>Missed</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
   </data>
 </root>
