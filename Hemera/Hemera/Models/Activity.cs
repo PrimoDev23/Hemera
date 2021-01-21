@@ -43,8 +43,8 @@ namespace Hemera.Models
             get => _Time;
             set
             {
-                Date = new DateTime(Date.Year, Date.Month, Date.Day, value.Hours, value.Minutes, 0);
                 _Time = value;
+                Date = new DateTime(Date.Year, Date.Month, Date.Day, value.Hours, value.Minutes, 0);
 
                 OnPropertyChanged();
             }
@@ -56,7 +56,14 @@ namespace Hemera.Models
             get => _Date;
             set
             {
-                _Date = value;
+                if (TimeSpan.Compare(value.TimeOfDay, Time) != 0)
+                {
+                    _Date = new DateTime(value.Year, value.Month, value.Day, Time.Hours, Time.Minutes, 0);
+                }
+                else
+                {
+                    _Date = value;
+                }
 
                 //Update NotificationTime for new Date
                 NotificationTime = _NotificationTime;
