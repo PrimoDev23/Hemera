@@ -17,7 +17,7 @@ namespace Hemera.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private int selectedTab = 0;
+        private ChartType selectedType = 0;
 
         private ObservableCollection<ChartSettings> _ChartSettings = new ObservableCollection<ChartSettings>()
         {
@@ -241,7 +241,7 @@ namespace Hemera.ViewModels
 
                 if (curr.Selected)
                 {
-                    selectedTab = i;
+                    selectedType = curr.ChartType;
                 }
             }
 
@@ -255,11 +255,9 @@ namespace Hemera.ViewModels
         /// <returns></returns>
         private IEnumerable<Activity> getCurrentActivities()
         {
-            ChartType type = ChartSettings[selectedTab].ChartType;
-
             DateTime startDate = DateTime.Now, endDate = DateTime.Now;
 
-            switch (type)
+            switch (selectedType)
             {
                 case ChartType.Yearly:
                     startDate = getStartOfYear();

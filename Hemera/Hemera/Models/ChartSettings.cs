@@ -37,8 +37,8 @@ namespace Hemera.Models
 
     public enum ChartType : byte
     {
-        Yearly,
+        Weekly,
         Monthly,
-        Weekly
+        Yearly
     }
 }
