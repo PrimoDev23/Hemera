@@ -53,9 +53,7 @@ namespace Hemera.Models
         Learning,
         Housework,
         Reading,
-        Freetime,
         TV,
-        Internet,
-        Pets
+        Internet
     }
 }
