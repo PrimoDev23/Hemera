@@ -2,8 +2,6 @@
 using Hemera.Models;
 using Hemera.Resx;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace Hemera.Helpers
