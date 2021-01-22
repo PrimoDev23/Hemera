@@ -32,7 +32,7 @@
                     Margin="16,8,8,8"
                     FontAttributes="Bold"
                     FontSize="17"
-                    Text="{x:Static resx:AppResources.SelectCategory}"
+                    Text="{x:Static resx:AppResources.SelectRange}"
                     VerticalOptions="Center" />
                 <BoxView
                     Grid.Row="1"

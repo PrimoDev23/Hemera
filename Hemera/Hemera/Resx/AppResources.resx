@@ -294,4 +294,7 @@
   <data name="None" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="SelectRange" xml:space="preserve">
+    <value>Select a range</value>
+  </data>
 </root>

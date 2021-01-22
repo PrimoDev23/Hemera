@@ -294,4 +294,7 @@
   <data name="None" xml:space="preserve">
     <value>Ohne</value>
   </data>
+  <data name="SelectRange" xml:space="preserve">
+    <value>Zeitspanne wählen</value>
+  </data>
 </root>

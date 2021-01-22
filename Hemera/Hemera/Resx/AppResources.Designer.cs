@@ -502,6 +502,15 @@ namespace Hemera.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select a range.
+        /// </summary>
+        public static string SelectRange {
+            get {
+                return ResourceManager.GetString("SelectRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shopping.
         /// </summary>
         public static string Shopping {
