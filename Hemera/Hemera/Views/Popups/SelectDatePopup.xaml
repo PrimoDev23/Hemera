@@ -40,7 +40,7 @@
                                                       Light=LightGray}"
                     Opacity="{AppThemeBinding Dark=0.1,
                                               Light=0.5}" />
-                <Label Grid.Row="2" Text="From" />
+                <Label Grid.Row="2" Text="{x:Static resx:AppResources.From}" />
                 <DatePicker
                     x:Name="pickerFrom"
                     Grid.Row="3"
@@ -50,7 +50,7 @@
                     TextColor="{AppThemeBinding Dark=White,
                                                 Light=Black}"
                     Visual="Material" />
-                <Label Grid.Row="4" Text="To" />
+                <Label Grid.Row="4" Text="{x:Static resx:AppResources.To}" />
                 <DatePicker
                     x:Name="pickerTo"
                     Grid.Row="5"

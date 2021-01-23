@@ -294,4 +294,10 @@
   <data name="None" xml:space="preserve">
     <value>Ohne</value>
   </data>
+  <data name="From" xml:space="preserve">
+    <value>Von</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Bis</value>
+  </data>
 </root>
