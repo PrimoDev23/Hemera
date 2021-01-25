@@ -297,4 +297,10 @@
   <data name="SelectRange" xml:space="preserve">
     <value>Zeitspanne wählen</value>
   </data>
+  <data name="From" xml:space="preserve">
+    <value>Von</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Bis</value>
+  </data>
 </root>
