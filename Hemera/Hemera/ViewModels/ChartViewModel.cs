@@ -299,7 +299,7 @@ namespace Hemera.ViewModels
         /// <param name="startDate">Date to start with (included)</param>
         /// <param name="endDate">Date to end with (included)</param>
         /// <returns></returns>
-        private IEnumerable<Activity> getActivitiesBetweenDates(DateTime startDate, DateTime endDate)
+        private static IEnumerable<Activity> getActivitiesBetweenDates(DateTime startDate, DateTime endDate)
         {
             Activity curr;
             for (int i = 0; i < VarContainer.allActivities.Count; i++)
