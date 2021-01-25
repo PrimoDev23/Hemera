@@ -32,14 +32,13 @@
                                                                BlurRadius=1,
                                                                Color=#232323}}">
                 <Frame
-                    Padding="0"
+                    Padding="8"
                     BackgroundColor="{StaticResource colorPrimary}"
                     CornerRadius="0"
                     HasShadow="False">
                     <Entry
                         x:Name="txt_title"
                         Grid.Row="0"
-                        Margin="8"
                         Placeholder="{x:Static resx:AppResources.Title}"
                         Text="{Binding Activity.Title}"
                         TextChanged="txt_title_TextChanged"
